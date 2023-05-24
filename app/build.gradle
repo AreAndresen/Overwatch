@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace 'com.andresen.overwatch'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.andresen.overwatch"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -22,6 +22,7 @@ android {
             useSupportLibrary true
         }
     }
+
 
     buildTypes {
         release {
@@ -37,20 +38,36 @@ android {
         jvmTarget = "11"
     }
 
-    java {
+    /*java {
         toolchain.languageVersion.set(JavaLanguageVersion.of(11))
-    }
+    } */
+
     buildFeatures {
         compose true
     }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
     }
+
     packagingOptions {
         resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+            excludes += [
+                    'META-INF/{AL2.0,LGPL2.1}',
+                    'META-INF/rxjava.properties',
+                    'META-INF/LICENSE.md',
+                    'META-INF/LICENSE-notice.md',
+                    'META-INF/DEPENDENCIES',
+                    'META-INF/AL2.0',
+                    'META-INF/LGPL2.1',
+                    'META-INF/licenses/ASM'
+            ]
+            pickFirsts += [
+                    'win32-x86-64/attach_hotspot_windows.dll',
+                    'win32-x86/attach_hotspot_windows.dll'
+            ]
         }
     }
+
     dynamicFeatures = []
 }
 
@@ -83,12 +100,30 @@ dependencies {
     // Google Maps
     implementation "com.google.android.gms:play-services-maps:18.0.2"
 
-    // Room
-    implementation "androidx.room:room-runtime:2.4.1"
-    kapt "androidx.room:room-compiler:2.4.1"
+    // Room components
+    implementation "androidx.room:room-runtime:$room_version"
+
+    kapt ("org.xerial:sqlite-jdbc:3.36.0.3")
+    implementation("org.robolectric:robolectric:4.7.3")
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+
+    implementation "androidx.room:room-runtime:$room_version"
+   // annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    //Room
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // koin
     implementation "io.insert-koin:koin-android:$koin_version"
+
+    //Dagger - Hilt
+    implementation "com.google.dagger:hilt-android:2.40.5"
+    kapt "com.google.dagger:hilt-android-compiler:2.40.5"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
+    kapt "androidx.hilt:hilt-compiler:1.0.0"
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 }
 
 

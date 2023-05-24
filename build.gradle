@@ -9,6 +9,7 @@ buildscript {
         data_store_version = "1.0.0"
         lifecycle_version = "2.6.1"
         material_version = "1.8.0"
+        room_version = "2.5.1"
     }
 
     repositories {
@@ -22,9 +23,11 @@ buildscript {
         classpath 'com.android.tools.build:gradle:7.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "gradle.plugin.com.betomorrow.gradle:appcenter-plugin:1.2.1"
+
+        classpath "com.google.dagger:hilt-android-gradle-plugin:2.40.5"
     }
 }
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
 plugins {
     id 'com.android.application' version '8.0.1' apply false
     id 'com.android.library' version '8.0.1' apply false
@@ -34,6 +37,11 @@ plugins {
 
 allprojects {
 
+    configurations.all {
+        resolutionStrategy {
+            force 'org.xerial:sqlite-jdbc:3.34.0'
+        }
+    }
 
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'

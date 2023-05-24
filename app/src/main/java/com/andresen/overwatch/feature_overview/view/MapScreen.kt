@@ -12,8 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.andresen.overwatch.feature_overview.viewmodel.TargetOverviewViewModel
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapUiSettings
+import com.google.maps.android.compose.Marker
 
 @Composable
 fun MapScreen(
@@ -45,8 +48,28 @@ fun MapScreen(
             properties = viewModel.state.properties,
             uiSettings = uiSettings,
             onMapLongClick = {
-
+                viewModel.onEvent(MapEvent.OnMapLongClick(it))
             }
-        )
+        ) {
+            viewModel.state.targets.forEach { target ->
+                Marker(
+                    position = LatLng(target.lat, target.lng),
+                    title = "Target coordinates: ${target.lat}, ${target.lng}",
+                    snippet = "Long click to delete",
+                    onInfoWindowLongClick = {
+                        viewModel.onEvent(
+                            MapEvent.OnInfoBoxLongClick(target)
+                        )
+                    },
+                    onClick = {
+                        it.showInfoWindow()
+                        true
+                    },
+                    icon = BitmapDescriptorFactory.defaultMarker(
+                        BitmapDescriptorFactory.HUE_RED
+                    )
+                )
+            }
+        }
     }
 }
