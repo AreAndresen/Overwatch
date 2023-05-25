@@ -9,13 +9,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
-import com.andresen.overwatch.theme.OverwatchTheme
 import com.andresen.overwatch.feature_map.view.MapScreen
 import com.andresen.overwatch.feature_map.viewmodel.TargetOverviewViewModel
+import com.andresen.overwatch.theme.OverwatchTheme
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -41,6 +39,7 @@ class MainActivity : ComponentActivity() {
         ) -> {
             targetOverviewViewModel.getDeviceLocation(fusedLocationProviderClient)
         }
+
         else -> {
             requestPermissionLauncher.launch(ACCESS_FINE_LOCATION)
         }
@@ -60,15 +59,14 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     // only needed if remember cameraPosition is used
-                    val currentLocation by targetOverviewViewModel.currentLatLng.collectAsState()
+                    //val currentLocation by targetOverviewViewModel.currentLatLng.collectAsState()
 
                     MapScreen(
                         targetOverviewViewModel,
                         storeLatestTargetLocation = {
                             targetOverviewViewModel.storeLastKnownLocation(it)
-                            // fetchLocationUpdates()
                         },
-                        currentLocation
+                        // currentLocation
                     )
                 }
             }

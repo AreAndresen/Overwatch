@@ -27,7 +27,7 @@ import com.google.maps.android.compose.Marker
 fun MapScreen(
     viewModel: TargetOverviewViewModel,
     storeLatestTargetLocation: (LatLng) -> Unit = { },
-    currentLocation: LatLng
+    //currentLocation: LatLng
 ) {
 
     val scaffoldState = rememberScaffoldState()
@@ -74,7 +74,7 @@ fun MapScreen(
             properties = viewModel.state.properties,
             uiSettings = uiSettings,
             onMapLongClick = {
-                // storeLatestTargetLocation(it) // use if wanting to store target instead of position
+                storeLatestTargetLocation(it) // use if wanting to store target instead of position
                 viewModel.onEvent(MapEvent.OnMapLongClick(it))
             }
         ) {

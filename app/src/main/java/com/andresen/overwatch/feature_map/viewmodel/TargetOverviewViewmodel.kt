@@ -13,15 +13,11 @@ import com.andresen.overwatch.feature_map.view.MapEvent
 import com.andresen.overwatch.feature_map.view.MapState
 import com.andresen.overwatch.feature_map.view.MapStyle
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.MapType
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
@@ -35,17 +31,6 @@ class TargetOverviewViewModel(
 
     var state by mutableStateOf(MapState())
 
-
-    private val _currentLatLng: MutableStateFlow<LatLng> = MutableStateFlow(
-        LatLng( // init to fast
-            0.0, // mock oslo
-            0.0
-        )
-    )
-
-    val currentLatLng: StateFlow<LatLng> = _currentLatLng
-
-
     init {
         viewModelScope.launch {
             repository.getTargets().collectLatest { targets ->
@@ -57,7 +42,9 @@ class TargetOverviewViewModel(
 
         positionPreferenceRepository.lastPositionLatFlow
             .combine(positionPreferenceRepository.lastPositionLngFlow) { lat, lng ->
-                _currentLatLng.value = LatLng(lat, lng)
+                state = state.copy(
+                    lastKnownLocation = LatLng(lat, lng)
+                )
             }.launchIn(viewModelScope)
     }
 
@@ -78,18 +65,10 @@ class TargetOverviewViewModel(
                         // goes back to you last position
                         cameraPositionState = CameraPositionState(
                             position = CameraPosition.fromLatLngZoom(
-                                LatLng(
-                                    state.lastKnownLocation?.latitude ?: 0.0,
-                                    state.lastKnownLocation?.longitude ?: 0.0
-                                ),
+                                state.lastKnownLocation ?: LatLng(0.0, 0.0),
                                 16f
                             )
-                        )/*.animate( todo fix animation
-                            update = CameraUpdateFactory.newLatLngBounds(
-                                getCenterLocation(),
-                                0
-                            )
-                        )*/,
+                        ),
                         isNightVision = !state.isNightVision
                     )
                 }
@@ -116,13 +95,6 @@ class TargetOverviewViewModel(
         }
     }
 
-    fun getCenterLocation(): LatLngBounds {
-        val centerBuilder: LatLngBounds.Builder = LatLngBounds.builder()
-        centerBuilder.include(LatLng(_currentLatLng.value.latitude, _currentLatLng.value.longitude))
-        return centerBuilder.build()
-    }
-
-
     @SuppressLint("MissingPermission")
     fun getDeviceLocation(
         fusedLocationProviderClient: FusedLocationProviderClient
@@ -132,11 +104,10 @@ class TargetOverviewViewModel(
             locationResult.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
 
-                    storeLastKnownLocation(LatLng(task.result.latitude, task.result.longitude))
-
-                    state = state.copy(
-                        lastKnownLocation = task.result
-                    )
+                    // todo - if i want to use this for something like rendering animation at init
+                    /*state = state.copy(
+                       lastKnownLocation = task.result
+                   )*/
                 }
             }
         } catch (e: SecurityException) {
@@ -147,6 +118,10 @@ class TargetOverviewViewModel(
 
     fun storeLastKnownLocation(latLng: LatLng) {
         viewModelScope.launch {
+            state = state.copy(
+                lastKnownLocation = latLng
+            )
+            // store to data
             positionPreferenceRepository.setLastPositionLatLng(latLng)
         }
     }
