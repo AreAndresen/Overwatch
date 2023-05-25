@@ -1,4 +1,4 @@
-package com.andresen.overwatch.composable
+package com.andresen.overwatch.composables
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
@@ -14,8 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.andresen.overwatch.feature_map.theme.OverwatchTheme
-import com.andresen.overwatch.feature_map.theme.Purple200
+import com.andresen.overwatch.theme.OverwatchTheme
+import com.andresen.overwatch.theme.Purple200
 
 @Composable
 fun RoundButton(

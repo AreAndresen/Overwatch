@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.andresen.overwatch.feature_map.theme.OverwatchTheme
+import com.andresen.overwatch.theme.OverwatchTheme
 import com.andresen.overwatch.feature_map.view.MapScreen
 import com.andresen.overwatch.feature_map.viewmodel.TargetOverviewViewModel
 import com.google.android.gms.location.FusedLocationProviderClient

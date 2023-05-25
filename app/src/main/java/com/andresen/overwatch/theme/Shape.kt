@@ -1,4 +1,4 @@
-package com.andresen.overwatch.feature_map.theme
+package com.andresen.overwatch.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

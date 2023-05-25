@@ -1,4 +1,4 @@
-package com.andresen.overwatch.feature_map.theme
+package com.andresen.overwatch.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
