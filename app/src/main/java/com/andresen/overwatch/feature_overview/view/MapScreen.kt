@@ -10,7 +10,6 @@ import androidx.compose.material.icons.filled.ToggleOff
 import androidx.compose.material.icons.filled.ToggleOn
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,13 +38,14 @@ fun MapScreen(
     val uiSettings by remember {
         mutableStateOf(
             MapUiSettings(
-            zoomControlsEnabled = false,
-            myLocationButtonEnabled = true,
-            compassEnabled = true
-        ))
+                zoomControlsEnabled = false,
+                myLocationButtonEnabled = true,
+                compassEnabled = true
+            )
+        )
     }
 
-
+    // todo doesnt work - too fast
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(
             currentLocation, 16f
@@ -106,6 +106,7 @@ fun MapScreen(
                     )
                 )
             }
+            // todo doesnt work
             cameraPositionState.move(CameraUpdateFactory.newLatLngBounds(builder.build(), 64))
         }
     }

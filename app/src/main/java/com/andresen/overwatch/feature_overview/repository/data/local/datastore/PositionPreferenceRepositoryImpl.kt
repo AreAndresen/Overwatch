@@ -29,8 +29,8 @@ class PositionPreferenceRepositoryImpl(
     override suspend fun setLastPositionLatLng(latLng: LatLng) {
         withContext(dispatchers.io) {
             dataStore.edit { preference ->
-                preference[PositionPreferenceIds.LAST_POSITION_LAT] = latLng.latitude ?: 0.0
-                preference[PositionPreferenceIds.LAST_POSITION_LNG] = latLng.longitude ?: 0.0
+                preference[PositionPreferenceIds.LAST_POSITION_LAT] = latLng.latitude
+                preference[PositionPreferenceIds.LAST_POSITION_LNG] = latLng.longitude
             }
         }
     }

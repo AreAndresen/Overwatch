@@ -30,7 +30,12 @@ object TargetOverwatchModule {
                 single<TargetRepository> {
                     TargetRepositoryImpl(get())
                 }
-                single<PositionPreferenceRepository> { PositionPreferenceRepositoryImpl(androidContext(), get()) }
+                single<PositionPreferenceRepository> {
+                    PositionPreferenceRepositoryImpl(
+                        androidContext(),
+                        get()
+                    )
+                }
                 viewModel {
                     TargetOverviewViewModel(get(), get())
                 }

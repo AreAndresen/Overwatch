@@ -23,9 +23,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MainActivity : ComponentActivity() {
-    //private val mainViewModel: MainViewModel by viewModel()
+    private val mainViewModel: MainViewModel by viewModel()
     private val targetOverviewViewModel: TargetOverviewViewModel by viewModel()
 
+    // todo get user location
     private val fusedLocationClient: FusedLocationProviderClient by lazy {
         LocationServices.getFusedLocationProviderClient(this)
     }
@@ -54,6 +55,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    // todo get user location to use as last for Data preference
     private fun fetchLocationUpdates() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
