@@ -97,6 +97,11 @@ dependencies {
     implementation "androidx.compose.animation:animation"
     implementation "androidx.compose.ui:ui-tooling"
 
+    // datastore
+    implementation "androidx.datastore:datastore:$data_store_version"
+    implementation "androidx.datastore:datastore-core:$data_store_version"
+    implementation "androidx.datastore:datastore-preferences:$data_store_version"
+
 
     // Google Maps
     implementation "com.google.android.gms:play-services-maps:18.0.2"

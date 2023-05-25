@@ -1,6 +1,6 @@
 package com.andresen.overwatch.feature_overview.mapper
 
-import com.andresen.overwatch.feature_overview.data.local.TargetEntity
+import com.andresen.overwatch.feature_overview.repository.data.local.db.TargetEntity
 import com.andresen.overwatch.feature_overview.model.TargetUi
 
 object TargetMapper {

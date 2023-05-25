@@ -1,4 +1,4 @@
-package com.andresen.overwatch.feature_overview.data.local
+package com.andresen.overwatch.feature_overview.repository.data.local.db
 
 import androidx.room.Dao
 import androidx.room.Delete

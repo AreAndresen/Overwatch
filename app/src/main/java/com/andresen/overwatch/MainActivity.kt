@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
                     MapScreen(
                         targetOverviewViewModel,
                         storeLatestTargetLocation = {
-                            targetOverviewViewModel.setCurrentLatLng(it)
+                            targetOverviewViewModel.setLastPosition(it)
                             // fetchLocationUpdates()
                         }
                     )
@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 //fusedLocationClient.locationFlow().collect {
                 //it?.let { location ->
-                targetOverviewViewModel.setCurrentLatLng(
+                targetOverviewViewModel.setLastPosition(
                     LatLng(
                         59.906494079171864,
                         10.764080956578255

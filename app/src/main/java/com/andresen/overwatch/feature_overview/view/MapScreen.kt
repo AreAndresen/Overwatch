@@ -45,6 +45,7 @@ fun MapScreen(
         position = CameraPosition.fromLatLngZoom(currentLocation, 16f)
     }
 
+
     Scaffold(
         scaffoldState = scaffoldState,
         floatingActionButton = {
@@ -64,7 +65,7 @@ fun MapScreen(
         floatingActionButtonPosition = FabPosition.Center
     ) {
         GoogleMap(
-            //cameraPositionState = cameraPositionState,
+            cameraPositionState = cameraPositionState,
             modifier = Modifier.fillMaxSize(),
             properties = viewModel.state.properties,
             uiSettings = uiSettings,

@@ -1,4 +1,4 @@
-package com.andresen.overview.view
+package com.andresen.overwatch.feature_overview.view
 
 // put in raw later resource
 object MapStyle {
