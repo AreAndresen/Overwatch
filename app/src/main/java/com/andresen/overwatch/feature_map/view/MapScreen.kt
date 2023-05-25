@@ -13,17 +13,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.andresen.overwatch.feature_map.viewmodel.TargetOverviewViewModel
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.rememberCameraPositionState
 
 
 @Composable
@@ -45,12 +42,12 @@ fun MapScreen(
         )
     }
 
-    // todo doesnt work - too fast
+    /* todo doesnt work - too fast
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(
             currentLocation, 16f
         )
-    }
+    }*/
 
 
     Scaffold(
@@ -72,21 +69,33 @@ fun MapScreen(
         floatingActionButtonPosition = FabPosition.Center
     ) {
         GoogleMap(
-            cameraPositionState = viewModel.state.cameraPositionState,
+            cameraPositionState = viewModel.state.cameraPositionState, // todo cameraPositionStatetodo
             modifier = Modifier.fillMaxSize(),
             properties = viewModel.state.properties,
             uiSettings = uiSettings,
             onMapLongClick = {
-                storeLatestTargetLocation(it)
+                // storeLatestTargetLocation(it) // use if wanting to store target instead of position
                 viewModel.onEvent(MapEvent.OnMapLongClick(it))
             }
         ) {
-            val builder = LatLngBounds.Builder()
+            val scope = rememberCoroutineScope()
+            /*MapEffect(viewModel.state.targets) { map ->
+                if (viewModel.state.targets.isNotEmpty()) {
+                    map.setOnMapLoadedCallback {
+                            scope.launch {
+                                cameraPositionState.animate(
+                                    update = CameraUpdateFactory.newLatLngBounds(
+                                        getCenterLocation(),
+                                        0
+                                    ),
+                                )
+                            }
+                        }
+                    }
+                }*/
+
 
             viewModel.state.targets.forEach { target ->
-
-                builder.include(LatLng(target.lat, target.lng))
-
                 Marker(
                     position = LatLng(target.lat, target.lng),
                     title = "Target coordinates: ${target.lat}, ${target.lng}",
@@ -97,7 +106,6 @@ fun MapScreen(
                         )
                     },
                     onClick = {
-                        //fetchLatestTargetLocation(LatLng(target.lat, target.lng))
                         it.showInfoWindow()
                         true
                     },
@@ -106,8 +114,6 @@ fun MapScreen(
                     )
                 )
             }
-            // todo doesnt work
-            cameraPositionState.move(CameraUpdateFactory.newLatLngBounds(builder.build(), 64))
         }
     }
 }
