@@ -46,7 +46,7 @@ class TargetOverviewViewModel(
         )
     )
 
-    //val currentLatLng: StateFlow<LatLng> = _currentLatLng
+    val currentLatLng: StateFlow<LatLng> = _currentLatLng
 
     /*val currentLatLng: StateFlow<LatLng> = positionPreferenceRepository.lastPositionLatFlow
         .mapLatest { lat ->
