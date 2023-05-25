@@ -34,18 +34,20 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             OverwatchTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
+
+                    val currentLocation by targetOverviewViewModel.currentLatLng.collectAsState()
 
                     MapScreen(
                         targetOverviewViewModel,
                         storeLatestTargetLocation = {
                             targetOverviewViewModel.setLastPosition(it)
                             // fetchLocationUpdates()
-                        }
+                        },
+                        currentLocation
                     )
                 }
             }

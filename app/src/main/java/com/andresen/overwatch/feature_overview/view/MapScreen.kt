@@ -12,12 +12,15 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.andresen.overwatch.feature_overview.viewmodel.TargetOverviewViewModel
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
@@ -28,21 +31,25 @@ import com.google.maps.android.compose.rememberCameraPositionState
 fun MapScreen(
     viewModel: TargetOverviewViewModel,
     storeLatestTargetLocation: (LatLng) -> Unit = { },
+    currentLocation: LatLng
 ) {
 
     val scaffoldState = rememberScaffoldState()
-    val uiSettings = remember {
-        MapUiSettings(
+
+    val uiSettings by remember {
+        mutableStateOf(
+            MapUiSettings(
             zoomControlsEnabled = false,
             myLocationButtonEnabled = true,
             compassEnabled = true
-        )
+        ))
     }
 
-    val currentLocation by viewModel.currentLatLng.collectAsState()
 
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(currentLocation, 16f)
+        position = CameraPosition.fromLatLngZoom(
+            currentLocation, 16f
+        )
     }
 
 
@@ -65,7 +72,7 @@ fun MapScreen(
         floatingActionButtonPosition = FabPosition.Center
     ) {
         GoogleMap(
-            cameraPositionState = cameraPositionState,
+            cameraPositionState = viewModel.state.cameraPositionState,
             modifier = Modifier.fillMaxSize(),
             properties = viewModel.state.properties,
             uiSettings = uiSettings,
@@ -74,7 +81,12 @@ fun MapScreen(
                 viewModel.onEvent(MapEvent.OnMapLongClick(it))
             }
         ) {
+            val builder = LatLngBounds.Builder()
+
             viewModel.state.targets.forEach { target ->
+
+                builder.include(LatLng(target.lat, target.lng))
+
                 Marker(
                     position = LatLng(target.lat, target.lng),
                     title = "Target coordinates: ${target.lat}, ${target.lng}",
@@ -94,6 +106,7 @@ fun MapScreen(
                     )
                 )
             }
+            cameraPositionState.move(CameraUpdateFactory.newLatLngBounds(builder.build(), 64))
         }
     }
 }

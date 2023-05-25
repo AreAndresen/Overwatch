@@ -11,8 +11,12 @@ import com.andresen.overwatch.feature_overview.model.TargetUi
 import com.andresen.overwatch.feature_overview.repository.data.local.datastore.PositionPreferenceRepository
 import com.andresen.overwatch.feature_overview.repository.data.local.db.TargetRepository
 import com.andresen.overwatch.feature_overview.view.MapEvent
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.maps.android.compose.CameraPositionState
+import com.google.maps.android.compose.MapType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -36,11 +40,8 @@ class TargetOverviewViewModel(
     var state by mutableStateOf(MapState())
 
 
-
-    private val _latLocation = MutableStateFlow<Double>(0.0)
-    private val _lngLocation = MutableStateFlow<Double>(0.0)
     private val _currentLatLng: MutableStateFlow<LatLng> = MutableStateFlow(
-        LatLng(
+        LatLng( // init to fast
             0.0, // mock oslo
             0.0
         )
@@ -48,16 +49,6 @@ class TargetOverviewViewModel(
 
     val currentLatLng: StateFlow<LatLng> = _currentLatLng
 
-    /*val currentLatLng: StateFlow<LatLng> = positionPreferenceRepository.lastPositionLatFlow
-        .mapLatest { lat ->
-            lat
-        }.combine(positionPreferenceRepository.lastPositionLngFlow) { lat, lng ->
-            LatLng(lat, lng)
-        }.stateIn(
-            viewModelScope,
-            started = SharingStarted.Eagerly,
-            initialValue = LatLng(0.0, 0.0)
-        )*/
 
     init {
         viewModelScope.launch {
@@ -72,13 +63,6 @@ class TargetOverviewViewModel(
             .combine(positionPreferenceRepository.lastPositionLngFlow) { lat, lng ->
                 _currentLatLng.value = LatLng(lat, lng)
             }.launchIn(viewModelScope)
-
-      /*viewModelScope.launch {
-            positionPreferenceRepository.lastPositionLatFlow
-                .combine(positionPreferenceRepository.lastPositionLngFlow) { lat, lng ->
-                    _currentLatLng.value = LatLng(lat, lng)
-                }.collect()
-        }*/
     }
 
     fun onEvent(event: MapEvent) {
@@ -88,8 +72,15 @@ class TargetOverviewViewModel(
                     properties = state.properties.copy(
                         mapStyleOptions = if (state.isNightVision) {
                             null
-                        } else MapStyleOptions(MapStyle.json)
+                        } else MapStyleOptions(MapStyle.json),
+                        mapType = if (state.isNightVision) {
+                            MapType.TERRAIN
+                        } else MapType.NORMAL
                     ),
+                    cameraPositionState = CameraPositionState(
+                        position = CameraPosition.fromLatLngZoom(
+                            LatLng(_currentLatLng.value.latitude, _currentLatLng.value.longitude), 16f
+                        )),
                     isNightVision = !state.isNightVision
                 )
             }
@@ -121,9 +112,6 @@ class TargetOverviewViewModel(
 
     fun setLastPosition(latLng: LatLng) {
         viewModelScope.launch {
-            /*positionPreferenceRepository.setLastPositionLatLong(latLng.latitude)
-            positionPreferenceRepository.setLastPositionLng(latLng.longitude)*/
-
             positionPreferenceRepository.setLastPositionLatLng(latLng)
         }
     }
