@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.andresen.overwatch.feature_overview.theme.OverwatchTheme
-import com.andresen.overwatch.feature_overview.view.MapScreen
-import com.andresen.overwatch.feature_overview.viewmodel.TargetOverviewViewModel
+import com.andresen.overwatch.feature_map.theme.OverwatchTheme
+import com.andresen.overwatch.feature_map.view.MapScreen
+import com.andresen.overwatch.feature_map.viewmodel.TargetOverviewViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
