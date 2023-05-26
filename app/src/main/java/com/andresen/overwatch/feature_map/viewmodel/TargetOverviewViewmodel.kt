@@ -6,12 +6,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.andresen.overwatch.feature_map.mapper.TargetMapper
+import com.andresen.overwatch.feature_map.model.MapUiState
 import com.andresen.overwatch.feature_map.model.TargetUi
 import com.andresen.overwatch.feature_map.repository.data.local.datastore.PositionPreferenceRepository
 import com.andresen.overwatch.feature_map.repository.data.local.db.TargetRepository
+import com.andresen.overwatch.feature_map.repository.data.remote.db.MapRepository
 import com.andresen.overwatch.feature_map.view.MapEvent
 import com.andresen.overwatch.feature_map.view.MapState
 import com.andresen.overwatch.feature_map.view.MapStyle
+import com.andresen.overwatch.helper.network.DataResult
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -26,8 +30,12 @@ import kotlinx.coroutines.launch
 
 class TargetOverviewViewModel(
     private val repository: TargetRepository,
+    private val mapRepository: MapRepository,
     private val positionPreferenceRepository: PositionPreferenceRepository
 ) : ViewModel() {
+
+    // todo
+    var mapUiState: MapUiState by mutableStateOf(MapUiState.Loading)
 
     var state by mutableStateOf(MapState())
 
@@ -40,12 +48,15 @@ class TargetOverviewViewModel(
             }
         }
 
+        getFriendlies()
+
         positionPreferenceRepository.lastPositionLatFlow
             .combine(positionPreferenceRepository.lastPositionLngFlow) { lat, lng ->
                 state = state.copy(
                     lastKnownLocation = LatLng(lat, lng)
                 )
-            }.launchIn(viewModelScope)
+            }
+            .launchIn(viewModelScope)
     }
 
     fun onEvent(event: MapEvent) {
@@ -65,7 +76,7 @@ class TargetOverviewViewModel(
                         // goes back to you last position
                         cameraPositionState = CameraPositionState(
                             position = CameraPosition.fromLatLngZoom(
-                                state.lastKnownLocation ?: LatLng(0.0, 0.0),
+                                state.lastKnownLocation ?: LatLng(59.910814436867405, 10.752501860260963), // mock Oslo S
                                 16f
                             )
                         ),
@@ -85,6 +96,18 @@ class TargetOverviewViewModel(
                 }
             }
 
+            /*is MapEvent.CheckFriendlies -> {
+                viewModelScope.launch {
+                    repository.insertTarget(
+                        TargetUi(
+                            friendly = false,
+                            lat = event.latLng.latitude,
+                            lng = event.latLng.longitude
+                        )
+                    )
+                }
+            } */
+
             is MapEvent.OnInfoBoxLongClick -> {
                 viewModelScope.launch {
                     repository.deleteTarget(
@@ -94,6 +117,27 @@ class TargetOverviewViewModel(
             }
         }
     }
+
+    private fun getFriendlies() {
+        viewModelScope.launch {
+            when (val friendliesResult = mapRepository.getFriendlies()) {
+                is DataResult.Success -> {
+                    val friendliesDto = friendliesResult.data
+
+                    val friendlies = TargetMapper.mapFriendlies(friendliesDto)
+
+                    state = state.copy(
+                        friendlies = friendlies
+                    )
+                }
+
+                is DataResult.Error.AppError -> TODO()
+                is DataResult.Error.NoNetwork -> TODO()
+            }
+
+        }
+    }
+
 
     @SuppressLint("MissingPermission")
     fun getDeviceLocation(

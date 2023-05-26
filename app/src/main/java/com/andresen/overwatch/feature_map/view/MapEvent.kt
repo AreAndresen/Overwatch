@@ -9,7 +9,7 @@ sealed class MapEvent {
 
     data class OnMapLongClick(val latLng: LatLng): MapEvent()
 
-    data class OnTargetClick(val latLng: LatLng): MapEvent()
+    data class CheckFriendlies(val latLng: LatLng): MapEvent()
 
     data class OnInfoBoxLongClick(val target: TargetUi): MapEvent()
 }

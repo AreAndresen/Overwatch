@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase
     entities = [TargetEntity::class],
     version = 1,
     exportSchema = false
-    //autoMigrations = [ AutoMigration(from = 1, to = 2) ]
+    // autoMigrations = [ AutoMigration(from = 1, to = 2) ]
 )
 abstract class TargetDatabase : RoomDatabase() {
 

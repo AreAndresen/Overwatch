@@ -10,6 +10,7 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = "targets")
 data class TargetEntity(
     @PrimaryKey(autoGenerate = true) val id: Int? = 0,
+    @ColumnInfo val friendly: Boolean = false,
     @ColumnInfo val lat: Double,
     @ColumnInfo val lng: Double,
 ) : Parcelable

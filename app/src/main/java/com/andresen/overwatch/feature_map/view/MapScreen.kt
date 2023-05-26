@@ -114,6 +114,26 @@ fun MapScreen(
                     )
                 )
             }
+
+            viewModel.state.friendlies.forEach { target ->
+                Marker(
+                    position = LatLng(target.lat, target.lng),
+                    title = "Target coordinates: ${target.lat}, ${target.lng}",
+                    snippet = "Long click to delete",
+                    onInfoWindowLongClick = {
+                        viewModel.onEvent(
+                            MapEvent.OnInfoBoxLongClick(target)
+                        )
+                    },
+                    onClick = {
+                        it.showInfoWindow()
+                        true
+                    },
+                    icon = BitmapDescriptorFactory.defaultMarker(
+                        BitmapDescriptorFactory.HUE_GREEN
+                    )
+                )
+            }
         }
     }
 }

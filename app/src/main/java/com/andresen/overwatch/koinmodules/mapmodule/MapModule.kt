@@ -6,9 +6,14 @@ import com.andresen.overwatch.feature_map.repository.data.local.datastore.Positi
 import com.andresen.overwatch.feature_map.repository.data.local.db.TargetDatabase
 import com.andresen.overwatch.feature_map.repository.data.local.db.TargetRepository
 import com.andresen.overwatch.feature_map.repository.data.local.db.TargetRepositoryImpl
+import com.andresen.overwatch.feature_map.repository.data.remote.db.MapRepository
 import com.andresen.overwatch.feature_map.viewmodel.TargetOverviewViewModel
 import com.andresen.overwatch.helper.OverwatchDispatchers
 import com.andresen.overwatch.helper.OverwatchDispatchersRegular
+import com.andresen.overwatch.helper.network.ApiServiceFactoryImpl
+import com.andresen.overwatch.helper.network.ConnectionService
+import com.andresen.overwatch.helper.network.ConnectionServiceImpl
+import com.andresen.overwatch.helper.network.RequestHelper
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
@@ -36,8 +41,12 @@ object MapModule {
                         get()
                     )
                 }
+                factory { RequestHelper(get()) }
+                single { ApiServiceFactoryImpl(get()) }
+                factory { MapRepository((get() as ApiServiceFactoryImpl).createService(), get(), get()) }
+                factory<ConnectionService> { ConnectionServiceImpl(get()) }
                 viewModel {
-                    TargetOverviewViewModel(get(), get())
+                    TargetOverviewViewModel(get(), get(), get())
                 }
                 single<OverwatchDispatchers> { OverwatchDispatchersRegular }
 
