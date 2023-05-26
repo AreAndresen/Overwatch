@@ -1,10 +1,13 @@
 package com.andresen.overwatch.feature_map.view
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ExtendedFloatingActionButton
 import androidx.compose.material.FabPosition
-import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ToggleOff
 import androidx.compose.material.icons.filled.ToggleOn
@@ -14,7 +17,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import com.andresen.overwatch.R
 import com.andresen.overwatch.feature_map.viewmodel.TargetOverviewViewModel
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
@@ -53,18 +61,51 @@ fun MapScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    viewModel.onEvent(MapEvent.ToggleNightVision)
-                }
-            ) {
-                Icon(
-                    imageVector = if (viewModel.state.isNightVision) {
-                        Icons.Default.ToggleOff
-                    } else Icons.Default.ToggleOn,
-                    contentDescription = "Toggle night vision"
+            Box(modifier = Modifier.fillMaxSize()) {
+                ExtendedFloatingActionButton(
+                    modifier = Modifier
+                        .padding(all = 16.dp)
+                        .align(alignment = Alignment.BottomStart),
+                    onClick = {
+                        viewModel.onEvent(MapEvent.LocateLastTarget)
+                    },
+                    icon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_target),
+                            contentDescription = "Locate last target"
+                        )
+                    },
+                    text = {
+                        Text(
+                            text = "Locate target",
+                            fontWeight = FontWeight.Bold
+                        )
+                    },
+                )
+
+                ExtendedFloatingActionButton(
+                    modifier = Modifier
+                        .padding(all = 16.dp)
+                        .align(alignment = Alignment.BottomEnd),
+                    onClick = {
+                        viewModel.onEvent(MapEvent.ToggleNightVision)
+                    },
+                    text = {
+                        if (viewModel.state.isNightVision) {
+                            Text(text = "Nightvision off", fontWeight = FontWeight.Bold)
+                        } else Text(text = "Nightvision on", fontWeight = FontWeight.Bold)
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = if (viewModel.state.isNightVision) {
+                                Icons.Default.ToggleOff
+                            } else Icons.Default.ToggleOn,
+                            contentDescription = "Toggle night vision"
+                        )
+                    }
                 )
             }
+
         },
         floatingActionButtonPosition = FabPosition.Center
     ) {

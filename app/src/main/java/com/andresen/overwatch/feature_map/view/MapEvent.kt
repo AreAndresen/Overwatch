@@ -7,6 +7,8 @@ sealed class MapEvent {
 
     object ToggleNightVision: MapEvent()
 
+    object LocateLastTarget: MapEvent()
+
     data class OnMapLongClick(val latLng: LatLng): MapEvent()
 
     data class CheckFriendlies(val latLng: LatLng): MapEvent()

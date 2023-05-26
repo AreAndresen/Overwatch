@@ -73,6 +73,13 @@ class TargetOverviewViewModel(
                                 MapType.TERRAIN
                             } else MapType.NORMAL
                         ),
+                        isNightVision = !state.isNightVision
+                    )
+                }
+            }
+            is MapEvent.LocateLastTarget -> {
+                viewModelScope.launch {
+                    state = state.copy(
                         // goes back to you last position
                         cameraPositionState = CameraPositionState(
                             position = CameraPosition.fromLatLngZoom(
@@ -80,7 +87,6 @@ class TargetOverviewViewModel(
                                 16f
                             )
                         ),
-                        isNightVision = !state.isNightVision
                     )
                 }
             }
