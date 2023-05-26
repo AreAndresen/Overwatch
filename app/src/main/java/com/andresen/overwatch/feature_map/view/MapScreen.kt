@@ -139,8 +139,8 @@ fun MapScreen(
             viewModel.state.targets.forEach { target ->
                 Marker(
                     position = LatLng(target.lat, target.lng),
-                    title = "Target coordinates: ${target.lat}, ${target.lng}",
-                    snippet = "Long click to delete",
+                    title = "TARGET (long click to delete)",
+                    snippet = "${target.lat}, ${target.lng}",
                     onInfoWindowLongClick = {
                         viewModel.onEvent(
                             MapEvent.OnInfoBoxLongClick(target)
@@ -159,8 +159,8 @@ fun MapScreen(
             viewModel.state.friendlies.forEach { target ->
                 Marker(
                     position = LatLng(target.lat, target.lng),
-                    title = "Target coordinates: ${target.lat}, ${target.lng}",
-                    snippet = "Long click to delete",
+                    title = "FRIENDLY (long click to delete)",
+                    snippet = "${target.lat}, ${target.lng}",
                     onInfoWindowLongClick = {
                         viewModel.onEvent(
                             MapEvent.OnInfoBoxLongClick(target)
