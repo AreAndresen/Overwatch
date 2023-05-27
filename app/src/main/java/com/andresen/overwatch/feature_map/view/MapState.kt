@@ -5,6 +5,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.MapProperties
 
+
+
 data class MapState(
     val lastKnownLocation: LatLng? = null,
     val properties: MapProperties = MapProperties(),

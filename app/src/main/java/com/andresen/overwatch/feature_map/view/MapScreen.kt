@@ -24,6 +24,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.andresen.overwatch.R
 import com.andresen.overwatch.feature_map.model.TargetUi
 import com.andresen.overwatch.feature_map.viewmodel.TargetOverviewViewModel
@@ -32,14 +34,16 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.rememberCameraPositionState
 
 
 @Composable
 fun MapScreen(
     viewModel: TargetOverviewViewModel,
+    navController: NavHostController = rememberNavController(),
     storeLatestTargetLocation: (LatLng) -> Unit = { },
-    //currentLocation: LatLng
 ) {
+
 
     val scaffoldState = rememberScaffoldState()
 
@@ -53,12 +57,10 @@ fun MapScreen(
         )
     }
 
-    /* todo doesnt work - too fast
+    // todo doesnt work - too fast
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(
-            currentLocation, 16f
-        )
-    }*/
+        viewModel.state.cameraPositionState
+    }
 
 
     Scaffold(
@@ -121,7 +123,7 @@ fun MapScreen(
         floatingActionButtonPosition = FabPosition.Center
     ) {
         GoogleMap(
-            cameraPositionState = viewModel.state.cameraPositionState, // todo cameraPositionStatetodo
+            cameraPositionState = cameraPositionState, //viewModel.state.cameraPositionState, //cameraPositionState,
             modifier = Modifier.fillMaxSize(),
             properties = viewModel.state.properties,
             uiSettings = uiSettings,

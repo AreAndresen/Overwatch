@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="theme_base_blue_dark">#061629</color>
+    <color name="theme_base_blue_dark90">#051425</color>
+    <color name="theme_base_blue_medium">#0A2343</color>
+    <color name="theme_base_blue_medium_light5">#09203C</color>
+    <color name="theme_base_blue_medium_light10">#0C366C</color>
+    <color name="theme_base_blue_medium_light20">#0B3161</color>
+    <color name="theme_base_blue_medium_light40">#071E3B</color>
+    <color name="theme_base_blue_light">#8BB5EB</color>
+    <color name="theme_base_blue_contrast_light">#FFFFFF</color>
+    <color name="theme_base_blue_contrast_dark">#000000</color>
+</resources>

@@ -77,13 +77,17 @@ class TargetOverviewViewModel(
                     )
                 }
             }
+
             is MapEvent.LocateLastTarget -> {
                 viewModelScope.launch {
                     state = state.copy(
-                        // goes back to you last position
+                        // goes back to your last position
                         cameraPositionState = CameraPositionState(
                             position = CameraPosition.fromLatLngZoom(
-                                state.lastKnownLocation ?: LatLng(59.910814436867405, 10.752501860260963), // mock Oslo S
+                                state.lastKnownLocation ?: LatLng(
+                                    59.910814436867405,
+                                    10.752501860260963
+                                ), // mock Oslo S
                                 16f
                             )
                         ),
@@ -101,18 +105,6 @@ class TargetOverviewViewModel(
                     )
                 }
             }
-
-            /*is MapEvent.CheckFriendlies -> {
-                viewModelScope.launch {
-                    repository.insertTarget(
-                        TargetUi(
-                            friendly = false,
-                            lat = event.latLng.latitude,
-                            lng = event.latLng.longitude
-                        )
-                    )
-                }
-            } */
 
             is MapEvent.OnInfoBoxLongClick -> {
                 viewModelScope.launch {
