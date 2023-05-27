@@ -86,7 +86,10 @@ class MainActivity : ComponentActivity() {
                     },
                     scaffoldState = scaffoldState,
                     bottomBar = {
-                        BottomNavigation {
+                        BottomNavigation(
+                            backgroundColor = OverwatchTheme.colors.medium,
+                            contentColor = OverwatchTheme.colors.contrastLight,
+                        ) {
                             val navBackStackEntry by navController.currentBackStackEntryAsState()
                             val currentDestination = navBackStackEntry?.destination
                             items.forEach { screen ->

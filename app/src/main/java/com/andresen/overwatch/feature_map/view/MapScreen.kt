@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.andresen.overwatch.R
+import com.andresen.overwatch.composable.theme.OverwatchTheme
 import com.andresen.overwatch.feature_map.model.TargetUi
 import com.andresen.overwatch.feature_map.viewmodel.TargetOverviewViewModel
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -59,9 +60,9 @@ fun MapScreen(
         viewModel.state.cameraPositionState
     }
 
-
     Scaffold(
-        modifier = Modifier,
+        backgroundColor = OverwatchTheme.colors.medium,
+        contentColor = OverwatchTheme.colors.contrastLight,
         scaffoldState = scaffoldState,
         floatingActionButton = {
             Box(modifier = Modifier.fillMaxSize()) {
@@ -86,6 +87,8 @@ fun MapScreen(
                             fontWeight = FontWeight.Bold
                         )
                     },
+                    backgroundColor = OverwatchTheme.colors.mediumLight10,
+                    contentColor = OverwatchTheme.colors.contrastLight,
                 )
                 ExtendedFloatingActionButton(
                     modifier = Modifier
@@ -107,6 +110,8 @@ fun MapScreen(
                             fontWeight = FontWeight.Bold
                         )
                     },
+                    backgroundColor = OverwatchTheme.colors.mediumLight10,
+                    contentColor = OverwatchTheme.colors.contrastLight,
                     icon = {
                         Icon(
                             imageVector = if (viewModel.state.isNightVision) {
