@@ -12,3 +12,4 @@ data class FriendlyTargetDto(
     val lat: Double,
     val lng: Double,
 )
+

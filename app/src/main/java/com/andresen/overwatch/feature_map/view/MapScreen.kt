@@ -16,13 +16,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.andresen.overwatch.R
+import com.andresen.overwatch.feature_map.model.TargetUi
 import com.andresen.overwatch.feature_map.viewmodel.TargetOverviewViewModel
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
@@ -71,18 +74,19 @@ fun MapScreen(
                     },
                     icon = {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_target),
-                            contentDescription = "Locate last target"
+                            painter = painterResource(id = R.drawable.baseline_place_24),
+                            contentDescription = stringResource(id = R.string.map_locate_target),
+                            tint = Color.Red
                         )
                     },
                     text = {
                         Text(
-                            text = "Locate target",
+                            text = stringResource(id = R.string.map_locate_target),
+                            textAlign = TextAlign.Center,
                             fontWeight = FontWeight.Bold
                         )
                     },
                 )
-
                 ExtendedFloatingActionButton(
                     modifier = Modifier
                         .padding(all = 16.dp)
@@ -92,20 +96,27 @@ fun MapScreen(
                     },
                     text = {
                         if (viewModel.state.isNightVision) {
-                            Text(text = "Nightvision off", fontWeight = FontWeight.Bold)
-                        } else Text(text = "Nightvision on", fontWeight = FontWeight.Bold)
+                            Text(
+                                text = stringResource(id = R.string.map_nightvision_off),
+                                textAlign = TextAlign.Center,
+                                fontWeight = FontWeight.Bold
+                            )
+                        } else Text(
+                            text = stringResource(id = R.string.map_nightvision_on),
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold
+                        )
                     },
                     icon = {
                         Icon(
                             imageVector = if (viewModel.state.isNightVision) {
                                 Icons.Default.ToggleOff
                             } else Icons.Default.ToggleOn,
-                            contentDescription = "Toggle night vision"
+                            contentDescription = stringResource(id = R.string.map_nightvision_toggle_desc)
                         )
                     }
                 )
             }
-
         },
         floatingActionButtonPosition = FabPosition.Center
     ) {
@@ -115,12 +126,20 @@ fun MapScreen(
             properties = viewModel.state.properties,
             uiSettings = uiSettings,
             onMapLongClick = {
-                storeLatestTargetLocation(it) // use if wanting to store target instead of position
+                storeLatestTargetLocation(it)
                 viewModel.onEvent(MapEvent.OnMapLongClick(it))
             }
         ) {
-            val scope = rememberCoroutineScope()
-            /*MapEffect(viewModel.state.targets) { map ->
+            viewModel.state.targets.forEach { target ->
+                createMarker(target, viewModel)
+            }
+            viewModel.state.friendlies.forEach { target ->
+                createMarker(target, viewModel)
+            }
+
+            // todo get camera to Zoom at launch to GPS location
+            /*val scope = rememberCoroutineScope()
+            MapEffect(viewModel.state.targets) { map ->
                 if (viewModel.state.targets.isNotEmpty()) {
                     map.setOnMapLoadedCallback {
                             scope.launch {
@@ -134,47 +153,33 @@ fun MapScreen(
                         }
                     }
                 }*/
-
-
-            viewModel.state.targets.forEach { target ->
-                Marker(
-                    position = LatLng(target.lat, target.lng),
-                    title = "TARGET (long click to delete)",
-                    snippet = "${target.lat}, ${target.lng}",
-                    onInfoWindowLongClick = {
-                        viewModel.onEvent(
-                            MapEvent.OnInfoBoxLongClick(target)
-                        )
-                    },
-                    onClick = {
-                        it.showInfoWindow()
-                        true
-                    },
-                    icon = BitmapDescriptorFactory.defaultMarker(
-                        BitmapDescriptorFactory.HUE_RED
-                    )
-                )
-            }
-
-            viewModel.state.friendlies.forEach { target ->
-                Marker(
-                    position = LatLng(target.lat, target.lng),
-                    title = "FRIENDLY (long click to delete)",
-                    snippet = "${target.lat}, ${target.lng}",
-                    onInfoWindowLongClick = {
-                        viewModel.onEvent(
-                            MapEvent.OnInfoBoxLongClick(target)
-                        )
-                    },
-                    onClick = {
-                        it.showInfoWindow()
-                        true
-                    },
-                    icon = BitmapDescriptorFactory.defaultMarker(
-                        BitmapDescriptorFactory.HUE_GREEN
-                    )
-                )
-            }
         }
     }
+}
+
+@Composable
+private fun createMarker(
+    target: TargetUi,
+    viewModel: TargetOverviewViewModel,
+) {
+    Marker(
+        position = LatLng(target.lat, target.lng),
+        title = if (target.friendly) stringResource(id = R.string.map_marker_friendly) else stringResource(
+            id = R.string.map_marker_target
+        ),
+        snippet = "${target.lat}, ${target.lng}",
+        onInfoWindowLongClick = {
+            viewModel.onEvent(
+                MapEvent.OnInfoBoxLongClick(target)
+            )
+        },
+        draggable = true,
+        onClick = {
+            it.showInfoWindow()
+            true
+        },
+        icon = BitmapDescriptorFactory.defaultMarker(
+            if (target.friendly) BitmapDescriptorFactory.HUE_GREEN else BitmapDescriptorFactory.HUE_RED
+        )
+    )
 }
