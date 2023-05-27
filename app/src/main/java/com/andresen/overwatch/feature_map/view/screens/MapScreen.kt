@@ -1,4 +1,4 @@
-package com.andresen.overwatch.feature_map.view
+package com.andresen.overwatch.feature_map.view.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.andresen.overwatch.R
 import com.andresen.overwatch.composable.theme.OverwatchTheme
 import com.andresen.overwatch.feature_map.model.TargetUi
+import com.andresen.overwatch.feature_map.view.MapEvent
 import com.andresen.overwatch.feature_map.viewmodel.TargetOverviewViewModel
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
@@ -65,63 +66,29 @@ fun MapScreen(
         contentColor = OverwatchTheme.colors.contrastLight,
         scaffoldState = scaffoldState,
         floatingActionButton = {
-            Box(modifier = Modifier.fillMaxSize()) {
-                ExtendedFloatingActionButton(
-                    modifier = Modifier
-                        .padding(all = 16.dp)
-                        .align(alignment = Alignment.BottomStart),
-                    onClick = {
-                        viewModel.onEvent(MapEvent.LocateLastTarget)
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.map),
-                            contentDescription = stringResource(id = R.string.map_locate_target),
-                            tint = Color.Red
-                        )
-                    },
-                    text = {
-                        Text(
-                            text = stringResource(id = R.string.map_locate_target),
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Bold
-                        )
-                    },
-                    backgroundColor = OverwatchTheme.colors.mediumLight10,
-                    contentColor = OverwatchTheme.colors.contrastLight,
-                )
-                ExtendedFloatingActionButton(
-                    modifier = Modifier
-                        .padding(all = 16.dp)
-                        .align(alignment = Alignment.BottomEnd),
-                    onClick = {
-                        viewModel.onEvent(MapEvent.ToggleNightVision)
-                    },
-                    text = {
-                        if (viewModel.state.isNightVision) {
-                            Text(
-                                text = stringResource(id = R.string.map_nightvision_off),
-                                textAlign = TextAlign.Center,
-                                fontWeight = FontWeight.Bold
-                            )
-                        } else Text(
-                            text = stringResource(id = R.string.map_nightvision_on),
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Bold
-                        )
-                    },
-                    backgroundColor = OverwatchTheme.colors.mediumLight10,
-                    contentColor = OverwatchTheme.colors.contrastLight,
-                    icon = {
-                        Icon(
-                            imageVector = if (viewModel.state.isNightVision) {
-                                Icons.Default.ToggleOff
-                            } else Icons.Default.ToggleOn,
-                            contentDescription = stringResource(id = R.string.map_nightvision_toggle_desc)
-                        )
-                    }
-                )
-            }
+            ExtendedFloatingActionButton(
+                modifier = Modifier
+                    .padding(all = 16.dp),
+                onClick = {
+                    viewModel.onEvent(MapEvent.LocateLastTarget)
+                },
+                icon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.map),
+                        contentDescription = stringResource(id = R.string.map_locate_target),
+                        tint = Color.Red
+                    )
+                },
+                text = {
+                    Text(
+                        text = stringResource(id = R.string.map_locate_target),
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+                backgroundColor = OverwatchTheme.colors.mediumLight10,
+                contentColor = OverwatchTheme.colors.contrastLight,
+            )
         },
         floatingActionButtonPosition = FabPosition.Center
     ) {

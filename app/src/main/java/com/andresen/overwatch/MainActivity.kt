@@ -25,6 +25,7 @@ import androidx.navigation.compose.rememberNavController
 import com.andresen.overwatch.composable.components.MapTopAppBar
 import com.andresen.overwatch.composable.theme.OverwatchComposableTheme
 import com.andresen.overwatch.composable.theme.OverwatchTheme
+import com.andresen.overwatch.feature_map.view.MapEvent
 import com.andresen.overwatch.feature_map.viewmodel.TargetOverviewViewModel
 import com.andresen.overwatch.navigationcompose.OverwatchNavHost
 import com.andresen.overwatch.navigationcompose.Screen
@@ -69,10 +70,13 @@ class MainActivity : ComponentActivity() {
             OverwatchComposableTheme {
                 val navController = rememberNavController()
                 val items = listOf(
+                    Screen.Chat,
                     Screen.Map,
                     Screen.Info,
                 )
                 val scaffoldState = rememberScaffoldState()
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentDestination = navBackStackEntry?.destination
 
                 Scaffold(
                     modifier = Modifier,
@@ -80,8 +84,8 @@ class MainActivity : ComponentActivity() {
                     contentColor = OverwatchTheme.colors.contrastLight,
                     topBar = {
                         MapTopAppBar(
-                            onMapIconClick = {},
-                            onInfoIconClick = {},
+                            viewModel = targetOverviewViewModel,
+                            onToggleNightVision = { targetOverviewViewModel.onEvent(MapEvent.ToggleNightVision) },
                         )
                     },
                     scaffoldState = scaffoldState,
@@ -90,13 +94,12 @@ class MainActivity : ComponentActivity() {
                             backgroundColor = OverwatchTheme.colors.medium,
                             contentColor = OverwatchTheme.colors.contrastLight,
                         ) {
-                            val navBackStackEntry by navController.currentBackStackEntryAsState()
-                            val currentDestination = navBackStackEntry?.destination
                             items.forEach { screen ->
                                 BottomNavigationItem(
                                     icon = {
                                         Icon(
                                             painter = when (screen.route) {
+                                                "chat" -> painterResource(id = R.drawable.chat)
                                                 "map" -> painterResource(id = R.drawable.map)
                                                 "info" -> painterResource(id = R.drawable.info)
                                                 else -> painterResource(id = R.drawable.map)

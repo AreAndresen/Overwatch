@@ -16,33 +16,40 @@ import androidx.compose.ui.unit.dp
 import com.andresen.overwatch.R
 import com.andresen.overwatch.composable.modifiers.noIndicationClickable
 import com.andresen.overwatch.composable.theme.OverwatchTheme
+import com.andresen.overwatch.feature_map.viewmodel.TargetOverviewViewModel
 
 @Composable
 fun MapTopAppBar(
-    onMapIconClick: () -> Unit,
-    onInfoIconClick: () -> Unit
+    viewModel: TargetOverviewViewModel,
+    onToggleNightVision: () -> Unit
 ) {
     OverwatchTopAppBar(
         title = "",
         navigationIcon = {
-            IconButton(onClick = { onMapIconClick() }) {
+            IconButton(onClick = { onToggleNightVision() }) {
                 Icon(
-                    painter = painterResource(id = R.drawable.map),
-                    contentDescription = stringResource(id = R.string.accessibility_home_button)
+                    painter = painterResource(id = R.drawable.edit),
+                    contentDescription = stringResource(id = R.string.map_edit)
                 )
             }
         },
         actions = {
             IconButton(
                 onClick = {
-                    onInfoIconClick()
+                    onToggleNightVision()
                 },
                 enabled = true
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.info),
-                    contentDescription = stringResource(id = R.string.map_accessibility_top_bar_menu_button)
+                    painter = if (viewModel.state.isNightVision) {
+                        painterResource(id = R.drawable.visibility_on)
+                    } else painterResource(id = R.drawable.visibility_off),
+                    contentDescription = stringResource(id = R.string.map_nightvision_toggle_desc)
                 )
+                /*Icon(
+                    painter = painterResource(id = R.drawable.settings),
+                    contentDescription = stringResource(id = R.string.map_accessibility_top_bar_menu_button)
+                )*/
             }
         }
     )

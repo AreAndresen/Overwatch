@@ -4,14 +4,16 @@
     <string name="permission_location_rationale">This app requires the location permission to be granted.</string>
 
 
-    <string name="map_nightvision_toggle_desc">Nightvision on</string>
+    <string name="map_edit">Edit profile</string>
+    <string name="map_nightvision_toggle_desc">Toggle nightvision</string>
     <string name="map_nightvision_off">Nightvision\noff</string>
     <string name="map_nightvision_on">Nightvision\non</string>
     <string name="map_locate_target">Locate</string>
     <string name="map_marker_target">TARGET (long click to delete)</string>
     <string name="map_marker_friendly">FRIENDLY (long click to delete)</string>
-    <string name="map_accessibility_top_bar_menu_button">Click to get menu</string>
+    <string name="map_accessibility_top_bar_menu_button">Click to get settings menu</string>
     <string name="accessibility_home_button">Back to map</string>
     <string name="map">map</string>
     <string name="info">info</string>
+    <string name="chat">chat</string>
 </resources>
