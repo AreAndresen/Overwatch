@@ -24,15 +24,15 @@ fun OverwatchNavHost(
     ) {
         composable("map") {
             MapScreen(
+                modifier = modifier,
                 viewModel = viewModel,
-                navController = navController,
                 storeLatestTargetLocation = {
                     viewModel.storeLastKnownLocation(it)
                 }
             )
         }
         composable("info") {
-            InfoScreen()
+            InfoScreen(modifier = modifier,)
         }
     }
 }

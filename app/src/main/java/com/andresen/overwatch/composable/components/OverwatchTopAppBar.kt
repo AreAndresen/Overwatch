@@ -27,7 +27,7 @@ fun MapTopAppBar(
         navigationIcon = {
             IconButton(onClick = { onMapIconClick() }) {
                 Icon(
-                    painter = painterResource(id = R.drawable.baseline_place_24),
+                    painter = painterResource(id = R.drawable.map),
                     tint = OverwatchTheme.colors.contrastLight,
                     contentDescription = stringResource(id = R.string.accessibility_home_button)
                 )
@@ -41,7 +41,7 @@ fun MapTopAppBar(
                 enabled = true
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.baseline_send_to_mobile_24),
+                    painter = painterResource(id = R.drawable.info),
                     tint = OverwatchTheme.colors.contrastLight,
                     contentDescription = stringResource(id = R.string.map_accessibility_top_bar_menu_button)
                 )

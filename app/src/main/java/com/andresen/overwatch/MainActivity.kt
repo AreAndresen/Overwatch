@@ -12,11 +12,10 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -94,7 +93,11 @@ class MainActivity : ComponentActivity() {
                                 BottomNavigationItem(
                                     icon = {
                                         Icon(
-                                            Icons.Filled.Favorite,
+                                            painter = when (screen.route) {
+                                                "map" -> painterResource(id = R.drawable.map)
+                                                "info" -> painterResource(id = R.drawable.info)
+                                                else -> painterResource(id = R.drawable.map)
+                                            },
                                             contentDescription = null
                                         )
                                     },

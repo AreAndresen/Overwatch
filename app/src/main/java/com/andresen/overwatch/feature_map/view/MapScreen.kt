@@ -24,8 +24,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.andresen.overwatch.R
 import com.andresen.overwatch.feature_map.model.TargetUi
 import com.andresen.overwatch.feature_map.viewmodel.TargetOverviewViewModel
@@ -39,11 +37,10 @@ import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
 fun MapScreen(
+    modifier: Modifier,
     viewModel: TargetOverviewViewModel,
-    navController: NavHostController = rememberNavController(),
     storeLatestTargetLocation: (LatLng) -> Unit = { },
 ) {
-
 
     val scaffoldState = rememberScaffoldState()
 
@@ -64,6 +61,7 @@ fun MapScreen(
 
 
     Scaffold(
+        modifier = Modifier,
         scaffoldState = scaffoldState,
         floatingActionButton = {
             Box(modifier = Modifier.fillMaxSize()) {
@@ -76,7 +74,7 @@ fun MapScreen(
                     },
                     icon = {
                         Icon(
-                            painter = painterResource(id = R.drawable.baseline_place_24),
+                            painter = painterResource(id = R.drawable.map),
                             contentDescription = stringResource(id = R.string.map_locate_target),
                             tint = Color.Red
                         )

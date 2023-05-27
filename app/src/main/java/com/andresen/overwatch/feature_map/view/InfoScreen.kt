@@ -14,11 +14,12 @@ import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun InfoScreen(
-
+    modifier: Modifier = Modifier
 ) {
     val scaffoldState = rememberScaffoldState()
 
     Scaffold(
+        modifier = Modifier,
         scaffoldState = scaffoldState,
     ) {
         Column(
