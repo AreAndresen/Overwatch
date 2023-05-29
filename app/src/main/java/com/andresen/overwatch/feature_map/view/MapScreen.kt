@@ -1,5 +1,10 @@
 package com.andresen.overwatch.feature_map.view
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExtendedFloatingActionButton
@@ -15,11 +20,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import com.andresen.overwatch.R
 import com.andresen.overwatch.main.components.composable.theme.OverwatchTheme
 import com.andresen.overwatch.feature_map.model.MapContentUi
@@ -28,6 +37,7 @@ import com.andresen.overwatch.feature_map.model.TargetUi
 import com.andresen.overwatch.feature_map.MapEvent
 import com.andresen.overwatch.feature_map.viewmodel.MapViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -162,8 +172,29 @@ private fun createMarker(
             it.showInfoWindow()
             true
         },
-        icon = BitmapDescriptorFactory.defaultMarker(
-            if (target.friendly) BitmapDescriptorFactory.HUE_GREEN else BitmapDescriptorFactory.HUE_RED
-        )
+        icon = if (target.friendly) {
+            BitmapFromVector(LocalContext.current, R.drawable.unit_marker_38) ?:BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)
+        } else {
+            BitmapFromVector(LocalContext.current, R.drawable.tarket_marker_38) ?:  BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
+        }
     )
+}
+
+private fun BitmapFromVector(context: Context, vectorResId:Int): BitmapDescriptor? {
+    //drawable generator
+    var vectorDrawable: Drawable
+    vectorDrawable= ContextCompat.getDrawable(context,vectorResId)!!
+    vectorDrawable.setBounds(0,0,vectorDrawable.intrinsicWidth,vectorDrawable.intrinsicHeight)
+    //bitmap genarator
+    var bitmap: Bitmap
+    bitmap = Bitmap.createBitmap(vectorDrawable.intrinsicWidth,vectorDrawable.intrinsicHeight,Bitmap.Config.ARGB_8888)
+    //canvas genaret
+    var canvas: Canvas
+    //pass bitmap in canvas constructor
+    canvas = Canvas(bitmap)
+    //pass canvas in drawable
+    vectorDrawable.draw(canvas)
+    //return BitmapDescriptorFactory
+    return BitmapDescriptorFactory.fromBitmap(bitmap)
+
 }
