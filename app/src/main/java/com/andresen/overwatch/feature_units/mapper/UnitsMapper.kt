@@ -3,7 +3,7 @@ package com.andresen.overwatch.feature_units.mapper
 import com.andresen.overwatch.feature_units.model.UnitUiModel
 import com.andresen.overwatch.feature_units.model.UnitsContentUi
 import com.andresen.overwatch.feature_units.model.UnitsUi
-import com.andresen.overwatch.feature_units.repository.remote.db.MarsPhoto
+import com.andresen.overwatch.feature_units.repository.remote.db.UnitDto
 
 object UnitsMapper {
 
@@ -17,7 +17,7 @@ object UnitsMapper {
 
 
     fun createUnitsContent(
-        units: List<MarsPhoto>//UnitsWrapperDto,
+        units: List<UnitDto>
     ): UnitsUi {
         return UnitsUi(
             unitsContent = UnitsContentUi.Success(
@@ -27,7 +27,7 @@ object UnitsMapper {
     }
 
     private fun mapTargetDtoToTargetUi(
-        unit: MarsPhoto
+        unit: UnitDto
     ): UnitUiModel {
         return UnitUiModel(
             id = unit.id,
@@ -35,8 +35,8 @@ object UnitsMapper {
         )
     }
 
-    fun mapUnits(
-        units: List<MarsPhoto>//UnitsWrapperDto,
+    private fun mapUnits(
+        units: List<UnitDto>
     ): List<UnitUiModel> {
         return units.map { dtoItem ->
             mapTargetDtoToTargetUi(dtoItem)

@@ -9,8 +9,6 @@ import com.andresen.overwatch.main.helper.network.DataResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import java.io.IOException
 
 class UnitViewModel(
     private val unitRepository: UnitRepository
@@ -23,19 +21,8 @@ class UnitViewModel(
         createUnits()
     }
 
-
     private fun createUnits() {
         viewModelScope.launch {
-            /*mutableUnitsState.value =  UnitsMapper.loading()
-            mutableUnitsState.value = try {
-                UnitsMapper.createUnitsContent(
-                    units = unitRepository.getUnits())
-            } catch (e: IOException) {
-                UnitsMapper.error()
-            } catch (e: HttpException) {
-                UnitsMapper.error()
-            }*/
-
             when (val unitsResult = unitRepository.getUnits()) {
                 is DataResult.Success -> {
                     val unitsDto = unitsResult.data

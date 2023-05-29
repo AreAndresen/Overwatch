@@ -12,7 +12,7 @@ class UnitRepository(
 ) {
     //suspend fun getUnits(): List<UnitDto> = api.getUnits()
 
-    suspend fun getUnits(): DataResult<out List<MarsPhoto>> = // UnitsWrapperDto
+    suspend fun getUnits(): DataResult<out List<UnitDto>> = // UnitsWrapperDto
         withContext(dispatchers.io) {
             requestHelper.tryRequest {
                 api.getUnits()

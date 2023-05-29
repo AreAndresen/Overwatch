@@ -7,12 +7,6 @@ interface UnitApiService {
 
     @GET("photos")
     @Headers("Accept: application/json")
-    suspend fun getUnits(): List<MarsPhoto> //UnitsWrapperDto
+    suspend fun getUnits(): List<UnitDto> //UnitsWrapperDto
 
-
-    /*@GET //("/radio/userdata/{userId}/friendlies")
-    suspend fun getUnits(
-        //@Path("userId") userId: String,
-        //@Query("friendlies") friendlies: String?,
-    ): UnitsWrapperDto*/
 }

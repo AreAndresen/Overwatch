@@ -4,12 +4,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 
-data class UnitsWrapperDto(
-     val units: List<MarsPhoto>
-)
-
 @Serializable
-data class MarsPhoto(
+data class UnitDto(
     val id: String,
     @SerialName(value = "img_src")
     val imgSrc: String
