@@ -26,7 +26,7 @@ class PositionPreferenceRepositoryImpl(
         preference[PositionPreferenceIds.LAST_POSITION_LNG] ?: 10.752501860260963 // mock oslo
     }
 
-    override suspend fun setLastPositionLatLng(latLng: LatLng) {
+    override suspend fun storeLastTargetPosition(latLng: LatLng) {
         withContext(dispatchers.io) {
             dataStore.edit { preference ->
                 preference[PositionPreferenceIds.LAST_POSITION_LAT] = latLng.latitude

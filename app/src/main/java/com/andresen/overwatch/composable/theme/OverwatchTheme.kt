@@ -17,7 +17,6 @@ fun OverwatchComposableTheme(
         LocalOverwatchTypography provides createOverwatchSansTypography(),
         LocalOverwatchShapes provides createOverwatchShapes(),
 
-        LocalRippleTheme provides createRippleTheme(color = overwatchColors.light),
         LocalIndication provides rememberRipple(),
 
         content = { content() }

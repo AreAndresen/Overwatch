@@ -6,17 +6,21 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.andresen.overwatch.feature_map.model.MapContentUi
+import com.andresen.overwatch.feature_map.model.MapUi
+import com.andresen.overwatch.feature_map.view.MapEvent
 import com.andresen.overwatch.feature_map.view.screens.ChatScreen
 import com.andresen.overwatch.feature_map.view.screens.InfoScreen
 import com.andresen.overwatch.feature_map.view.screens.MapScreen
-import com.andresen.overwatch.feature_map.viewmodel.TargetOverviewViewModel
+import com.andresen.overwatch.feature_map.viewmodel.MapViewModel
 
 @Composable
 fun OverwatchNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     startDestination: String = "map",
-    viewModel: TargetOverviewViewModel,
+    viewModel: MapViewModel,
+    mapUiState: MapUi
 ) {
     NavHost(
         modifier = modifier,
@@ -30,9 +34,14 @@ fun OverwatchNavHost(
             MapScreen(
                 modifier = modifier,
                 viewModel = viewModel,
+                mapUiState = mapUiState,
                 storeLatestTargetLocation = {
-                    viewModel.storeLastKnownLocation(it)
+                    viewModel.setLastTargetLocation(it)
+                },
+                updateZoomLocation = {
+                    viewModel.onEvent(MapEvent.UpdateZoomLocation(it))
                 }
+            // viewModel.onEvent(MapEvent.UpdateZoomLocation(uiState.zoomLocation))
             )
         }
         composable("info") {

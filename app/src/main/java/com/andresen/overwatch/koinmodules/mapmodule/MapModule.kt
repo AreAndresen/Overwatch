@@ -7,7 +7,7 @@ import com.andresen.overwatch.feature_map.repository.data.local.db.TargetDatabas
 import com.andresen.overwatch.feature_map.repository.data.local.db.TargetRepository
 import com.andresen.overwatch.feature_map.repository.data.local.db.TargetRepositoryImpl
 import com.andresen.overwatch.feature_map.repository.data.remote.db.MapRepository
-import com.andresen.overwatch.feature_map.viewmodel.TargetOverviewViewModel
+import com.andresen.overwatch.feature_map.viewmodel.MapViewModel
 import com.andresen.overwatch.helper.OverwatchDispatchers
 import com.andresen.overwatch.helper.OverwatchDispatchersRegular
 import com.andresen.overwatch.helper.network.ApiServiceFactoryImpl
@@ -46,7 +46,7 @@ object MapModule {
                 factory { MapRepository((get() as ApiServiceFactoryImpl).createService(), get(), get()) }
                 factory<ConnectionService> { ConnectionServiceImpl(get()) }
                 viewModel {
-                    TargetOverviewViewModel(get(), get(), get())
+                    MapViewModel(get(), get(), get())
                 }
                 single<OverwatchDispatchers> { OverwatchDispatchersRegular }
 

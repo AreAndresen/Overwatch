@@ -16,11 +16,13 @@ import androidx.compose.ui.unit.dp
 import com.andresen.overwatch.R
 import com.andresen.overwatch.composable.modifiers.noIndicationClickable
 import com.andresen.overwatch.composable.theme.OverwatchTheme
-import com.andresen.overwatch.feature_map.viewmodel.TargetOverviewViewModel
+import com.andresen.overwatch.feature_map.model.MapTopAppBar
+import com.andresen.overwatch.feature_map.model.MapUi
+import com.andresen.overwatch.feature_map.viewmodel.MapViewModel
 
 @Composable
 fun MapTopAppBar(
-    viewModel: TargetOverviewViewModel,
+    topAppBarUi: MapTopAppBar,
     onToggleNightVision: () -> Unit
 ) {
     OverwatchTopAppBar(
@@ -41,15 +43,11 @@ fun MapTopAppBar(
                 enabled = true
             ) {
                 Icon(
-                    painter = if (viewModel.state.isNightVision) {
+                    painter = if (topAppBarUi.isNightVision) {
                         painterResource(id = R.drawable.visibility_on)
                     } else painterResource(id = R.drawable.visibility_off),
                     contentDescription = stringResource(id = R.string.map_nightvision_toggle_desc)
                 )
-                /*Icon(
-                    painter = painterResource(id = R.drawable.settings),
-                    contentDescription = stringResource(id = R.string.map_accessibility_top_bar_menu_button)
-                )*/
             }
         }
     )

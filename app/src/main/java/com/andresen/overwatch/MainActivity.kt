@@ -13,6 +13,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -26,7 +27,7 @@ import com.andresen.overwatch.composable.components.MapTopAppBar
 import com.andresen.overwatch.composable.theme.OverwatchComposableTheme
 import com.andresen.overwatch.composable.theme.OverwatchTheme
 import com.andresen.overwatch.feature_map.view.MapEvent
-import com.andresen.overwatch.feature_map.viewmodel.TargetOverviewViewModel
+import com.andresen.overwatch.feature_map.viewmodel.MapViewModel
 import com.andresen.overwatch.navigationcompose.OverwatchNavHost
 import com.andresen.overwatch.navigationcompose.Screen
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -36,14 +37,14 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
     private val mainViewModel: MainViewModel by viewModel()
-    private val targetOverviewViewModel: TargetOverviewViewModel by viewModel()
+    private val mapViewModel: MapViewModel by viewModel()
 
     private val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-                targetOverviewViewModel.getDeviceLocation(fusedLocationProviderClient)
+                mapViewModel.getDeviceLocation(fusedLocationProviderClient)
             }
         }
 
@@ -52,7 +53,7 @@ class MainActivity : ComponentActivity() {
             this,
             ACCESS_FINE_LOCATION
         ) -> {
-            targetOverviewViewModel.getDeviceLocation(fusedLocationProviderClient)
+            mapViewModel.getDeviceLocation(fusedLocationProviderClient)
         }
 
         else -> {
@@ -67,6 +68,8 @@ class MainActivity : ComponentActivity() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         askPermissions()
         setContent {
+            val mapUiState by mapViewModel.state.collectAsState()
+
             OverwatchComposableTheme {
                 val navController = rememberNavController()
                 val items = listOf(
@@ -84,8 +87,8 @@ class MainActivity : ComponentActivity() {
                     contentColor = OverwatchTheme.colors.contrastLight,
                     topBar = {
                         MapTopAppBar(
-                            viewModel = targetOverviewViewModel,
-                            onToggleNightVision = { targetOverviewViewModel.onEvent(MapEvent.ToggleNightVision) },
+                            topAppBarUi = mapUiState.mapTopAppBar,
+                            onToggleNightVision = { mapViewModel.onEvent(MapEvent.ToggleNightVision) },
                         )
                     },
                     scaffoldState = scaffoldState,
@@ -129,7 +132,8 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding),
                         navController = navController,
                         startDestination = "map",
-                        viewModel = targetOverviewViewModel
+                        viewModel = mapViewModel,
+                        mapUiState = mapUiState
                     )
                 }
             }

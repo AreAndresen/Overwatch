@@ -1,4 +1,4 @@
-package com.andresen.overwatch.feature_map.view
+package com.andresen.overwatch.composable.theme
 
 // put in raw later resource
 object MapStyle {

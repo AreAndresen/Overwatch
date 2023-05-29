@@ -8,5 +8,5 @@ interface PositionPreferenceRepository {
     val lastPositionLatFlow: Flow<Double>
     val lastPositionLngFlow: Flow<Double>
 
-    suspend fun setLastPositionLatLng(latLng: LatLng)
+    suspend fun storeLastTargetPosition(latLng: LatLng)
 }

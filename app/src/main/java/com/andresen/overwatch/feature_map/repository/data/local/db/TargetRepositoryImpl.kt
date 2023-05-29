@@ -1,6 +1,6 @@
 package com.andresen.overwatch.feature_map.repository.data.local.db
 
-import com.andresen.overwatch.feature_map.mapper.TargetMapper
+import com.andresen.overwatch.feature_map.mapper.MapMapper
 import com.andresen.overwatch.feature_map.model.TargetUi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -10,16 +10,18 @@ class TargetRepositoryImpl(
 ): TargetRepository {
 
     override suspend fun insertTarget(target: TargetUi) {
-        dao.insertTarget(TargetMapper.targetUiToTargetEntity(target))
+        dao.insertTarget(MapMapper.mapTargetUiToTargetEntity(target))
     }
 
     override suspend fun deleteTarget(target: TargetUi) {
-        dao.deleteTarget(TargetMapper.targetUiToTargetEntity(target))
+        dao.deleteTarget(MapMapper.mapTargetUiToTargetEntity(target))
     }
 
     override fun getTargets(): Flow<List<TargetUi>> {
         return dao.getTargets().map { target ->
-            target.map { TargetMapper.targetEntityToTargetUi(it) }
+            target.map {
+                MapMapper.mapTargetEntityToTargetUi(it)
+            }
         }
     }
 }
