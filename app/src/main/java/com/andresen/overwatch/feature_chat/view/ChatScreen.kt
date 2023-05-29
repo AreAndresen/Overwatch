@@ -1,4 +1,4 @@
-package com.andresen.overwatch.feature_map.view.screens
+package com.andresen.overwatch.feature_chat.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

@@ -7,8 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.andresen.overwatch.feature_map.model.MapUi
-import com.andresen.overwatch.feature_map.view.screens.ChatScreen
-import com.andresen.overwatch.feature_map.view.screens.MapScreen
+import com.andresen.overwatch.feature_chat.view.ChatScreen
+import com.andresen.overwatch.feature_map.view.MapScreen
 import com.andresen.overwatch.feature_map.viewmodel.MapViewModel
 import com.andresen.overwatch.feature_units.view.UnitsScreen
 

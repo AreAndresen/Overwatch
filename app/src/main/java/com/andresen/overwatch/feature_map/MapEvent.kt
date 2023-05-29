@@ -1,4 +1,4 @@
-package com.andresen.overwatch.feature_map.view
+package com.andresen.overwatch.feature_map
 
 import com.andresen.overwatch.feature_map.model.TargetUi
 import com.google.android.gms.maps.model.LatLng

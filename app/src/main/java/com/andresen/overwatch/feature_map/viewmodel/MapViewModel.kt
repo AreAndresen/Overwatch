@@ -10,7 +10,7 @@ import com.andresen.overwatch.feature_map.model.TargetUi
 import com.andresen.overwatch.feature_map.repository.data.local.datastore.PositionPreferenceRepository
 import com.andresen.overwatch.feature_map.repository.data.local.db.TargetRepository
 import com.andresen.overwatch.feature_map.repository.data.remote.db.MapRepository
-import com.andresen.overwatch.feature_map.view.MapEvent
+import com.andresen.overwatch.feature_map.MapEvent
 import com.andresen.overwatch.main.helper.network.DataResult
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.model.LatLng

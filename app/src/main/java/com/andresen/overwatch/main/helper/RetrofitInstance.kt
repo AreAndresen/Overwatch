@@ -1,5 +1,6 @@
-package com.andresen.overwatch.feature_map.repository.data.remote.db
+package com.andresen.overwatch.main.helper
 
+import com.andresen.overwatch.feature_map.repository.data.remote.db.MapApiService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

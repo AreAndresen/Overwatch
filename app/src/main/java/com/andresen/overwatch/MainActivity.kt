@@ -26,7 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import com.andresen.overwatch.main.components.composable.components.MapTopAppBar
 import com.andresen.overwatch.main.components.composable.theme.OverwatchComposableTheme
 import com.andresen.overwatch.main.components.composable.theme.OverwatchTheme
-import com.andresen.overwatch.feature_map.view.MapEvent
+import com.andresen.overwatch.feature_map.MapEvent
 import com.andresen.overwatch.feature_map.viewmodel.MapViewModel
 import com.andresen.overwatch.main.navigation.OverwatchNavHost
 import com.andresen.overwatch.main.navigation.Screen
