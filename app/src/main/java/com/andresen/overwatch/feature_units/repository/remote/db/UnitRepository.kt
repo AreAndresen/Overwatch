@@ -10,9 +10,7 @@ class UnitRepository(
     private val requestHelper: RequestHelper,
     private val dispatchers: OverwatchDispatchers,
 ) {
-    //suspend fun getUnits(): List<UnitDto> = api.getUnits()
-
-    suspend fun getUnits(): DataResult<out List<UnitDto>> = // UnitsWrapperDto
+    suspend fun getUnits(): DataResult<out List<UnitDto>> =
         withContext(dispatchers.io) {
             requestHelper.tryRequest {
                 api.getUnits()

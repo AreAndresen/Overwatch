@@ -3,6 +3,7 @@
     <string name="title_feature_overview">Feature overview</string>
     <string name="permission_location_rationale">This app requires the location permission to be granted.</string>
 
+    <string name="unit_id">UNIT ID: %1$s</string>
 
     <string name="map_edit">Edit profile</string>
     <string name="map_nightvision_toggle_desc">Toggle nightvision</string>

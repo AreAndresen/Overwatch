@@ -7,6 +7,6 @@ interface UnitApiService {
 
     @GET("photos")
     @Headers("Accept: application/json")
-    suspend fun getUnits(): List<UnitDto> //UnitsWrapperDto
+    suspend fun getUnits(): List<UnitDto>
 
 }
