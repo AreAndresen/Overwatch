@@ -7,8 +7,6 @@ sealed class MapEvent {
 
     object ToggleNightVision: MapEvent()
 
-   // object LocateLastTarget: MapEvent()
-
     data class UpdateZoomLocation(val latLng: LatLng): MapEvent()
 
     data class OnMapLongClick(val latLng: LatLng): MapEvent()

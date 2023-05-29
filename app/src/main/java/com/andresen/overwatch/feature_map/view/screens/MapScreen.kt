@@ -51,13 +51,10 @@ fun MapScreen(
     storeLatestTargetLocation: (LatLng) -> Unit = { },
 ) {
 
-
     val uiState = when (val contentUi = mapUiState.mapContent) {
         is MapContentUi.MapContent -> contentUi
         else -> null
     }
-
-    val mapTopAppBarUiState = mapUiState.mapTopAppBar
 
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
@@ -72,28 +69,6 @@ fun MapScreen(
         )
     }
 
-    val mapProperties = if (uiState != null) {
-        remember {
-            MapProperties(
-                isMyLocationEnabled = uiState.userLocation != null,
-                mapStyleOptions = if (mapTopAppBarUiState.isNightVision) {
-                    null
-                } else MapStyleOptions(MapStyle.json),
-                mapType = if (mapTopAppBarUiState.isNightVision) {
-                    MapType.TERRAIN
-                } else MapType.NORMAL
-            )
-        }
-    } else MapProperties()
-
-
-    /*val isNightVision = if (uiState != null) {
-        remember {
-            uiState.isNightVision
-        }
-    } else false */
-
-
     val cameraPositionState = if (uiState != null) {
         rememberCameraPositionState {
             position = CameraPosition.fromLatLngZoom(
@@ -101,7 +76,6 @@ fun MapScreen(
             )
         }
     } else rememberCameraPositionState()
-
 
 
     Scaffold(
@@ -149,7 +123,7 @@ fun MapScreen(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize(),
-            properties = uiState?.properties ?: MapProperties(), //viewModel.state.properties,
+            properties = uiState?.properties ?: MapProperties(),
             uiSettings = uiSettings,
             onMapLongClick = {
                 storeLatestTargetLocation(it)
