@@ -11,7 +11,7 @@ import com.andresen.overwatch.feature_map.repository.data.local.datastore.Positi
 import com.andresen.overwatch.feature_map.repository.data.local.db.TargetRepository
 import com.andresen.overwatch.feature_map.repository.data.remote.db.MapRepository
 import com.andresen.overwatch.feature_map.view.MapEvent
-import com.andresen.overwatch.helper.network.DataResult
+import com.andresen.overwatch.main.helper.network.DataResult
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.flow.MutableStateFlow

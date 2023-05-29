@@ -1,4 +1,4 @@
-package com.andresen.overwatch.koinmodules.mapmodule
+package com.andresen.overwatch.main.koinmodules.mapmodule
 
 import android.content.Context
 import com.andresen.overwatch.feature_map.repository.data.local.datastore.PositionPreferenceRepository
@@ -8,12 +8,12 @@ import com.andresen.overwatch.feature_map.repository.data.local.db.TargetReposit
 import com.andresen.overwatch.feature_map.repository.data.local.db.TargetRepositoryImpl
 import com.andresen.overwatch.feature_map.repository.data.remote.db.MapRepository
 import com.andresen.overwatch.feature_map.viewmodel.MapViewModel
-import com.andresen.overwatch.helper.OverwatchDispatchers
-import com.andresen.overwatch.helper.OverwatchDispatchersRegular
-import com.andresen.overwatch.helper.network.ApiServiceFactoryImpl
-import com.andresen.overwatch.helper.network.ConnectionService
-import com.andresen.overwatch.helper.network.ConnectionServiceImpl
-import com.andresen.overwatch.helper.network.RequestHelper
+import com.andresen.overwatch.main.helper.OverwatchDispatchers
+import com.andresen.overwatch.main.helper.OverwatchDispatchersRegular
+import com.andresen.overwatch.main.helper.network.ApiServiceFactoryImpl
+import com.andresen.overwatch.main.helper.network.ConnectionService
+import com.andresen.overwatch.main.helper.network.ConnectionServiceImpl
+import com.andresen.overwatch.main.helper.network.RequestHelper
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module

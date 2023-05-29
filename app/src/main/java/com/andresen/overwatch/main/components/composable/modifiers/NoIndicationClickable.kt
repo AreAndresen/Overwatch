@@ -1,4 +1,4 @@
-package com.andresen.overwatch.composable.modifiers
+package com.andresen.overwatch.main.components.composable.modifiers
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource

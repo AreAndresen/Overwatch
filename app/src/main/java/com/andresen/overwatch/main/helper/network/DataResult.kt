@@ -1,4 +1,4 @@
-package com.andresen.overwatch.helper.network
+package com.andresen.overwatch.main.helper.network
 
 import retrofit2.HttpException
 import timber.log.Timber

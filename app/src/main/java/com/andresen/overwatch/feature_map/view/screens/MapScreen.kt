@@ -21,8 +21,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.andresen.overwatch.R
-import com.andresen.overwatch.composable.theme.MapStyle
-import com.andresen.overwatch.composable.theme.OverwatchTheme
+import com.andresen.overwatch.main.components.composable.theme.MapStyle
+import com.andresen.overwatch.main.components.composable.theme.OverwatchTheme
 import com.andresen.overwatch.feature_map.model.MapContentUi
 import com.andresen.overwatch.feature_map.model.MapUi
 import com.andresen.overwatch.feature_map.model.TargetUi

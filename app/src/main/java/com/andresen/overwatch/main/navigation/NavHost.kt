@@ -1,4 +1,4 @@
-package com.andresen.overwatch.navigationcompose
+package com.andresen.overwatch.main.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

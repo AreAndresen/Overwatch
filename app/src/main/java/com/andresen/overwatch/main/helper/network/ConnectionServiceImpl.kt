@@ -1,4 +1,4 @@
-package com.andresen.overwatch.helper.network
+package com.andresen.overwatch.main.helper.network
 
 import android.app.Application
 import android.content.Context

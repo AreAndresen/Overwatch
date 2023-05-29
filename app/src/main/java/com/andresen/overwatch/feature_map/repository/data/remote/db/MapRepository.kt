@@ -1,8 +1,8 @@
 package com.andresen.overwatch.feature_map.repository.data.remote.db
 
-import com.andresen.overwatch.helper.OverwatchDispatchers
-import com.andresen.overwatch.helper.network.DataResult
-import com.andresen.overwatch.helper.network.RequestHelper
+import com.andresen.overwatch.main.helper.OverwatchDispatchers
+import com.andresen.overwatch.main.helper.network.DataResult
+import com.andresen.overwatch.main.helper.network.RequestHelper
 import kotlinx.coroutines.withContext
 
 class MapRepository(

@@ -1,4 +1,4 @@
-package com.andresen.overwatch.helper.network
+package com.andresen.overwatch.main.helper.network
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

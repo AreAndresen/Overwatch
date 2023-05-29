@@ -1,4 +1,4 @@
-package com.andresen.overwatch.helper.network
+package com.andresen.overwatch.main.helper.network
 
 import kotlinx.coroutines.withTimeout
 import okhttp3.internal.http2.ConnectionShutdownException

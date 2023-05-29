@@ -1,4 +1,4 @@
-package com.andresen.overwatch.composable.components
+package com.andresen.overwatch.main.components.composable.components
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.Icon
@@ -14,8 +14,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.andresen.overwatch.R
-import com.andresen.overwatch.composable.modifiers.noIndicationClickable
-import com.andresen.overwatch.composable.theme.OverwatchTheme
+import com.andresen.overwatch.main.components.composable.modifiers.noIndicationClickable
+import com.andresen.overwatch.main.components.composable.theme.OverwatchTheme
 import com.andresen.overwatch.feature_map.model.MapTopAppBar
 
 @Composable

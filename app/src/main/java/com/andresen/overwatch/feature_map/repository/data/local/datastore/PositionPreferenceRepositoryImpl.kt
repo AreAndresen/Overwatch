@@ -3,7 +3,7 @@ package com.andresen.overwatch.feature_map.repository.data.local.datastore
 import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
-import com.andresen.overwatch.helper.OverwatchDispatchers
+import com.andresen.overwatch.main.helper.OverwatchDispatchers
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext

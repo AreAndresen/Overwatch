@@ -1,4 +1,4 @@
-package com.andresen.overwatch.composable.theme
+package com.andresen.overwatch.main.components.composable.theme
 
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.material.ripple.LocalRippleTheme

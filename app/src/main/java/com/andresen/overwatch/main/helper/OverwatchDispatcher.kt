@@ -1,4 +1,4 @@
-package com.andresen.overwatch.helper
+package com.andresen.overwatch.main.helper
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

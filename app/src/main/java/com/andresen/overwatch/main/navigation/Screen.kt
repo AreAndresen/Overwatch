@@ -1,4 +1,4 @@
-package com.andresen.overwatch.navigationcompose
+package com.andresen.overwatch.main.navigation
 
 import androidx.annotation.StringRes
 import com.andresen.overwatch.R

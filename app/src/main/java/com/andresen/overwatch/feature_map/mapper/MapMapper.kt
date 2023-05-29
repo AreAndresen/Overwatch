@@ -1,7 +1,7 @@
 package com.andresen.overwatch.feature_map.mapper
 
 import android.location.Location
-import com.andresen.overwatch.composable.theme.MapStyle
+import com.andresen.overwatch.main.components.composable.theme.MapStyle
 import com.andresen.overwatch.feature_map.model.MapContentUi
 import com.andresen.overwatch.feature_map.model.MapTopAppBar
 import com.andresen.overwatch.feature_map.model.MapUi
