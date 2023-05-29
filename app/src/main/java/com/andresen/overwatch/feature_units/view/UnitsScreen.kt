@@ -1,8 +1,9 @@
-package com.andresen.overwatch.feature_map.view.screens
+package com.andresen.overwatch.feature_units.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
@@ -13,7 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 
 
 @Composable
-fun InfoScreen(
+fun UnitsScreen(
     modifier: Modifier = Modifier
 ) {
     val scaffoldState = rememberScaffoldState()
@@ -21,13 +22,13 @@ fun InfoScreen(
     Scaffold(
         modifier = Modifier,
         scaffoldState = scaffoldState,
-    ) {
+    ) { padding ->
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.padding(padding).fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("info Screen: ", textAlign = TextAlign.Center)
+            Text("Units screen: ", textAlign = TextAlign.Center)
         }
     }
 }

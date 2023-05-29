@@ -8,9 +8,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.andresen.overwatch.feature_map.model.MapUi
 import com.andresen.overwatch.feature_map.view.screens.ChatScreen
-import com.andresen.overwatch.feature_map.view.screens.InfoScreen
 import com.andresen.overwatch.feature_map.view.screens.MapScreen
 import com.andresen.overwatch.feature_map.viewmodel.MapViewModel
+import com.andresen.overwatch.feature_units.view.UnitsScreen
 
 @Composable
 fun OverwatchNavHost(
@@ -38,8 +38,8 @@ fun OverwatchNavHost(
                 }
             )
         }
-        composable("info") {
-            InfoScreen(modifier = modifier)
+        composable("units") {
+            UnitsScreen(modifier = modifier)
         }
     }
 }

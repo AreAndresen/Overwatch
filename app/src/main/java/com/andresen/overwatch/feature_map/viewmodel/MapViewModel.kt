@@ -128,7 +128,6 @@ class MapViewModel(
                 is DataResult.Success -> {
                     val friendliesDto = friendliesResult.data
 
-
                     repository.getTargets().collectLatest { targets ->
                         mutableMapState.value = MapMapper.createMapContent(
                             targets = targets,

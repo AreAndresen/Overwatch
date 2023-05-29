@@ -75,7 +75,7 @@ class MainActivity : ComponentActivity() {
                 val items = listOf(
                     Screen.Chat,
                     Screen.Map,
-                    Screen.Info,
+                    Screen.Units,
                 )
                 val scaffoldState = rememberScaffoldState()
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -104,7 +104,7 @@ class MainActivity : ComponentActivity() {
                                             painter = when (screen.route) {
                                                 "chat" -> painterResource(id = R.drawable.chat)
                                                 "map" -> painterResource(id = R.drawable.map)
-                                                "info" -> painterResource(id = R.drawable.info)
+                                                "units" -> painterResource(id = R.drawable.units)
                                                 else -> painterResource(id = R.drawable.map)
                                             },
                                             contentDescription = null

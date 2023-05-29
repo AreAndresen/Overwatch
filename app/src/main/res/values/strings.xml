@@ -13,7 +13,7 @@
     <string name="map_marker_friendly">FRIENDLY (long click to delete)</string>
     <string name="map_accessibility_top_bar_menu_button">Click to get settings menu</string>
     <string name="accessibility_home_button">Back to map</string>
-    <string name="map">map</string>
-    <string name="info">info</string>
-    <string name="chat">chat</string>
+    <string name="map">Map</string>
+    <string name="units">Units</string>
+    <string name="chat">Chat</string>
 </resources>
