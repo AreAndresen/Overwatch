@@ -8,6 +8,8 @@ import com.andresen.overwatch.feature_map.repository.data.local.db.TargetReposit
 import com.andresen.overwatch.feature_map.repository.data.local.db.TargetRepositoryImpl
 import com.andresen.overwatch.feature_map.repository.data.remote.db.MapRepository
 import com.andresen.overwatch.feature_map.viewmodel.MapViewModel
+import com.andresen.overwatch.feature_units.repository.remote.db.UnitRepository
+import com.andresen.overwatch.feature_units.viewmodel.UnitViewModel
 import com.andresen.overwatch.main.helper.OverwatchDispatchers
 import com.andresen.overwatch.main.helper.OverwatchDispatchersRegular
 import com.andresen.overwatch.main.helper.network.ApiServiceFactoryImpl
@@ -24,13 +26,6 @@ object MapModule {
     fun createModules(context: Context): List<Module> {
         return listOf(
             module {
-                /*single {
-                    Retrofit.Builder()
-                        .baseUrl("https://google.com")
-                        .addConverterFactory(MoshiConverterFactory.create())
-                        .build()
-                        .create(MyApi::class.java)
-                }*/
                 single { TargetDatabase.createDao(get()) }
                 single<TargetRepository> {
                     TargetRepositoryImpl(get())
@@ -43,10 +38,26 @@ object MapModule {
                 }
                 factory { RequestHelper(get()) }
                 single { ApiServiceFactoryImpl(get()) }
-                factory { MapRepository((get() as ApiServiceFactoryImpl).createService(), get(), get()) }
+                factory {
+                    MapRepository(
+                        (get() as ApiServiceFactoryImpl).createService(),
+                        get(),
+                        get()
+                    )
+                }
+                factory {
+                    UnitRepository(
+                        (get() as ApiServiceFactoryImpl).createService(),
+                        get(),
+                        get()
+                    )
+                }
                 factory<ConnectionService> { ConnectionServiceImpl(get()) }
                 viewModel {
                     MapViewModel(get(), get(), get())
+                }
+                viewModel {
+                    UnitViewModel(get())
                 }
                 single<OverwatchDispatchers> { OverwatchDispatchersRegular }
 

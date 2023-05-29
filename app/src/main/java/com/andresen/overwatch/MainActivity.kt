@@ -28,6 +28,7 @@ import com.andresen.overwatch.main.components.composable.theme.OverwatchComposab
 import com.andresen.overwatch.main.components.composable.theme.OverwatchTheme
 import com.andresen.overwatch.feature_map.MapEvent
 import com.andresen.overwatch.feature_map.viewmodel.MapViewModel
+import com.andresen.overwatch.feature_units.viewmodel.UnitViewModel
 import com.andresen.overwatch.main.navigation.OverwatchNavHost
 import com.andresen.overwatch.main.navigation.Screen
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -38,6 +39,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainActivity : ComponentActivity() {
     private val mainViewModel: MainViewModel by viewModel()
     private val mapViewModel: MapViewModel by viewModel()
+    private val unitViewModel: UnitViewModel by viewModel()
 
     private val requestPermissionLauncher =
         registerForActivityResult(
@@ -69,6 +71,7 @@ class MainActivity : ComponentActivity() {
         askPermissions()
         setContent {
             val mapUiState by mapViewModel.state.collectAsState()
+            val unitsUiState by unitViewModel.state.collectAsState()
 
             OverwatchComposableTheme {
                 val navController = rememberNavController()
@@ -133,7 +136,8 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         startDestination = "map",
                         viewModel = mapViewModel,
-                        mapUiState = mapUiState
+                        mapUiState = mapUiState,
+                        unitsUiState = unitsUiState
                     )
                 }
             }

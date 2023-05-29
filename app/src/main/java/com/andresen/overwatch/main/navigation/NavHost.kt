@@ -10,6 +10,7 @@ import com.andresen.overwatch.feature_map.model.MapUi
 import com.andresen.overwatch.feature_chat.view.ChatScreen
 import com.andresen.overwatch.feature_map.view.MapScreen
 import com.andresen.overwatch.feature_map.viewmodel.MapViewModel
+import com.andresen.overwatch.feature_units.model.UnitsUi
 import com.andresen.overwatch.feature_units.view.UnitsScreen
 
 @Composable
@@ -18,7 +19,8 @@ fun OverwatchNavHost(
     navController: NavHostController = rememberNavController(),
     startDestination: String = "map",
     viewModel: MapViewModel,
-    mapUiState: MapUi
+    mapUiState: MapUi,
+    unitsUiState: UnitsUi
 ) {
     NavHost(
         modifier = modifier,
@@ -39,7 +41,10 @@ fun OverwatchNavHost(
             )
         }
         composable("units") {
-            UnitsScreen(modifier = modifier)
+            UnitsScreen(
+                modifier = modifier,
+                unitsUiState = unitsUiState
+            )
         }
     }
 }

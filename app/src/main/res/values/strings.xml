@@ -16,4 +16,7 @@
     <string name="map">Map</string>
     <string name="units">Units</string>
     <string name="chat">Chat</string>
+    <string name="loading_failed">Loading failed</string>
+    <string name="retry">Retry</string>
+    <string name="loading">loading</string>
 </resources>

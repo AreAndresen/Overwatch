@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlinx-serialization'
     id 'kotlin-kapt'
     id 'kotlin-android'
     id 'kotlin-parcelize'
@@ -152,13 +153,15 @@ dependencies {
 
     // Retrofit
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
-    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
     implementation "io.coil-kt:coil-compose:2.2.2"
 
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation "com.squareup.okhttp3:okhttp:4.9.0"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
+
+    // Retrofit with Scalar Converter
+    implementation "com.squareup.retrofit2:converter-scalars:2.9.0"
 
     implementation "com.jakewharton.timber:timber:$timber_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
@@ -167,7 +170,15 @@ dependencies {
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
 
+    // Retrofit with Kotlin serialization Converter
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
+
     // implementation platform('androidx.compose:compose-bom:2023.01.00')
+
+    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
+    implementation  "com.squareup.retrofit2:converter-moshi:$retrofit_version"
 
     /* KTX for the Maps SDK for Android
     implementation 'com.google.maps.android:maps-ktx:3.2.1'
