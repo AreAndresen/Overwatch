@@ -17,8 +17,6 @@ import com.andresen.overwatch.R
 import com.andresen.overwatch.composable.modifiers.noIndicationClickable
 import com.andresen.overwatch.composable.theme.OverwatchTheme
 import com.andresen.overwatch.feature_map.model.MapTopAppBar
-import com.andresen.overwatch.feature_map.model.MapUi
-import com.andresen.overwatch.feature_map.viewmodel.MapViewModel
 
 @Composable
 fun MapTopAppBar(

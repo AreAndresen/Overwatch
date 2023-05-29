@@ -13,7 +13,6 @@ sealed interface MapContentUi {
     object Error : MapContentUi
 
     data class MapContent(
-        val isNightVision: Boolean = false,
         val userLocation: LatLng? = null,
         val zoomLocation: LatLng,
         val properties: MapProperties = MapProperties(),

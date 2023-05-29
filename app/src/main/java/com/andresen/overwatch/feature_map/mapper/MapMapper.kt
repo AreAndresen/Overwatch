@@ -11,7 +11,6 @@ import com.andresen.overwatch.feature_map.repository.data.remote.db.FriendlyTarg
 import com.andresen.overwatch.feature_map.repository.data.remote.db.FriendlyTargetWrapperDto
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapType
 
 object MapMapper {
@@ -42,7 +41,6 @@ object MapMapper {
                 isNightVision = false
             ),
             mapContent = MapContentUi.MapContent(
-                isNightVision = false,
                 userLocation = if (userLocation != null) {
                     LatLng(userLocation.latitude, userLocation.longitude)
                 } else null,
@@ -53,60 +51,31 @@ object MapMapper {
         )
     }
 
-    /*fun updateMapContent(
-        mapUi: MapUi,
-        targets: List<TargetUi>,
-        friendlies: FriendlyTargetWrapperDto,
-        zoomLocation: LatLng,
-        userLocation: Location? = null,
-    ): MapUi {
-        val mapContent = mapUi.mapContent
-        return if (mapContent is MapContentUi.MapContent) {
-            mapUi.copy(
-                mapContent = mapContent.copy(
-                    isNightVision = !mapContent.isNightVision,
-                    userLocation = if (userLocation != null) {
-                        LatLng(userLocation.latitude, userLocation.longitude)
-                    } else null,
-                    zoomLocation = zoomLocation,
-                    properties = MapProperties(
-                        isMyLocationEnabled = userLocation != null,
-                        mapStyleOptions = if (mapContent.isNightVision) {
-                            null
-                        } else MapStyleOptions(MapStyle.json),
-                        mapType = if (mapContent.isNightVision) {
-                            MapType.TERRAIN
-                        } else MapType.NORMAL
-                    ),
-                    targets = targets,
-                    friendlies = mapFriendlies(friendlies)
-            )
-            )
-        } else mapUi
-    }*/
-
 
     fun updateToggleNightVision(
         mapUi: MapUi,
     ): MapUi {
+        val mapTopAppBar = mapUi.mapTopAppBar
         val mapContent = mapUi.mapContent
-
-        return if (mapContent is MapContentUi.MapContent) {
-            mapUi.copy(
-                mapContent = mapContent.copy(
-                    isNightVision = !mapContent.isNightVision,
-                    properties = MapProperties(
+        return mapUi.copy(
+            mapTopAppBar = mapTopAppBar.copy(
+                isNightVision = !mapTopAppBar.isNightVision
+            ),
+            mapContent = if (mapContent is MapContentUi.MapContent) {
+                mapContent.copy(
+                    properties = mapContent.properties.copy(
                         isMyLocationEnabled = mapContent.userLocation != null,
-                        mapStyleOptions = if (mapContent.isNightVision) {
+                        mapStyleOptions = if (mapTopAppBar.isNightVision) {
                             null
                         } else MapStyleOptions(MapStyle.json),
-                        mapType = if (mapContent.isNightVision) {
+                        mapType = if (mapTopAppBar.isNightVision) {
                             MapType.TERRAIN
                         } else MapType.NORMAL
                     )
                 )
-            )
-        } else mapUi
+            } else mapContent
+
+        )
     }
 
     fun updateZoomLocation(

@@ -1,6 +1,5 @@
 package com.andresen.overwatch.feature_map.view.screens
 
-import android.location.Location
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExtendedFloatingActionButton
@@ -22,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.andresen.overwatch.R
+import com.andresen.overwatch.composable.theme.MapStyle
 import com.andresen.overwatch.composable.theme.OverwatchTheme
 import com.andresen.overwatch.feature_map.model.MapContentUi
 import com.andresen.overwatch.feature_map.model.MapUi
@@ -32,10 +32,10 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.compose.CameraPositionState
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.MapEffect
 import com.google.maps.android.compose.MapProperties
+import com.google.maps.android.compose.MapType
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
@@ -48,15 +48,17 @@ fun MapScreen(
     modifier: Modifier,
     viewModel: MapViewModel,
     mapUiState: MapUi,
-    updateZoomLocation: (LatLng) -> Unit = { },
     storeLatestTargetLocation: (LatLng) -> Unit = { },
 ) {
 
 
-    val uiState =  when (val contentUi = mapUiState.mapContent) {
+    val uiState = when (val contentUi = mapUiState.mapContent) {
         is MapContentUi.MapContent -> contentUi
         else -> null
     }
+
+    val mapTopAppBarUiState = mapUiState.mapTopAppBar
+
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
 
@@ -70,21 +72,33 @@ fun MapScreen(
         )
     }
 
+    val mapProperties = if (uiState != null) {
+        remember {
+            MapProperties(
+                isMyLocationEnabled = uiState.userLocation != null,
+                mapStyleOptions = if (mapTopAppBarUiState.isNightVision) {
+                    null
+                } else MapStyleOptions(MapStyle.json),
+                mapType = if (mapTopAppBarUiState.isNightVision) {
+                    MapType.TERRAIN
+                } else MapType.NORMAL
+            )
+        }
+    } else MapProperties()
 
 
-    val mapProperties by remember {
-        mutableStateOf(
-            uiState?.properties
-        )
-    }
+    /*val isNightVision = if (uiState != null) {
+        remember {
+            uiState.isNightVision
+        }
+    } else false */
 
 
-     // todo doesnt work - too fast
-    val cameraPositionState = if(uiState != null) {
+    val cameraPositionState = if (uiState != null) {
         rememberCameraPositionState {
             position = CameraPosition.fromLatLngZoom(
-                uiState.zoomLocation
-                , 15f)
+                uiState.zoomLocation, 15f
+            )
         }
     } else rememberCameraPositionState()
 
@@ -100,7 +114,7 @@ fun MapScreen(
                     .padding(all = 16.dp),
                 onClick = {
                     scope.launch {
-                        if(uiState != null) {
+                        if (uiState != null) {
                             cameraPositionState.animate(
                                 update = CameraUpdateFactory.newLatLngZoom(
                                     uiState.zoomLocation,
@@ -135,7 +149,7 @@ fun MapScreen(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize(),
-            properties = mapProperties ?: MapProperties(), //viewModel.state.properties,
+            properties = uiState?.properties ?: MapProperties(), //viewModel.state.properties,
             uiSettings = uiSettings,
             onMapLongClick = {
                 storeLatestTargetLocation(it)
@@ -150,34 +164,11 @@ fun MapScreen(
                     contentUi.friendlies.forEach { target ->
                         createMarker(target, viewModel)
                     }
-                    if(uiState != null) {
-                        MapEffect(contentUi.userLocation) { map ->
-                            map.setOnMapLoadedCallback {
-                                scope.launch {
-                                    cameraPositionState.animate(
-                                        update = CameraUpdateFactory.newLatLngZoom(
-                                            uiState.zoomLocation,
-                                            15f
-                                        ),
-                                    )
-                                }
-                            }
-                        }
-                    }
                 }
             }
         }
     }
 }
-
-private suspend fun CameraPositionState.centerOnLocation(
-    location: Location
-) = animate(
-    update = CameraUpdateFactory.newLatLngZoom(
-        LatLng(location.latitude, location.longitude),
-        15f
-    ),
-)
 
 @Composable
 private fun createMarker(
