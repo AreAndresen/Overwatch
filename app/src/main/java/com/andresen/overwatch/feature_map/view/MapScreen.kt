@@ -107,7 +107,7 @@ fun MapScreen(
                 },
                 icon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.map),
+                        painter = painterResource(id = R.drawable.unit),
                         contentDescription = stringResource(id = R.string.map_locate_target),
                         tint = Color.Red
                     )
