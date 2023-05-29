@@ -4,11 +4,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -25,11 +23,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.andresen.overwatch.R
@@ -63,6 +59,7 @@ fun UnitsScreen(
                 is UnitsContentUi.Success -> {
                     PhotosGridScreen(state.units)
                 }
+
                 is UnitsContentUi.Error -> {} //todo ErrorScreen(retryAction, modifier)
             }
         }
@@ -83,11 +80,11 @@ fun PhotosGridScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Box(contentAlignment = Alignment.Center) {
+                Box(contentAlignment = Alignment.BottomCenter) {
                     UnitPhotoCard(units[index])
                     Icon(
-                        modifier = Modifier.size(150.dp),//fillMaxWidth(),
-                        painter = painterResource(R.drawable.units),
+                        modifier = Modifier.size(150.dp),
+                        painter = painterResource(R.drawable.unit),
                         contentDescription = null,
                         tint = OverwatchTheme.colors.mediumLight10
                     )
