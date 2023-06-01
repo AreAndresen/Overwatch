@@ -4,13 +4,13 @@ import android.annotation.SuppressLint
 import android.location.Location
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.andresen.overwatch.feature_map.MapEvent
 import com.andresen.overwatch.feature_map.mapper.MapMapper
 import com.andresen.overwatch.feature_map.model.MapUi
 import com.andresen.overwatch.feature_map.model.TargetUi
 import com.andresen.overwatch.feature_map.repository.data.local.datastore.PositionPreferenceRepository
 import com.andresen.overwatch.feature_map.repository.data.local.db.TargetRepository
 import com.andresen.overwatch.feature_map.repository.data.remote.db.MapRepository
-import com.andresen.overwatch.feature_map.MapEvent
 import com.andresen.overwatch.main.helper.network.DataResult
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.model.LatLng
@@ -66,15 +66,15 @@ class MapViewModel(
                     }
                 }
 
-                is MapEvent.OnMapLongClick -> {
+                is MapEvent.CreateTargetLongClick -> {
                     mutableMapState.update { mapState ->
-                        updateInsertTargetMarkers(mapState, event)
+                        createTargetLongClick(mapState, event)
                     }
                 }
 
                 is MapEvent.OnInfoBoxLongClick -> {
                     mutableMapState.update { mapState ->
-                        updateDeleteTargetMarkers(mapState, event)
+                        deleteTargetOnInfoBoxLongClick(mapState, event)
                     }
                 }
 
@@ -93,9 +93,9 @@ class MapViewModel(
     }
 
 
-    private suspend fun updateInsertTargetMarkers(
+    private suspend fun createTargetLongClick(
         mapUi: MapUi,
-        event: MapEvent.OnMapLongClick
+        event: MapEvent.CreateTargetLongClick
     ): MapUi {
         repository.insertTarget(
             TargetUi(
@@ -104,10 +104,10 @@ class MapViewModel(
             )
         )
 
-        return MapMapper.updateInsertTargetMarkers(mapUi, mutableTargetMarkers.value)
+        return MapMapper.updateTargetMarkers(mapUi, mutableTargetMarkers.value)
     }
 
-    private suspend fun updateDeleteTargetMarkers(
+    private suspend fun deleteTargetOnInfoBoxLongClick(
         mapUi: MapUi,
         event: MapEvent.OnInfoBoxLongClick
     ): MapUi {
@@ -115,7 +115,7 @@ class MapViewModel(
             target = event.target
         )
 
-        return MapMapper.updateDeleteTargetMarkers(mapUi, mutableTargetMarkers.value)
+        return MapMapper.updateTargetMarkers(mapUi, mutableTargetMarkers.value)
     }
 
     private fun updateDeviceLocation(mapUi: MapUi, latLng: LatLng): MapUi {
@@ -160,7 +160,10 @@ class MapViewModel(
 
                     // todo - if i want to use this for something like rendering animation at init
                     mutableMapState.update { mapState ->
-                        updateDeviceLocation(mapState,LatLng(location.latitude, location.longitude))
+                        updateDeviceLocation(
+                            mapState,
+                            LatLng(location.latitude, location.longitude)
+                        )
                         //updateZoomLocation(mapState, LatLng(location.latitude, location.longitude))
                     }
                 }
@@ -171,9 +174,12 @@ class MapViewModel(
     }
 
 
-    fun setLastTargetLocation(latLng: LatLng) {
+    fun createTargetMarker(latLng: LatLng) {
         viewModelScope.launch {
             mutableMapState.update { mapState ->
+                onEvent(MapEvent.CreateTargetLongClick(latLng))
+
+                // update last target location - to get zoom to correct area
                 updateZoomLocation(mapState, latLng)
             }
 

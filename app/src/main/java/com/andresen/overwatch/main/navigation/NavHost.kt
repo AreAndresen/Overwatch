@@ -6,21 +6,23 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.andresen.overwatch.feature_map.model.MapUi
 import com.andresen.overwatch.feature_chat.view.ChatScreen
+import com.andresen.overwatch.feature_map.model.MapUi
+import com.andresen.overwatch.feature_map.model.TargetUi
 import com.andresen.overwatch.feature_map.view.MapScreen
-import com.andresen.overwatch.feature_map.viewmodel.MapViewModel
 import com.andresen.overwatch.feature_units.model.UnitsUi
 import com.andresen.overwatch.feature_units.view.UnitsScreen
+import com.google.android.gms.maps.model.LatLng
 
 @Composable
 fun OverwatchNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     startDestination: String = "map",
-    viewModel: MapViewModel,
     mapUiState: MapUi,
-    unitsUiState: UnitsUi
+    unitsUiState: UnitsUi,
+    onCreateTargetLongClick: (LatLng) -> Unit = { },
+    onDeleteTargetOnInfoBoxLongClick: (TargetUi) -> Unit = { },
 ) {
     NavHost(
         modifier = modifier,
@@ -33,10 +35,12 @@ fun OverwatchNavHost(
         composable("map") {
             MapScreen(
                 modifier = modifier,
-                viewModel = viewModel,
                 mapUiState = mapUiState,
-                storeLatestTargetLocation = {
-                    viewModel.setLastTargetLocation(it)
+                onCreateTargetLongClick = {
+                    onCreateTargetLongClick(it)
+                },
+                onDeleteTargetOnInfoBoxLongClick = {
+                    onDeleteTargetOnInfoBoxLongClick(it)
                 }
             )
         }

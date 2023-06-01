@@ -23,12 +23,12 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.andresen.overwatch.main.components.composable.components.MapTopAppBar
-import com.andresen.overwatch.main.components.composable.theme.OverwatchComposableTheme
-import com.andresen.overwatch.main.components.composable.theme.OverwatchTheme
 import com.andresen.overwatch.feature_map.MapEvent
 import com.andresen.overwatch.feature_map.viewmodel.MapViewModel
 import com.andresen.overwatch.feature_units.viewmodel.UnitViewModel
+import com.andresen.overwatch.main.components.composable.components.MapTopAppBar
+import com.andresen.overwatch.main.components.composable.theme.OverwatchComposableTheme
+import com.andresen.overwatch.main.components.composable.theme.OverwatchTheme
 import com.andresen.overwatch.main.navigation.OverwatchNavHost
 import com.andresen.overwatch.main.navigation.Screen
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -135,9 +135,16 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding),
                         navController = navController,
                         startDestination = "map",
-                        viewModel = mapViewModel,
                         mapUiState = mapUiState,
-                        unitsUiState = unitsUiState
+                        unitsUiState = unitsUiState,
+                        onCreateTargetLongClick = {
+                            mapViewModel.createTargetMarker(it)
+                        },
+                        onDeleteTargetOnInfoBoxLongClick = { target ->
+                            mapViewModel.onEvent(
+                                MapEvent.OnInfoBoxLongClick(target)
+                            )
+                        },
                     )
                 }
             }

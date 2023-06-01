@@ -2,7 +2,6 @@ package com.andresen.overwatch.feature_map.view
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,22 +19,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import com.andresen.overwatch.R
-import com.andresen.overwatch.main.components.composable.theme.OverwatchTheme
 import com.andresen.overwatch.feature_map.model.MapContentUi
 import com.andresen.overwatch.feature_map.model.MapUi
 import com.andresen.overwatch.feature_map.model.TargetUi
-import com.andresen.overwatch.feature_map.MapEvent
-import com.andresen.overwatch.feature_map.viewmodel.MapViewModel
+import com.andresen.overwatch.main.components.composable.theme.OverwatchTheme
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -52,10 +47,10 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun MapScreen(
-    modifier: Modifier,
-    viewModel: MapViewModel,
+    modifier: Modifier = Modifier,
     mapUiState: MapUi,
-    storeLatestTargetLocation: (LatLng) -> Unit = { },
+    onDeleteTargetOnInfoBoxLongClick: (TargetUi) -> Unit = { },
+    onCreateTargetLongClick: (LatLng) -> Unit = { },
 ) {
 
     val uiState = when (val contentUi = mapUiState.mapContent) {
@@ -133,28 +128,30 @@ fun MapScreen(
             properties = uiState?.properties ?: MapProperties(),
             uiSettings = uiSettings,
             onMapLongClick = {
-                storeLatestTargetLocation(it)
-                viewModel.onEvent(MapEvent.OnMapLongClick(it))
+                onCreateTargetLongClick(it)
             }
         ) {
             when (val contentUi = mapUiState.mapContent) {
                 is MapContentUi.MapContent -> {
                     contentUi.targets.forEach { target ->
-                        createMarker(target, viewModel)
+                        CreateMarker(target, onDeleteTargetOnInfoBoxLongClick)
                     }
                     contentUi.friendlies.forEach { target ->
-                        createMarker(target, viewModel)
+                        CreateMarker(target, onDeleteTargetOnInfoBoxLongClick)
                     }
                 }
+
+                is MapContentUi.Error -> {}
+                is MapContentUi.Loading -> {}
             }
         }
     }
 }
 
 @Composable
-private fun createMarker(
+private fun CreateMarker(
     target: TargetUi,
-    viewModel: MapViewModel
+    onDeleteTargetOnInfoBoxLongClick: (TargetUi) -> Unit = { },
 ) {
     Marker(
         state = MarkerState(position = LatLng(target.lat, target.lng)),
@@ -163,9 +160,7 @@ private fun createMarker(
         ),
         snippet = "${target.lat}, ${target.lng}",
         onInfoWindowLongClick = {
-            viewModel.onEvent(
-                MapEvent.OnInfoBoxLongClick(target)
-            )
+            onDeleteTargetOnInfoBoxLongClick(target)
         },
         draggable = true,
         onClick = {
@@ -173,28 +168,28 @@ private fun createMarker(
             true
         },
         icon = if (target.friendly) {
-            BitmapFromVector(LocalContext.current, R.drawable.unit_marker_38) ?:BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)
+            bitmapFromVector(LocalContext.current, R.drawable.unit_marker_38)
+                ?: BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)
         } else {
-            BitmapFromVector(LocalContext.current, R.drawable.tarket_marker_38) ?:  BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
+            bitmapFromVector(LocalContext.current, R.drawable.tarket_marker_38)
+                ?: BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
         }
     )
 }
 
-private fun BitmapFromVector(context: Context, vectorResId:Int): BitmapDescriptor? {
-    //drawable generator
-    var vectorDrawable: Drawable
-    vectorDrawable= ContextCompat.getDrawable(context,vectorResId)!!
-    vectorDrawable.setBounds(0,0,vectorDrawable.intrinsicWidth,vectorDrawable.intrinsicHeight)
-    //bitmap genarator
-    var bitmap: Bitmap
-    bitmap = Bitmap.createBitmap(vectorDrawable.intrinsicWidth,vectorDrawable.intrinsicHeight,Bitmap.Config.ARGB_8888)
-    //canvas genaret
-    var canvas: Canvas
-    //pass bitmap in canvas constructor
-    canvas = Canvas(bitmap)
-    //pass canvas in drawable
-    vectorDrawable.draw(canvas)
-    //return BitmapDescriptorFactory
-    return BitmapDescriptorFactory.fromBitmap(bitmap)
+private fun bitmapFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
+    val vectorDrawable: Drawable = ContextCompat.getDrawable(context, vectorResId)!!
+    vectorDrawable.setBounds(0, 0, vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight)
 
+    val bitmap: Bitmap = Bitmap.createBitmap(
+        vectorDrawable.intrinsicWidth,
+        vectorDrawable.intrinsicHeight,
+        Bitmap.Config.ARGB_8888
+    )
+
+    val canvas: Canvas = Canvas(bitmap)
+
+    vectorDrawable.draw(canvas)
+
+    return BitmapDescriptorFactory.fromBitmap(bitmap)
 }

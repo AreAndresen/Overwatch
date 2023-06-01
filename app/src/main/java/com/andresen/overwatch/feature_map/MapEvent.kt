@@ -9,7 +9,7 @@ sealed class MapEvent {
 
     data class UpdateZoomLocation(val latLng: LatLng): MapEvent()
 
-    data class OnMapLongClick(val latLng: LatLng): MapEvent()
+    data class CreateTargetLongClick(val latLng: LatLng): MapEvent()
 
     data class CheckFriendlies(val latLng: LatLng): MapEvent()
 
