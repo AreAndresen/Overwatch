@@ -145,7 +145,7 @@ class MainActivity : ComponentActivity() {
                             mapViewModel.onEvent(
                                 MapEvent.OnInfoBoxLongClick(marker)
                             )
-                        },
+                        }
                     )
                 }
             }

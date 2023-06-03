@@ -157,6 +157,17 @@ object MapMapper {
         )
     }
 
+    fun mapMarkerUiToMarkerDto(
+        marker: MarkerUi
+    ): MarkerDto {
+        return MarkerDto(
+            id = marker.id,
+            friendly = marker.friendly,
+            lat = marker.lat,
+            lng = marker.lng,
+        )
+    }
+
     private fun mapDtoMarkers(
         markersDto: MarkerWrapperDto
     ): List<MarkerUi> {

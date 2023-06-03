@@ -1,11 +1,12 @@
 package com.andresen.overwatch.main.koinmodules.mapmodule
 
 import android.content.Context
+import com.andresen.overwatch.feature_map.MapGlobalEvent
 import com.andresen.overwatch.feature_map.repository.data.local.datastore.PositionPreferenceRepository
 import com.andresen.overwatch.feature_map.repository.data.local.datastore.PositionPreferenceRepositoryImpl
-import com.andresen.overwatch.feature_map.repository.data.local.db.MarkerDatabase
 import com.andresen.overwatch.feature_map.repository.data.local.db.MapLocalRepository
 import com.andresen.overwatch.feature_map.repository.data.local.db.MapLocalRepositoryImpl
+import com.andresen.overwatch.feature_map.repository.data.local.db.MarkerDatabase
 import com.andresen.overwatch.feature_map.repository.data.remote.db.MapRepository
 import com.andresen.overwatch.feature_map.repository.data.remote.db.MapRepositoryImpl
 import com.andresen.overwatch.feature_map.viewmodel.MapViewModel
@@ -43,7 +44,9 @@ object MapModule {
                     MapRepositoryImpl(
                         (get() as ApiServiceFactoryImpl).createService(),
                         get(),
-                        get())
+                        get(),
+                        get()
+                    )
                 }
                 factory {
                     UnitRepository(
@@ -52,9 +55,10 @@ object MapModule {
                         get()
                     )
                 }
+                single { MapGlobalEvent() }
                 factory<ConnectionService> { ConnectionServiceImpl(get()) }
                 viewModel {
-                    MapViewModel(get(), get(), get())
+                    MapViewModel(get(), get(), get(), get())
                 }
                 viewModel {
                     UnitViewModel(get())

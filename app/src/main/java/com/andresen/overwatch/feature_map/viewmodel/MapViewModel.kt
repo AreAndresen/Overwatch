@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.andresen.overwatch.feature_map.MapEvent
+import com.andresen.overwatch.feature_map.MapGlobalEvent
 import com.andresen.overwatch.feature_map.mapper.MapMapper
 import com.andresen.overwatch.feature_map.model.MapUi
 import com.andresen.overwatch.feature_map.model.MarkerUi
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -28,7 +30,8 @@ import timber.log.Timber
 class MapViewModel(
     private val localRepository: MapLocalRepository,
     private val remoteRepository: MapRepository,
-    private val positionPreferenceRepository: PositionPreferenceRepository
+    private val positionPreferenceRepository: PositionPreferenceRepository,
+    private val mapGlobalEvent: MapGlobalEvent
 ) : ViewModel() {
 
     private val mutableDeviceLocation: MutableStateFlow<LatLng?> = MutableStateFlow(null)
@@ -72,6 +75,12 @@ class MapViewModel(
 
     init {
         createMapContent()
+
+        mapGlobalEvent.mapUpdateListener().onEach {
+            createMapContent()
+        }.launchIn(viewModelScope)
+
+        //createMapContent()
     }
 
     fun onEvent(event: MapEvent) {
@@ -123,6 +132,15 @@ class MapViewModel(
         mapUi: MapUi,
         event: MapEvent.CreateMarkerLongClick
     ): MapUi {
+        remoteRepository.insertMarker(
+            MapMapper.mapMarkerUiToMarkerDto(
+                MarkerUi(
+                    lat = event.latLng.latitude,
+                    lng = event.latLng.longitude
+                )
+            )
+        )
+
         localRepository.insertMarker(
             MarkerUi(
                 lat = event.latLng.latitude,
@@ -137,11 +155,24 @@ class MapViewModel(
         mapUi: MapUi,
         event: MapEvent.OnInfoBoxLongClick
     ): MapUi {
-        localRepository.deleteMarker(
-            marker = event.marker
+        remoteRepository.deleteMarker(
+            MapMapper.mapMarkerUiToMarkerDto(
+                event.marker
+            )
         )
+        return if (!event.marker.friendly) {
+            // doesn't make sense to delete friendlies as these come from API, just for show here
+            /*localRepository.deleteMarker(
+                marker = event.marker
+            )*/
 
-        return MapMapper.updateUiMarkers(mapUi, mutableMarkers.value)
+            localRepository.deleteMarker(
+                marker = event.marker
+            )
+            MapMapper.updateUiMarkers(mapUi, mutableMarkers.value)
+        } else {
+            mapUi
+        }
     }
 
     private fun createMapContent() {
