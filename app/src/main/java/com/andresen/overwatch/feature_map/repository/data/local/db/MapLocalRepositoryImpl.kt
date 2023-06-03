@@ -18,8 +18,8 @@ class MapLocalRepositoryImpl(
     }
 
     override fun getMarkers(): Flow<List<MarkerUi>> {
-        return dao.getMarkers().map { target ->
-            target.map {
+        return dao.getMarkers().map { marker ->
+            marker.map {
                 MapMapper.mapMarkerEntityToMarkerUi(it)
             }
         }

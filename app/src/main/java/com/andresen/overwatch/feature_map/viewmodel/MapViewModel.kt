@@ -138,7 +138,7 @@ class MapViewModel(
         event: MapEvent.OnInfoBoxLongClick
     ): MapUi {
         localRepository.deleteMarker(
-            marker = event.target
+            marker = event.marker
         )
 
         return MapMapper.updateUiMarkers(mapUi, mutableMarkers.value)

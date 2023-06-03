@@ -26,7 +26,7 @@ object UnitsMapper {
         )
     }
 
-    private fun mapTargetDtoToTargetUi(
+    private fun mapUnitDtoToUnitUi(
         unit: UnitDto
     ): UnitUiModel {
         return UnitUiModel(
@@ -39,7 +39,7 @@ object UnitsMapper {
         units: List<UnitDto>
     ): List<UnitUiModel> {
         return units.map { dtoItem ->
-            mapTargetDtoToTargetUi(dtoItem)
+            mapUnitDtoToUnitUi(dtoItem)
         }
     }
 

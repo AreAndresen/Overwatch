@@ -49,8 +49,8 @@ import kotlinx.coroutines.launch
 fun MapScreen(
     modifier: Modifier = Modifier,
     mapUiState: MapUi,
-    onDeleteTargetOnInfoBoxLongClick: (MarkerUi) -> Unit = { },
-    onCreateTargetLongClick: (LatLng) -> Unit = { },
+    onDeleteMarkerOnInfoBoxLongClick: (MarkerUi) -> Unit = { },
+    onCreateMarkerLongClick: (LatLng) -> Unit = { },
 ) {
 
     val uiState = when (val contentUi = mapUiState.mapContent) {
@@ -128,17 +128,14 @@ fun MapScreen(
             properties = uiState?.properties ?: MapProperties(),
             uiSettings = uiSettings,
             onMapLongClick = {
-                onCreateTargetLongClick(it)
+                onCreateMarkerLongClick(it)
             }
         ) {
             when (val contentUi = mapUiState.mapContent) {
                 is MapContentUi.MapContent -> {
-                    contentUi.markers.forEach { target ->
-                        CreateMarker(target, onDeleteTargetOnInfoBoxLongClick)
+                    contentUi.markers.forEach { marker ->
+                        CreateMarker(marker, onDeleteMarkerOnInfoBoxLongClick)
                     }
-                    /*contentUi.friendlies.forEach { target ->
-                        CreateMarker(target, onDeleteTargetOnInfoBoxLongClick)
-                    }*/
                 }
 
                 is MapContentUi.Error -> {}
@@ -150,24 +147,24 @@ fun MapScreen(
 
 @Composable
 private fun CreateMarker(
-    target: MarkerUi,
-    onDeleteTargetOnInfoBoxLongClick: (MarkerUi) -> Unit = { },
+    marker: MarkerUi,
+    onDeleteMarkerOnInfoBoxLongClick: (MarkerUi) -> Unit = { },
 ) {
     Marker(
-        state = MarkerState(position = LatLng(target.lat, target.lng)),
-        title = if (target.friendly) stringResource(id = R.string.map_marker_friendly) else stringResource(
+        state = MarkerState(position = LatLng(marker.lat, marker.lng)),
+        title = if (marker.friendly) stringResource(id = R.string.map_marker_friendly) else stringResource(
             id = R.string.map_marker_target
         ),
-        snippet = "${target.lat}, ${target.lng}",
+        snippet = "${marker.lat}, ${marker.lng}",
         onInfoWindowLongClick = {
-            onDeleteTargetOnInfoBoxLongClick(target)
+            onDeleteMarkerOnInfoBoxLongClick(marker)
         },
         draggable = true,
         onClick = {
             it.showInfoWindow()
             true
         },
-        icon = if (target.friendly) {
+        icon = if (marker.friendly) {
             bitmapFromVector(LocalContext.current, R.drawable.unit_marker_38)
                 ?: BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)
         } else {

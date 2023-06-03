@@ -21,8 +21,8 @@ fun OverwatchNavHost(
     startDestination: String = "map",
     mapUiState: MapUi,
     unitsUiState: UnitsUi,
-    onCreateTargetLongClick: (LatLng) -> Unit = { },
-    onDeleteTargetOnInfoBoxLongClick: (MarkerUi) -> Unit = { },
+    onCreateMarkerLongClick: (LatLng) -> Unit = { },
+    onDeleteMarkerOnInfoBoxLongClick: (MarkerUi) -> Unit = { },
 ) {
     NavHost(
         modifier = modifier,
@@ -36,11 +36,11 @@ fun OverwatchNavHost(
             MapScreen(
                 modifier = modifier,
                 mapUiState = mapUiState,
-                onCreateTargetLongClick = {
-                    onCreateTargetLongClick(it)
+                onCreateMarkerLongClick = {
+                    onCreateMarkerLongClick(it)
                 },
-                onDeleteTargetOnInfoBoxLongClick = {
-                    onDeleteTargetOnInfoBoxLongClick(it)
+                onDeleteMarkerOnInfoBoxLongClick = {
+                    onDeleteMarkerOnInfoBoxLongClick(it)
                 }
             )
         }

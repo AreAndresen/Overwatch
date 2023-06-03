@@ -13,5 +13,5 @@ sealed class MapEvent {
 
     data class UpdateMarkers(val latLng: LatLng): MapEvent()
 
-    data class OnInfoBoxLongClick(val target: MarkerUi): MapEvent()
+    data class OnInfoBoxLongClick(val marker: MarkerUi): MapEvent()
 }
