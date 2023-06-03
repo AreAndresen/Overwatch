@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.andresen.overwatch.feature_chat.view.ChatScreen
 import com.andresen.overwatch.feature_map.model.MapUi
-import com.andresen.overwatch.feature_map.model.TargetUi
+import com.andresen.overwatch.feature_map.model.MarkerUi
 import com.andresen.overwatch.feature_map.view.MapScreen
 import com.andresen.overwatch.feature_units.model.UnitsUi
 import com.andresen.overwatch.feature_units.view.UnitsScreen
@@ -22,7 +22,7 @@ fun OverwatchNavHost(
     mapUiState: MapUi,
     unitsUiState: UnitsUi,
     onCreateTargetLongClick: (LatLng) -> Unit = { },
-    onDeleteTargetOnInfoBoxLongClick: (TargetUi) -> Unit = { },
+    onDeleteTargetOnInfoBoxLongClick: (MarkerUi) -> Unit = { },
 ) {
     NavHost(
         modifier = modifier,

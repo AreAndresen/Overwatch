@@ -8,14 +8,14 @@ import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface TargetDao {
+interface MarkerDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTarget(target: TargetEntity)
+    suspend fun insertMarker(marker: MarkerEntity)
 
     @Delete
-    suspend fun deleteTarget(target: TargetEntity)
+    suspend fun deleteMarker(marker: MarkerEntity)
 
-    @Query("SELECT * FROM targets")
-    fun getTargets(): Flow<List<TargetEntity>>
+    @Query("SELECT * FROM markers")
+    fun getMarkers(): Flow<List<MarkerEntity>>
 }

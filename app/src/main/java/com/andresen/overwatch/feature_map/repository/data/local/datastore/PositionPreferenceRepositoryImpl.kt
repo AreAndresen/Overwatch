@@ -26,7 +26,7 @@ class PositionPreferenceRepositoryImpl(
         preference[PositionPreferenceIds.LAST_POSITION_LNG]
     }
 
-    override suspend fun storeLastTargetPosition(latLng: LatLng) {
+    override suspend fun storeLastMarkerPosition(latLng: LatLng) {
         withContext(dispatchers.io) {
             dataStore.edit { preference ->
                 preference[PositionPreferenceIds.LAST_POSITION_LAT] = latLng.latitude

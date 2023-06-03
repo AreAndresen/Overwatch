@@ -16,13 +16,12 @@ sealed interface MapContentUi {
         val userLocation: LatLng? = null,
         val zoomLocation: LatLng,
         val properties: MapProperties = MapProperties(),
-        val targets: List<TargetUi> = emptyList(),
-        val friendlies: List<TargetUi> = emptyList(),
+        val markers: List<MarkerUi> = emptyList()
     ) : MapContentUi
 }
 
 
-data class TargetUi(
+data class MarkerUi(
     val id: Int? = null,
     val friendly: Boolean = false,
     val lat: Double,

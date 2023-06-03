@@ -3,10 +3,11 @@ package com.andresen.overwatch.main.koinmodules.mapmodule
 import android.content.Context
 import com.andresen.overwatch.feature_map.repository.data.local.datastore.PositionPreferenceRepository
 import com.andresen.overwatch.feature_map.repository.data.local.datastore.PositionPreferenceRepositoryImpl
-import com.andresen.overwatch.feature_map.repository.data.local.db.TargetDatabase
-import com.andresen.overwatch.feature_map.repository.data.local.db.TargetRepository
-import com.andresen.overwatch.feature_map.repository.data.local.db.TargetRepositoryImpl
+import com.andresen.overwatch.feature_map.repository.data.local.db.MarkerDatabase
+import com.andresen.overwatch.feature_map.repository.data.local.db.MapLocalRepository
+import com.andresen.overwatch.feature_map.repository.data.local.db.MapLocalRepositoryImpl
 import com.andresen.overwatch.feature_map.repository.data.remote.db.MapRepository
+import com.andresen.overwatch.feature_map.repository.data.remote.db.MapRepositoryImpl
 import com.andresen.overwatch.feature_map.viewmodel.MapViewModel
 import com.andresen.overwatch.feature_units.repository.remote.db.UnitRepository
 import com.andresen.overwatch.feature_units.viewmodel.UnitViewModel
@@ -26,9 +27,9 @@ object MapModule {
     fun createModules(context: Context): List<Module> {
         return listOf(
             module {
-                single { TargetDatabase.createDao(get()) }
-                single<TargetRepository> {
-                    TargetRepositoryImpl(get())
+                single { MarkerDatabase.createDao(get()) }
+                single<MapLocalRepository> {
+                    MapLocalRepositoryImpl(get())
                 }
                 single<PositionPreferenceRepository> {
                     PositionPreferenceRepositoryImpl(
@@ -38,12 +39,11 @@ object MapModule {
                 }
                 factory { RequestHelper(get()) }
                 single { ApiServiceFactoryImpl(get()) }
-                factory {
-                    MapRepository(
+                single<MapRepository> {
+                    MapRepositoryImpl(
                         (get() as ApiServiceFactoryImpl).createService(),
                         get(),
-                        get()
-                    )
+                        get())
                 }
                 factory {
                     UnitRepository(

@@ -1,6 +1,6 @@
 package com.andresen.overwatch.feature_map
 
-import com.andresen.overwatch.feature_map.model.TargetUi
+import com.andresen.overwatch.feature_map.model.MarkerUi
 import com.google.android.gms.maps.model.LatLng
 
 sealed class MapEvent {
@@ -9,9 +9,9 @@ sealed class MapEvent {
 
     data class UpdateZoomLocation(val latLng: LatLng): MapEvent()
 
-    data class CreateTargetLongClick(val latLng: LatLng): MapEvent()
+    data class CreateMarkerLongClick(val latLng: LatLng): MapEvent()
 
-    data class CheckFriendlies(val latLng: LatLng): MapEvent()
+    data class UpdateMarkers(val latLng: LatLng): MapEvent()
 
-    data class OnInfoBoxLongClick(val target: TargetUi): MapEvent()
+    data class OnInfoBoxLongClick(val target: MarkerUi): MapEvent()
 }

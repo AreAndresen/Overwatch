@@ -3,10 +3,10 @@ package com.andresen.overwatch.feature_map.mapper
 import com.andresen.overwatch.feature_map.model.MapContentUi
 import com.andresen.overwatch.feature_map.model.MapTopAppBar
 import com.andresen.overwatch.feature_map.model.MapUi
-import com.andresen.overwatch.feature_map.model.TargetUi
-import com.andresen.overwatch.feature_map.repository.data.local.db.TargetEntity
-import com.andresen.overwatch.feature_map.repository.data.remote.db.FriendlyTargetDto
-import com.andresen.overwatch.feature_map.repository.data.remote.db.FriendlyTargetWrapperDto
+import com.andresen.overwatch.feature_map.model.MarkerUi
+import com.andresen.overwatch.feature_map.repository.data.local.db.MarkerEntity
+import com.andresen.overwatch.feature_map.repository.data.remote.db.MarkerDto
+import com.andresen.overwatch.feature_map.repository.data.remote.db.MarkerWrapperDto
 import com.andresen.overwatch.main.components.composable.theme.MapStyle
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
@@ -31,11 +31,19 @@ object MapMapper {
 
 
     fun createMapContent(
-        targets: List<TargetUi>,
-        friendlies: FriendlyTargetWrapperDto,
+        localMarkers: List<MarkerUi>,
+        markersDto: MarkerWrapperDto,
         zoomLocation: LatLng,
         userLocation: LatLng? = null,
     ): MapUi {
+        val markersDtoMapped = mapDtoMarkers(markersDto)
+
+        val allMarkers = mutableListOf<MarkerUi>()
+        allMarkers.addAll(localMarkers)
+        markersDtoMapped.map { marker ->
+            allMarkers.add(marker)
+        }
+
         return MapUi(
             mapTopAppBar = MapTopAppBar(
                 isNightVision = false
@@ -43,13 +51,11 @@ object MapMapper {
             mapContent = MapContentUi.MapContent(
                 properties = MapProperties(
                     isMyLocationEnabled = userLocation != null,
-                    mapStyleOptions = null,
                     mapType = MapType.NORMAL
                 ),
                 userLocation = userLocation,
                 zoomLocation = zoomLocation,
-                targets = targets,
-                friendlies = mapFriendlies(friendlies)
+                markers = allMarkers,
             )
         )
     }
@@ -114,59 +120,59 @@ object MapMapper {
         } else mapUi
     }
 
-    fun updateTargetMarkers(
+    fun updateUiMarkers(
         mapUi: MapUi,
-        targets: List<TargetUi>
+        markersUi: List<MarkerUi>
     ): MapUi {
         val mapContent = mapUi.mapContent
 
         return if (mapContent is MapContentUi.MapContent) {
             mapUi.copy(
                 mapContent = mapContent.copy(
-                    targets = targets
+                    markers = markersUi
                 )
             )
         } else mapUi
     }
 
-    fun mapTargetEntityToTargetUi(
-        target: TargetEntity
-    ): TargetUi {
-        return TargetUi(
-            id = target.id,
-            friendly = target.friendly,
-            lat = target.lat,
-            lng = target.lng,
+    fun mapMarkerEntityToMarkerUi(
+        markerEntity: MarkerEntity
+    ): MarkerUi {
+        return MarkerUi(
+            id = markerEntity.id,
+            friendly = markerEntity.friendly,
+            lat = markerEntity.lat,
+            lng = markerEntity.lng,
         )
     }
 
-    private fun mapTargetDtoToTargetUi(
-        target: FriendlyTargetDto
-    ): TargetUi {
-        return TargetUi(
-            id = target.id,
-            friendly = target.friendly,
-            lat = target.lat,
-            lng = target.lng,
+    private fun mapMarkerDtoToMarkerUi(
+        markerDto: MarkerDto
+    ): MarkerUi {
+        return MarkerUi(
+            id = markerDto.id,
+            friendly = markerDto.friendly,
+            lat = markerDto.lat,
+            lng = markerDto.lng,
         )
     }
 
-    fun mapFriendlies(
-        friendlies: FriendlyTargetWrapperDto
-    ): List<TargetUi> {
-        return friendlies.friendlies.map { dtoItem ->
-            mapTargetDtoToTargetUi(dtoItem)
+    private fun mapDtoMarkers(
+        markersDto: MarkerWrapperDto
+    ): List<MarkerUi> {
+        return markersDto.markersDto.map { dtoItem ->
+            mapMarkerDtoToMarkerUi(dtoItem)
         }
     }
 
-    fun mapTargetUiToTargetEntity(
-        target: TargetUi
-    ): TargetEntity {
-        return TargetEntity(
-            id = target.id,
-            friendly = target.friendly,
-            lat = target.lat,
-            lng = target.lng,
+    fun mapMarkerUiToMarkerEntity(
+        markerUi: MarkerUi
+    ): MarkerEntity {
+        return MarkerEntity(
+            id = markerUi.id,
+            friendly = markerUi.friendly,
+            lat = markerUi.lat,
+            lng = markerUi.lng,
         )
     }
 }

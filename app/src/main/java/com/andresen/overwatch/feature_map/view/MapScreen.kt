@@ -29,7 +29,7 @@ import androidx.core.content.ContextCompat
 import com.andresen.overwatch.R
 import com.andresen.overwatch.feature_map.model.MapContentUi
 import com.andresen.overwatch.feature_map.model.MapUi
-import com.andresen.overwatch.feature_map.model.TargetUi
+import com.andresen.overwatch.feature_map.model.MarkerUi
 import com.andresen.overwatch.main.components.composable.theme.OverwatchTheme
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.BitmapDescriptor
@@ -49,7 +49,7 @@ import kotlinx.coroutines.launch
 fun MapScreen(
     modifier: Modifier = Modifier,
     mapUiState: MapUi,
-    onDeleteTargetOnInfoBoxLongClick: (TargetUi) -> Unit = { },
+    onDeleteTargetOnInfoBoxLongClick: (MarkerUi) -> Unit = { },
     onCreateTargetLongClick: (LatLng) -> Unit = { },
 ) {
 
@@ -68,12 +68,6 @@ fun MapScreen(
                 myLocationButtonEnabled = true,
                 compassEnabled = true
             )
-        )
-    }
-
-    val zoomLocation by remember {
-        mutableStateOf(
-            uiState?.zoomLocation ?: LatLng(0.0, 0.0)
         )
     }
 
@@ -139,12 +133,12 @@ fun MapScreen(
         ) {
             when (val contentUi = mapUiState.mapContent) {
                 is MapContentUi.MapContent -> {
-                    contentUi.targets.forEach { target ->
+                    contentUi.markers.forEach { target ->
                         CreateMarker(target, onDeleteTargetOnInfoBoxLongClick)
                     }
-                    contentUi.friendlies.forEach { target ->
+                    /*contentUi.friendlies.forEach { target ->
                         CreateMarker(target, onDeleteTargetOnInfoBoxLongClick)
-                    }
+                    }*/
                 }
 
                 is MapContentUi.Error -> {}
@@ -156,8 +150,8 @@ fun MapScreen(
 
 @Composable
 private fun CreateMarker(
-    target: TargetUi,
-    onDeleteTargetOnInfoBoxLongClick: (TargetUi) -> Unit = { },
+    target: MarkerUi,
+    onDeleteTargetOnInfoBoxLongClick: (MarkerUi) -> Unit = { },
 ) {
     Marker(
         state = MarkerState(position = LatLng(target.lat, target.lng)),

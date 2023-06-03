@@ -139,7 +139,7 @@ class MainActivity : ComponentActivity() {
                         mapUiState = mapUiState,
                         unitsUiState = unitsUiState,
                         onCreateTargetLongClick = {
-                            mapViewModel.createTargetMarker(it)
+                            mapViewModel.createMarker(it)
                         },
                         onDeleteTargetOnInfoBoxLongClick = { target ->
                             mapViewModel.onEvent(

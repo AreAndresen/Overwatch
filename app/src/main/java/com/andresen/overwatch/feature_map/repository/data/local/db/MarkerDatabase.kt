@@ -6,22 +6,22 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [TargetEntity::class],
+    entities = [MarkerEntity::class],
     version = 1,
     exportSchema = false
     // autoMigrations = [ AutoMigration(from = 1, to = 2) ]
 )
-abstract class TargetDatabase : RoomDatabase() {
+abstract class MarkerDatabase : RoomDatabase() {
 
-    abstract fun targetDao(): TargetDao
+    abstract fun markerDao(): MarkerDao
 
     companion object {
-        fun createDao(context: Context): TargetDao {
+        fun createDao(context: Context): MarkerDao {
             return Room.databaseBuilder(
                 context,
-                TargetDatabase::class.java,
-                "target_database.db"
-            ).build().targetDao()
+                MarkerDatabase::class.java,
+                "marker_database.db"
+            ).build().markerDao()
         }
 
     }

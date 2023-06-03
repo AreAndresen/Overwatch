@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.andresen.overwatch.feature_map.MapEvent
 import com.andresen.overwatch.feature_map.mapper.MapMapper
 import com.andresen.overwatch.feature_map.model.MapUi
-import com.andresen.overwatch.feature_map.model.TargetUi
+import com.andresen.overwatch.feature_map.model.MarkerUi
 import com.andresen.overwatch.feature_map.repository.data.local.datastore.PositionPreferenceRepository
-import com.andresen.overwatch.feature_map.repository.data.local.db.TargetRepository
+import com.andresen.overwatch.feature_map.repository.data.local.db.MapLocalRepository
 import com.andresen.overwatch.feature_map.repository.data.remote.db.MapRepository
 import com.andresen.overwatch.main.helper.network.DataResult
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -26,14 +26,14 @@ import timber.log.Timber
 
 
 class MapViewModel(
-    private val repository: TargetRepository,
-    private val mapRepository: MapRepository,
+    private val localRepository: MapLocalRepository,
+    private val remoteRepository: MapRepository,
     private val positionPreferenceRepository: PositionPreferenceRepository
 ) : ViewModel() {
 
     private val mutableDeviceLocation: MutableStateFlow<LatLng?> = MutableStateFlow(null)
 
-    private val mutableLastTargetLocation = positionPreferenceRepository.lastPositionLatFlow
+    private val mutablePreferenceLocation = positionPreferenceRepository.lastPositionLatFlow
         .combine(positionPreferenceRepository.lastPositionLngFlow) { lat, lng ->
             if (lat != null && lng != null) {
                 LatLng(lat, lng)
@@ -42,7 +42,7 @@ class MapViewModel(
             }
         }
 
-    private val mutableTargetMarkers: MutableStateFlow<List<TargetUi>> =
+    private val mutableMarkers: MutableStateFlow<List<MarkerUi>> =
         MutableStateFlow(emptyList())
 
     private val mutableMapState = MutableStateFlow(MapMapper.loading())
@@ -56,9 +56,9 @@ class MapViewModel(
                 mapUi
             }
         }
-        .combine(mutableLastTargetLocation) { mapUi, lastTargetLocation ->
-            if (lastTargetLocation != null) {
-                MapMapper.updateZoomLocation(mapUi, lastTargetLocation)
+        .combine(mutablePreferenceLocation) { mapUi, preferenceLoc ->
+            if (preferenceLoc != null) {
+                MapMapper.updateZoomLocation(mapUi, preferenceLoc)
             } else {
                 mapUi
             }
@@ -89,19 +89,19 @@ class MapViewModel(
                     }
                 }
 
-                is MapEvent.CreateTargetLongClick -> {
+                is MapEvent.CreateMarkerLongClick -> {
                     mutableMapState.update { mapState ->
-                        createTargetLongClick(mapState, event)
+                        createMarkerLongClick(mapState, event)
                     }
                 }
 
                 is MapEvent.OnInfoBoxLongClick -> {
                     mutableMapState.update { mapState ->
-                        deleteTargetOnInfoBoxLongClick(mapState, event)
+                        deleteMarkerOnInfoBoxLongClick(mapState, event)
                     }
                 }
 
-                is MapEvent.CheckFriendlies -> TODO()
+                is MapEvent.UpdateMarkers -> TODO()
             }
         }
     }
@@ -119,41 +119,41 @@ class MapViewModel(
         return MapMapper.updateDeviceLocation(mapUi, latLng)
     }
 
-    private suspend fun createTargetLongClick(
+    private suspend fun createMarkerLongClick(
         mapUi: MapUi,
-        event: MapEvent.CreateTargetLongClick
+        event: MapEvent.CreateMarkerLongClick
     ): MapUi {
-        repository.insertTarget(
-            TargetUi(
+        localRepository.insertMarker(
+            MarkerUi(
                 lat = event.latLng.latitude,
                 lng = event.latLng.longitude
             )
         )
 
-        return MapMapper.updateTargetMarkers(mapUi, mutableTargetMarkers.value)
+        return MapMapper.updateUiMarkers(mapUi, mutableMarkers.value)
     }
 
-    private suspend fun deleteTargetOnInfoBoxLongClick(
+    private suspend fun deleteMarkerOnInfoBoxLongClick(
         mapUi: MapUi,
         event: MapEvent.OnInfoBoxLongClick
     ): MapUi {
-        repository.deleteTarget(
-            target = event.target
+        localRepository.deleteMarker(
+            marker = event.target
         )
 
-        return MapMapper.updateTargetMarkers(mapUi, mutableTargetMarkers.value)
+        return MapMapper.updateUiMarkers(mapUi, mutableMarkers.value)
     }
 
     private fun createMapContent() {
         viewModelScope.launch {
-            when (val friendliesResult = mapRepository.getFriendlies()) {
+            when (val markersResult = remoteRepository.getMarkersDto()) {
                 is DataResult.Success -> {
-                    val friendliesDto = friendliesResult.data
+                    val markersDto = markersResult.data
 
-                    repository.getTargets().collectLatest { targets ->
+                    localRepository.getMarkers().collectLatest { localMarkers ->
                         mutableMapState.value = MapMapper.createMapContent(
-                            targets = targets,
-                            friendlies = friendliesDto,
+                            localMarkers = localMarkers,
+                            markersDto = markersDto,
                             zoomLocation = LatLng(0.0, 0.0),
                             userLocation = mutableDeviceLocation.value
                         )
@@ -178,12 +178,6 @@ class MapViewModel(
                 if (task.isSuccessful) {
                     val location = LatLng(task.result.latitude, task.result.longitude)
 
-                    mutableMapState.update { mapState ->
-                        updateDeviceLocation(
-                            mapState,
-                            LatLng(location.latitude, location.longitude)
-                        )
-                    }
                     mutableDeviceLocation.value = location
                 }
             }
@@ -193,10 +187,14 @@ class MapViewModel(
     }
 
 
-    fun createTargetMarker(latLng: LatLng) {
+    fun createMarker(latLng: LatLng) {
+        storeMostRelevantPosition(latLng)
+        onEvent(MapEvent.CreateMarkerLongClick(latLng))
+    }
+
+    private fun storeMostRelevantPosition(latLng: LatLng) {
         viewModelScope.launch {
-            onEvent(MapEvent.CreateTargetLongClick(latLng))
-            positionPreferenceRepository.storeLastTargetPosition(latLng)
+            positionPreferenceRepository.storeLastMarkerPosition(latLng)
         }
     }
 }

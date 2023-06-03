@@ -11,5 +11,5 @@ interface MapApiService {
     suspend fun getFriendlies(
         //@Path("userId") userId: String,
         //@Query("friendlies") friendlies: String?,
-    ): FriendlyTargetWrapperDto
+    ): MarkerWrapperDto
 }
