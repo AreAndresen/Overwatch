@@ -143,7 +143,7 @@ class MainActivity : ComponentActivity() {
                         },
                         onDeleteMarkerOnInfoBoxLongClick = { marker ->
                             mapViewModel.onEvent(
-                                MapEvent.OnInfoBoxLongClick(marker)
+                                MapEvent.DeleteMarker(marker)
                             )
                         }
                     )

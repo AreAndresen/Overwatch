@@ -50,6 +50,7 @@ fun MapScreen(
     modifier: Modifier = Modifier,
     mapUiState: MapUi,
     onDeleteMarkerOnInfoBoxLongClick: (MarkerUi) -> Unit = { },
+    onFriendlyInfoWindowClick: (MarkerUi) -> Unit = { },
     onCreateMarkerLongClick: (LatLng) -> Unit = { },
 ) {
 
@@ -134,7 +135,11 @@ fun MapScreen(
             when (val contentUi = mapUiState.mapContent) {
                 is MapContentUi.MapContent -> {
                     contentUi.markers.forEach { marker ->
-                        CreateMarker(marker, onDeleteMarkerOnInfoBoxLongClick)
+                        CreateMarker(
+                            marker,
+                            onDeleteMarkerOnInfoBoxLongClick,
+                            onFriendlyInfoWindowClick
+                        )
                     }
                 }
 
@@ -149,15 +154,22 @@ fun MapScreen(
 private fun CreateMarker(
     marker: MarkerUi,
     onDeleteMarkerOnInfoBoxLongClick: (MarkerUi) -> Unit = { },
+    onInfoWindowClick: (MarkerUi) -> Unit = { },
 ) {
     Marker(
         state = MarkerState(position = LatLng(marker.lat, marker.lng)),
-        title = if (marker.friendly) stringResource(id = R.string.map_marker_friendly) else stringResource(
+        title = if (marker.friendly) {
+            stringResource(id = R.string.map_marker_friendly)
+        } else stringResource(
             id = R.string.map_marker_target
         ),
         snippet = "${marker.lat}, ${marker.lng}",
         onInfoWindowLongClick = {
-            onDeleteMarkerOnInfoBoxLongClick(marker)
+            if (!marker.friendly) {
+                onDeleteMarkerOnInfoBoxLongClick(marker)
+            } else {
+                onInfoWindowClick(marker)
+            }
         },
         draggable = true,
         onClick = {

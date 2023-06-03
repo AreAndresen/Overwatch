@@ -57,7 +57,7 @@ fun UnitsScreen(
             when (state) {
                 is UnitsContentUi.Loading -> {} // todo LoadingScreen(modifier)
                 is UnitsContentUi.Success -> {
-                    PhotosGridScreen(state.units)
+                    UnitsGridScreen(state.units)
                 }
 
                 is UnitsContentUi.Error -> {} //todo ErrorScreen(retryAction, modifier)
@@ -67,7 +67,7 @@ fun UnitsScreen(
 }
 
 @Composable
-fun PhotosGridScreen(
+fun UnitsGridScreen(
     units: List<UnitUiModel>,
 ) {
     LazyVerticalGrid(

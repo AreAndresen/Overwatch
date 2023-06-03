@@ -98,13 +98,13 @@ class MapViewModel(
                     }
                 }
 
-                is MapEvent.CreateMarkerLongClick -> {
+                is MapEvent.CreateMarker -> {
                     mutableMapState.update { mapState ->
                         createMarkerLongClick(mapState, event)
                     }
                 }
 
-                is MapEvent.OnInfoBoxLongClick -> {
+                is MapEvent.DeleteMarker -> {
                     mutableMapState.update { mapState ->
                         deleteMarkerOnInfoBoxLongClick(mapState, event)
                     }
@@ -130,7 +130,7 @@ class MapViewModel(
 
     private suspend fun createMarkerLongClick(
         mapUi: MapUi,
-        event: MapEvent.CreateMarkerLongClick
+        event: MapEvent.CreateMarker
     ): MapUi {
         remoteRepository.insertMarker(
             MapMapper.mapMarkerUiToMarkerDto(
@@ -153,26 +153,17 @@ class MapViewModel(
 
     private suspend fun deleteMarkerOnInfoBoxLongClick(
         mapUi: MapUi,
-        event: MapEvent.OnInfoBoxLongClick
+        event: MapEvent.DeleteMarker
     ): MapUi {
         remoteRepository.deleteMarker(
             MapMapper.mapMarkerUiToMarkerDto(
                 event.marker
             )
         )
-        return if (!event.marker.friendly) {
-            // doesn't make sense to delete friendlies as these come from API, just for show here
-            /*localRepository.deleteMarker(
-                marker = event.marker
-            )*/
-
-            localRepository.deleteMarker(
-                marker = event.marker
-            )
-            MapMapper.updateUiMarkers(mapUi, mutableMarkers.value)
-        } else {
-            mapUi
-        }
+        localRepository.deleteMarker(
+            marker = event.marker
+        )
+        return MapMapper.updateUiMarkers(mapUi, mutableMarkers.value)
     }
 
     private fun createMapContent() {
@@ -220,7 +211,7 @@ class MapViewModel(
 
     fun createMarker(latLng: LatLng) {
         storeMostRelevantPosition(latLng)
-        onEvent(MapEvent.CreateMarkerLongClick(latLng))
+        onEvent(MapEvent.CreateMarker(latLng))
     }
 
     private fun storeMostRelevantPosition(latLng: LatLng) {

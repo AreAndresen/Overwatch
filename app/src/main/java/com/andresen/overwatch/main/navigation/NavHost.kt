@@ -2,6 +2,7 @@ package com.andresen.overwatch.main.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -41,6 +42,15 @@ fun OverwatchNavHost(
                 },
                 onDeleteMarkerOnInfoBoxLongClick = {
                     onDeleteMarkerOnInfoBoxLongClick(it)
+                },
+                onFriendlyInfoWindowClick = {
+                    navController.navigate("units") {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
                 }
             )
         }
