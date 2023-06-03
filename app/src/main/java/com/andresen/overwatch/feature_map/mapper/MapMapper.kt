@@ -1,6 +1,5 @@
 package com.andresen.overwatch.feature_map.mapper
 
-import android.location.Location
 import com.andresen.overwatch.feature_map.model.MapContentUi
 import com.andresen.overwatch.feature_map.model.MapTopAppBar
 import com.andresen.overwatch.feature_map.model.MapUi
@@ -11,6 +10,7 @@ import com.andresen.overwatch.feature_map.repository.data.remote.db.FriendlyTarg
 import com.andresen.overwatch.main.components.composable.theme.MapStyle
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapType
 
 object MapMapper {
@@ -41,6 +41,11 @@ object MapMapper {
                 isNightVision = false
             ),
             mapContent = MapContentUi.MapContent(
+                properties = MapProperties(
+                    isMyLocationEnabled = userLocation != null,
+                    mapStyleOptions = null,
+                    mapType = MapType.NORMAL
+                ),
                 userLocation = userLocation,
                 zoomLocation = zoomLocation,
                 targets = targets,
@@ -100,6 +105,9 @@ object MapMapper {
         return if (mapContent is MapContentUi.MapContent) {
             mapUi.copy(
                 mapContent = mapContent.copy(
+                    properties = mapContent.properties.copy(
+                        isMyLocationEnabled = mapContent.userLocation != null,
+                    ),
                     userLocation = newLocation
                 )
             )

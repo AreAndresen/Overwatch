@@ -50,6 +50,7 @@ class MapViewModel(
     val state: Flow<MapUi> = mutableMapState
         .combine(mutableDeviceLocation) { mapUi, userLoc ->
             if (userLoc != null) {
+                updateDeviceLocation(mapUi, userLoc)
                 MapMapper.updateZoomLocation(mapUi, userLoc)
             } else {
                 mapUi
@@ -114,6 +115,9 @@ class MapViewModel(
         return MapMapper.updateZoomLocation(mapUi, latLng)
     }
 
+    private fun updateDeviceLocation(mapUi: MapUi, latLng: LatLng): MapUi {
+        return MapMapper.updateDeviceLocation(mapUi, latLng)
+    }
 
     private suspend fun createTargetLongClick(
         mapUi: MapUi,
@@ -138,10 +142,6 @@ class MapViewModel(
         )
 
         return MapMapper.updateTargetMarkers(mapUi, mutableTargetMarkers.value)
-    }
-
-    private fun updateDeviceLocation(mapUi: MapUi, latLng: LatLng): MapUi {
-        return MapMapper.updateDeviceLocation(mapUi, latLng)
     }
 
     private fun createMapContent() {
@@ -178,6 +178,12 @@ class MapViewModel(
                 if (task.isSuccessful) {
                     val location = LatLng(task.result.latitude, task.result.longitude)
 
+                    mutableMapState.update { mapState ->
+                        updateDeviceLocation(
+                            mapState,
+                            LatLng(location.latitude, location.longitude)
+                        )
+                    }
                     mutableDeviceLocation.value = location
                 }
             }
