@@ -1,7 +1,6 @@
 package com.andresen.overwatch.feature_map.viewmodel
 
 import android.annotation.SuppressLint
-import android.location.Location
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.andresen.overwatch.feature_map.MapEvent
@@ -14,13 +13,16 @@ import com.andresen.overwatch.feature_map.repository.data.remote.db.MapRepositor
 import com.andresen.overwatch.main.helper.network.DataResult
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.model.LatLng
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 
 class MapViewModel(
@@ -29,26 +31,46 @@ class MapViewModel(
     private val positionPreferenceRepository: PositionPreferenceRepository
 ) : ViewModel() {
 
+    private val mutableDeviceLocation: MutableStateFlow<LatLng?> = MutableStateFlow(null)
 
-    private val mutableUserLocation: MutableStateFlow<Location?> = MutableStateFlow(null)
-    private val mutableZoomLocation: MutableStateFlow<LatLng> = MutableStateFlow(LatLng(0.0, 0.0))
+    private val mutableLastTargetLocation = positionPreferenceRepository.lastPositionLatFlow
+        .combine(positionPreferenceRepository.lastPositionLngFlow) { lat, lng ->
+            if (lat != null && lng != null) {
+                LatLng(lat, lng)
+            } else {
+                null
+            }
+        }
+
     private val mutableTargetMarkers: MutableStateFlow<List<TargetUi>> =
         MutableStateFlow(emptyList())
 
     private val mutableMapState = MutableStateFlow(MapMapper.loading())
-    val state: StateFlow<MapUi> = mutableMapState
 
+    val state: Flow<MapUi> = mutableMapState
+        .combine(mutableDeviceLocation) { mapUi, userLoc ->
+            if (userLoc != null) {
+                MapMapper.updateZoomLocation(mapUi, userLoc)
+            } else {
+                mapUi
+            }
+        }
+        .combine(mutableLastTargetLocation) { mapUi, lastTargetLocation ->
+            if (lastTargetLocation != null) {
+                MapMapper.updateZoomLocation(mapUi, lastTargetLocation)
+            } else {
+                mapUi
+            }
+        }
+        .stateIn(
+            viewModelScope,
+            started = SharingStarted.Eagerly,
+            initialValue = MapMapper.loading()
+        )
+        .onEach { Timber.d("Updated frontpage") }
 
     init {
         createMapContent()
-
-        positionPreferenceRepository.lastPositionLatFlow
-            .combine(positionPreferenceRepository.lastPositionLngFlow) { lat, lng ->
-                mutableZoomLocation.value = LatLng(lat, lng)
-
-                MapMapper.updateZoomLocation(mutableMapState.value, LatLng(lat, lng))
-            }
-            .launchIn(viewModelScope)
     }
 
     fun onEvent(event: MapEvent) {
@@ -132,8 +154,8 @@ class MapViewModel(
                         mutableMapState.value = MapMapper.createMapContent(
                             targets = targets,
                             friendlies = friendliesDto,
-                            zoomLocation = mutableZoomLocation.value,
-                            userLocation = mutableUserLocation.value
+                            zoomLocation = LatLng(0.0, 0.0),
+                            userLocation = mutableDeviceLocation.value
                         )
                     }
                 }
@@ -154,18 +176,9 @@ class MapViewModel(
             val locationResult = fusedLocationProviderClient.lastLocation
             locationResult.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val location = task.result
+                    val location = LatLng(task.result.latitude, task.result.longitude)
 
-                    mutableUserLocation.value = location
-
-                    // todo - if i want to use this for something like rendering animation at init
-                    mutableMapState.update { mapState ->
-                        updateDeviceLocation(
-                            mapState,
-                            LatLng(location.latitude, location.longitude)
-                        )
-                        //updateZoomLocation(mapState, LatLng(location.latitude, location.longitude))
-                    }
+                    mutableDeviceLocation.value = location
                 }
             }
         } catch (e: SecurityException) {
@@ -176,14 +189,7 @@ class MapViewModel(
 
     fun createTargetMarker(latLng: LatLng) {
         viewModelScope.launch {
-            mutableMapState.update { mapState ->
-                onEvent(MapEvent.CreateTargetLongClick(latLng))
-
-                // update last target location - to get zoom to correct area
-                updateZoomLocation(mapState, latLng)
-            }
-
-            // store to data
+            onEvent(MapEvent.CreateTargetLongClick(latLng))
             positionPreferenceRepository.storeLastTargetPosition(latLng)
         }
     }

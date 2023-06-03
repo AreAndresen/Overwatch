@@ -24,6 +24,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.andresen.overwatch.feature_map.MapEvent
+import com.andresen.overwatch.feature_map.mapper.MapMapper
 import com.andresen.overwatch.feature_map.viewmodel.MapViewModel
 import com.andresen.overwatch.feature_units.viewmodel.UnitViewModel
 import com.andresen.overwatch.main.components.composable.components.MapTopAppBar
@@ -70,7 +71,7 @@ class MainActivity : ComponentActivity() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         askPermissions()
         setContent {
-            val mapUiState by mapViewModel.state.collectAsState()
+            val mapUiState by mapViewModel.state.collectAsState(MapMapper.loading())
             val unitsUiState by unitViewModel.state.collectAsState()
 
             OverwatchComposableTheme {

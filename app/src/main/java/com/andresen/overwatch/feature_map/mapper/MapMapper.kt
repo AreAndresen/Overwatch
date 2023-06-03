@@ -34,16 +34,14 @@ object MapMapper {
         targets: List<TargetUi>,
         friendlies: FriendlyTargetWrapperDto,
         zoomLocation: LatLng,
-        userLocation: Location? = null,
+        userLocation: LatLng? = null,
     ): MapUi {
         return MapUi(
             mapTopAppBar = MapTopAppBar(
                 isNightVision = false
             ),
             mapContent = MapContentUi.MapContent(
-                userLocation = if (userLocation != null) {
-                    LatLng(userLocation.latitude, userLocation.longitude)
-                } else null,
+                userLocation = userLocation,
                 zoomLocation = zoomLocation,
                 targets = targets,
                 friendlies = mapFriendlies(friendlies)

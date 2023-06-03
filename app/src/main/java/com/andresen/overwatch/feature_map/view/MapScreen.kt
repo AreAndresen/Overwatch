@@ -71,6 +71,12 @@ fun MapScreen(
         )
     }
 
+    val zoomLocation by remember {
+        mutableStateOf(
+            uiState?.zoomLocation ?: LatLng(0.0, 0.0)
+        )
+    }
+
     val cameraPositionState = if (uiState != null) {
         rememberCameraPositionState {
             position = CameraPosition.fromLatLngZoom(

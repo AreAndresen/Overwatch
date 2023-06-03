@@ -5,8 +5,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface PositionPreferenceRepository {
 
-    val lastPositionLatFlow: Flow<Double>
-    val lastPositionLngFlow: Flow<Double>
+    val lastPositionLatFlow: Flow<Double?>
+    val lastPositionLngFlow: Flow<Double?>
 
     suspend fun storeLastTargetPosition(latLng: LatLng)
 }

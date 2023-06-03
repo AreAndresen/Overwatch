@@ -19,11 +19,11 @@ class PositionPreferenceRepositoryImpl(
 
 
     override val lastPositionLatFlow = dataStore.data.map { preference ->
-        preference[PositionPreferenceIds.LAST_POSITION_LAT] ?: 59.910814436867405 // mock oslo
+        preference[PositionPreferenceIds.LAST_POSITION_LAT]
     }
 
     override val lastPositionLngFlow = dataStore.data.map { preference ->
-        preference[PositionPreferenceIds.LAST_POSITION_LNG] ?: 10.752501860260963 // mock oslo
+        preference[PositionPreferenceIds.LAST_POSITION_LNG]
     }
 
     override suspend fun storeLastTargetPosition(latLng: LatLng) {
