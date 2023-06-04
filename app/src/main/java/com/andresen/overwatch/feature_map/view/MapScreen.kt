@@ -1,50 +1,7 @@
 package com.andresen.overwatch.feature_map.view
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.drawable.Drawable
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ExtendedFloatingActionButton
-import androidx.compose.material.FabPosition
-import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
-import com.andresen.overwatch.R
-import com.andresen.overwatch.feature_map.model.MapContentUi
-import com.andresen.overwatch.feature_map.model.MapUi
-import com.andresen.overwatch.feature_map.model.MarkerUi
-import com.andresen.overwatch.main.components.composable.theme.OverwatchTheme
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.MapProperties
-import com.google.maps.android.compose.MapUiSettings
-import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.MarkerState
-import com.google.maps.android.compose.rememberCameraPositionState
-import kotlinx.coroutines.launch
 
-
+/*
 @Composable
 fun MapScreen(
     modifier: Modifier = Modifier,
@@ -53,6 +10,9 @@ fun MapScreen(
     onFriendlyInfoWindowClick: (MarkerUi) -> Unit = { },
     onCreateMarkerLongClick: (LatLng) -> Unit = { },
 ) {
+    /*val viewModel: MapViewModel by viewModel()
+    val mapUiState by viewModel.state.collectAsState(MapMapper.loading()) */
+
 
     val uiState = when (val contentUi = mapUiState.mapContent) {
         is MapContentUi.MapContent -> contentUi
@@ -201,4 +161,4 @@ private fun bitmapFromVector(context: Context, vectorResId: Int): BitmapDescript
     vectorDrawable.draw(canvas)
 
     return BitmapDescriptorFactory.fromBitmap(bitmap)
-}
+}*/

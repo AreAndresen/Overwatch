@@ -8,6 +8,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Url
 
+/*
 interface MapApiService {
 
     @GET
@@ -23,4 +24,4 @@ interface MapApiService {
     suspend fun deleteMarker(
         @Url deleteLink: String
     )
-}
+} */

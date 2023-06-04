@@ -23,13 +23,13 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.andresen.overwatch.feature_map.MapEvent
-import com.andresen.overwatch.feature_map.mapper.MapMapper
-import com.andresen.overwatch.feature_map.viewmodel.MapViewModel
+import com.andresen.featureMap.MapEvent
+import com.andresen.featureMap.mapper.MapMapper
+import com.andresen.featureMap.viewmodel.MapViewModel
+import com.andresen.libraryRepositories.components.TopAppBarComposable
+import com.andresen.libraryRepositories.theme.OverwatchComposableTheme
+import com.andresen.libraryRepositories.theme.OverwatchTheme
 import com.andresen.overwatch.feature_units.viewmodel.UnitViewModel
-import com.andresen.overwatch.main.components.composable.components.MapTopAppBar
-import com.andresen.overwatch.main.components.composable.theme.OverwatchComposableTheme
-import com.andresen.overwatch.main.components.composable.theme.OverwatchTheme
 import com.andresen.overwatch.main.navigation.OverwatchNavHost
 import com.andresen.overwatch.main.navigation.Screen
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -90,8 +90,8 @@ class MainActivity : ComponentActivity() {
                     backgroundColor = OverwatchTheme.colors.medium,
                     contentColor = OverwatchTheme.colors.contrastLight,
                     topBar = {
-                        MapTopAppBar(
-                            topAppBarUi = mapUiState.mapTopAppBar,
+                        TopAppBarComposable(
+                            isNightVision = mapUiState.mapTopAppBar.isNightVision,
                             onToggleNightVision = { mapViewModel.onEvent(MapEvent.ToggleNightVision) },
                         )
                     },

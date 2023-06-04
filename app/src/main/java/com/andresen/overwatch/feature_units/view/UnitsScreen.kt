@@ -28,11 +28,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.andresen.libraryRepositories.theme.OverwatchTheme
 import com.andresen.overwatch.R
 import com.andresen.overwatch.feature_units.model.UnitUiModel
 import com.andresen.overwatch.feature_units.model.UnitsContentUi
 import com.andresen.overwatch.feature_units.model.UnitsUi
-import com.andresen.overwatch.main.components.composable.theme.OverwatchTheme
 
 
 @Composable

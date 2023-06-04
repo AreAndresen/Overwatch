@@ -1,32 +1,6 @@
 package com.andresen.overwatch.feature_map.viewmodel
 
-import android.annotation.SuppressLint
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.andresen.overwatch.feature_map.MapEvent
-import com.andresen.overwatch.feature_map.MapGlobalEvent
-import com.andresen.overwatch.feature_map.mapper.MapMapper
-import com.andresen.overwatch.feature_map.model.MapUi
-import com.andresen.overwatch.feature_map.model.MarkerUi
-import com.andresen.overwatch.feature_map.repository.data.local.datastore.PositionPreferenceRepository
-import com.andresen.overwatch.feature_map.repository.data.local.db.MapLocalRepository
-import com.andresen.overwatch.feature_map.repository.data.remote.db.MapRepository
-import com.andresen.overwatch.main.helper.network.DataResult
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.maps.model.LatLng
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import timber.log.Timber
-
-
+/*
 class MapViewModel(
     private val localRepository: MapLocalRepository,
     private val remoteRepository: MapRepository,
@@ -219,4 +193,4 @@ class MapViewModel(
             positionPreferenceRepository.storeLastMarkerPosition(latLng)
         }
     }
-}
+}*/

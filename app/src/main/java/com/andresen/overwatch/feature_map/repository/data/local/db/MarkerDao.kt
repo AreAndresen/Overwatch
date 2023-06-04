@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
+/*
 @Dao
 interface MarkerDao {
 
@@ -18,4 +19,4 @@ interface MarkerDao {
 
     @Query("SELECT * FROM markers")
     fun getMarkers(): Flow<List<MarkerEntity>>
-}
+} */

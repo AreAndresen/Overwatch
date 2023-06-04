@@ -1,8 +1,6 @@
 package com.andresen.overwatch.feature_map.model
 
-import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.compose.MapProperties
-
+/*
 data class MapUi(
     val mapTopAppBar: MapTopAppBar,
     val mapContent: MapContentUi
@@ -29,6 +27,7 @@ data class MarkerUi(
 )
 
 
+
 data class MapTopAppBar(
     val isNightVision: Boolean = false
-)
+) */

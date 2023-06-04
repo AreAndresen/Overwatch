@@ -31,6 +31,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        feature {
+            applicationIdSuffix ".feature"
+            versionNameSuffix "-feature-"
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            matchingFallbacks = ['debug', 'release']
+            lintOptions.abortOnError false
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
@@ -75,6 +83,9 @@ android {
 }
 
 dependencies {
+    implementation project(':feature-map')
+    implementation project(':library-repositories')
+
     //implementation project(':feature-overview')
     def nav_version = "2.5.3"
 

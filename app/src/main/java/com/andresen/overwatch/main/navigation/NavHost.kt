@@ -7,10 +7,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.andresen.featureMap.model.MapUi
+import com.andresen.featureMap.model.MarkerUi
+import com.andresen.featureMap.view.MapScreen
 import com.andresen.overwatch.feature_chat.view.ChatScreen
-import com.andresen.overwatch.feature_map.model.MapUi
-import com.andresen.overwatch.feature_map.model.MarkerUi
-import com.andresen.overwatch.feature_map.view.MapScreen
 import com.andresen.overwatch.feature_units.model.UnitsUi
 import com.andresen.overwatch.feature_units.view.UnitsScreen
 import com.google.android.gms.maps.model.LatLng

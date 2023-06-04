@@ -2,10 +2,10 @@ package com.andresen.overwatch.feature_units.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.andresen.libraryRepositories.helper.network.DataResult
 import com.andresen.overwatch.feature_units.mapper.UnitsMapper
 import com.andresen.overwatch.feature_units.model.UnitsUi
 import com.andresen.overwatch.feature_units.repository.remote.db.UnitRepository
-import com.andresen.overwatch.main.helper.network.DataResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

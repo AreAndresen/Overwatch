@@ -1,18 +1,6 @@
 package com.andresen.overwatch.feature_map.mapper
 
-import com.andresen.overwatch.feature_map.model.MapContentUi
-import com.andresen.overwatch.feature_map.model.MapTopAppBar
-import com.andresen.overwatch.feature_map.model.MapUi
-import com.andresen.overwatch.feature_map.model.MarkerUi
-import com.andresen.overwatch.feature_map.repository.data.local.db.MarkerEntity
-import com.andresen.overwatch.feature_map.repository.data.remote.db.MarkerDto
-import com.andresen.overwatch.feature_map.repository.data.remote.db.MarkerWrapperDto
-import com.andresen.overwatch.main.components.composable.theme.MapStyle
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.maps.android.compose.MapProperties
-import com.google.maps.android.compose.MapType
-
+/*
 object MapMapper {
 
     fun loading(): MapUi = MapUi(
@@ -186,4 +174,4 @@ object MapMapper {
             lng = markerUi.lng,
         )
     }
-}
+}*/

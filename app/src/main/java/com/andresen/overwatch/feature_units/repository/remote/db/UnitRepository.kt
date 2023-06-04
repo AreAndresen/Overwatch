@@ -1,8 +1,8 @@
 package com.andresen.overwatch.feature_units.repository.remote.db
 
-import com.andresen.overwatch.main.helper.OverwatchDispatchers
-import com.andresen.overwatch.main.helper.network.DataResult
-import com.andresen.overwatch.main.helper.network.RequestHelper
+import com.andresen.libraryRepositories.helper.OverwatchDispatchers
+import com.andresen.libraryRepositories.helper.network.DataResult
+import com.andresen.libraryRepositories.helper.network.RequestHelper
 import kotlinx.coroutines.withContext
 
 class UnitRepository(

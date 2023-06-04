@@ -6,6 +6,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
+/*
 @Parcelize
 @Entity(tableName = "markers")
 data class MarkerEntity(
@@ -13,4 +14,4 @@ data class MarkerEntity(
     @ColumnInfo val friendly: Boolean = false,
     @ColumnInfo val lat: Double,
     @ColumnInfo val lng: Double
-) : Parcelable
+) : Parcelable */
