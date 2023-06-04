@@ -1,4 +1,4 @@
-package com.andresen.overwatch.main.koinmodules.mapmodule
+package com.andresen.overwatch.main.koinmodules.map
 
 import android.content.Context
 import com.andresen.featureMap.viewmodel.MapViewModel

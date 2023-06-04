@@ -1,4 +1,4 @@
-package com.andresen.overwatch.main.koinmodules.unitsmodule
+package com.andresen.overwatch.main.koinmodules.units
 
 import android.content.Context
 import com.andresen.featureUnits.viewmodel.UnitViewModel

@@ -2,9 +2,9 @@ package com.andresen.overwatch.main.koinmodules
 
 import android.content.Context
 import com.andresen.overwatch.MainViewModel
-import com.andresen.overwatch.main.koinmodules.mapmodule.MapModule
-import com.andresen.overwatch.main.koinmodules.repositorymodule.RepositoryModule
-import com.andresen.overwatch.main.koinmodules.unitsmodule.UnitsModule
+import com.andresen.overwatch.main.koinmodules.map.MapModule
+import com.andresen.overwatch.main.koinmodules.repository.RepositoryModule
+import com.andresen.overwatch.main.koinmodules.units.UnitsModule
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module

@@ -17,6 +17,5 @@ class OverwatchApplication : Application() {
             modules(KoinModules.module(this@OverwatchApplication))
         }
 
-
     }
 }

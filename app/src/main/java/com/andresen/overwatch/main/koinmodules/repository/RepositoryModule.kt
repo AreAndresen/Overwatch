@@ -1,4 +1,4 @@
-package com.andresen.overwatch.main.koinmodules.repositorymodule
+package com.andresen.overwatch.main.koinmodules.repository
 
 import android.content.Context
 import com.andresen.libraryRepositories.units.remote.UnitRepository
