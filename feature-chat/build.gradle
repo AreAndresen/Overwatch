@@ -5,11 +5,10 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-android'
     id 'kotlin-parcelize'
-
 }
 
 android {
-    namespace 'com.andresen.featureMap'
+    namespace 'com.andresen.featureChat'
     compileSdk 33
 
     defaultConfig {
@@ -66,10 +65,10 @@ android {
             ]
         }
     }
-
 }
 
 dependencies {
+
     implementation project(':library-repositories')
 
     //implementation project(':feature-overview')

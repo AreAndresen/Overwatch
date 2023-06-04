@@ -1,4 +1,4 @@
-package com.andresen.overwatch.feature_chat.view
+package com.andresen.featureChat.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
