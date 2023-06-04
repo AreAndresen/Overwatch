@@ -1,7 +1,7 @@
 package com.andresen.overwatch.main.navigation
 
 import androidx.annotation.StringRes
-import com.andresen.overwatch.R
+import com.andresen.libraryStyle.R
 
 sealed class Screen(val route: String, @StringRes val resourceId: Int) {
 

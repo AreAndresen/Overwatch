@@ -7,7 +7,7 @@ import com.andresen.featureMap.model.MarkerUi
 import com.andresen.libraryRepositories.map.local.db.MarkerEntity
 import com.andresen.libraryRepositories.map.remote.MarkerDto
 import com.andresen.libraryRepositories.map.remote.MarkerWrapperDto
-import com.andresen.libraryRepositories.theme.MapStyle
+import com.andresen.libraryStyle.theme.MapStyle
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.maps.android.compose.MapProperties
@@ -78,7 +78,7 @@ object MapMapper {
                         isMyLocationEnabled = mapContent.userLocation != null,
                         mapStyleOptions = if (mapTopAppBar.isNightVision) {
                             null
-                        } else MapStyleOptions(MapStyle.json),
+                        } else MapStyleOptions(com.andresen.libraryStyle.theme.MapStyle.json),
                         mapType = if (mapTopAppBar.isNightVision) {
                             MapType.TERRAIN
                         } else MapType.NORMAL

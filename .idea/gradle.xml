@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/feature-map" />
             <option value="$PROJECT_DIR$/feature-units" />
             <option value="$PROJECT_DIR$/library-repositories" />
+            <option value="$PROJECT_DIR$/library-style" />
           </set>
         </option>
       </GradleProjectSettings>

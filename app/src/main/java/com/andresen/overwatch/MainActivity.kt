@@ -26,15 +26,14 @@ import androidx.navigation.compose.rememberNavController
 import com.andresen.featureMap.MapEvent
 import com.andresen.featureMap.mapper.MapMapper
 import com.andresen.featureMap.viewmodel.MapViewModel
-import com.andresen.libraryRepositories.components.TopAppBarComposable
-import com.andresen.libraryRepositories.theme.OverwatchComposableTheme
-import com.andresen.libraryRepositories.theme.OverwatchTheme
 import com.andresen.featureUnits.viewmodel.UnitViewModel
+import com.andresen.libraryStyle.theme.OverwatchComposableTheme
 import com.andresen.overwatch.main.navigation.OverwatchNavHost
 import com.andresen.overwatch.main.navigation.Screen
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.andresen.libraryStyle.R
 
 
 class MainActivity : ComponentActivity() {
@@ -87,10 +86,10 @@ class MainActivity : ComponentActivity() {
 
                 Scaffold(
                     modifier = Modifier,
-                    backgroundColor = OverwatchTheme.colors.medium,
-                    contentColor = OverwatchTheme.colors.contrastLight,
+                    backgroundColor = com.andresen.libraryStyle.theme.OverwatchTheme.colors.medium,
+                    contentColor = com.andresen.libraryStyle.theme.OverwatchTheme.colors.contrastLight,
                     topBar = {
-                        TopAppBarComposable(
+                        com.andresen.libraryStyle.components.TopAppBarComposable(
                             isNightVision = mapUiState.mapTopAppBar.isNightVision,
                             onToggleNightVision = { mapViewModel.onEvent(MapEvent.ToggleNightVision) },
                         )
@@ -98,8 +97,8 @@ class MainActivity : ComponentActivity() {
                     scaffoldState = scaffoldState,
                     bottomBar = {
                         BottomNavigation(
-                            backgroundColor = OverwatchTheme.colors.medium,
-                            contentColor = OverwatchTheme.colors.contrastLight,
+                            backgroundColor = com.andresen.libraryStyle.theme.OverwatchTheme.colors.medium,
+                            contentColor = com.andresen.libraryStyle.theme.OverwatchTheme.colors.contrastLight,
                         ) {
                             items.forEach { screen ->
                                 BottomNavigationItem(

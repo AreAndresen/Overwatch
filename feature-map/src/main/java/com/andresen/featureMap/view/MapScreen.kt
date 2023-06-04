@@ -26,11 +26,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
-import com.andresen.featureMap.R
+import com.andresen.libraryStyle.R
 import com.andresen.featureMap.model.MapContentUi
 import com.andresen.featureMap.model.MapUi
 import com.andresen.featureMap.model.MarkerUi
-import com.andresen.libraryRepositories.theme.OverwatchTheme
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -82,8 +81,8 @@ fun MapScreen(
 
 
     Scaffold(
-        backgroundColor = OverwatchTheme.colors.medium,
-        contentColor = OverwatchTheme.colors.contrastLight,
+        backgroundColor = com.andresen.libraryStyle.theme.OverwatchTheme.colors.medium,
+        contentColor = com.andresen.libraryStyle.theme.OverwatchTheme.colors.contrastLight,
         scaffoldState = scaffoldState,
         floatingActionButton = {
             ExtendedFloatingActionButton(
@@ -115,8 +114,8 @@ fun MapScreen(
                         fontWeight = FontWeight.Bold
                     )
                 },
-                backgroundColor = OverwatchTheme.colors.mediumLight10,
-                contentColor = OverwatchTheme.colors.contrastLight,
+                backgroundColor = com.andresen.libraryStyle.theme.OverwatchTheme.colors.mediumLight10,
+                contentColor = com.andresen.libraryStyle.theme.OverwatchTheme.colors.contrastLight,
             )
         },
         floatingActionButtonPosition = FabPosition.Center

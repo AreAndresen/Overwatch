@@ -87,6 +87,7 @@ dependencies {
     implementation project(':feature-units')
     implementation project(':feature-chat')
     implementation project(':library-repositories')
+    implementation project(':library-style')
 
     //implementation project(':feature-overview')
     def nav_version = "2.5.3"

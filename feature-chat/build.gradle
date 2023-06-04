@@ -70,6 +70,7 @@ android {
 dependencies {
 
     implementation project(':library-repositories')
+    implementation project(':library-style')
 
     //implementation project(':feature-overview')
     def nav_version = "2.5.3"

@@ -1,23 +1,4 @@
 <resources>
     <string name="app_name">Overwatch App</string>
-    <string name="title_feature_overview">Feature overview</string>
-    <string name="permission_location_rationale">This app requires the location permission to be granted.</string>
 
-    <string name="unit_id">UNIT ID: %1$s</string>
-
-    <string name="map_edit">Edit profile</string>
-    <string name="map_nightvision_toggle_desc">Toggle nightvision</string>
-    <string name="map_nightvision_off">Nightvision\noff</string>
-    <string name="map_nightvision_on">Nightvision\non</string>
-    <string name="map_locate_target">Locate</string>
-    <string name="map_marker_target">TARGET (long click to delete)</string>
-    <string name="map_marker_friendly">FRIENDLY - Click for info</string>
-    <string name="map_accessibility_top_bar_menu_button">Click to get settings menu</string>
-    <string name="accessibility_home_button">Back to map</string>
-    <string name="map">Map</string>
-    <string name="units">Units</string>
-    <string name="chat">Chat</string>
-    <string name="loading_failed">Loading failed</string>
-    <string name="retry">Retry</string>
-    <string name="loading">loading</string>
 </resources>

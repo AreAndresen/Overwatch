@@ -31,8 +31,8 @@ import coil.request.ImageRequest
 import com.andresen.featureUnits.model.UnitUiModel
 import com.andresen.featureUnits.model.UnitsContentUi
 import com.andresen.featureUnits.model.UnitsUi
-import com.andresen.libraryRepositories.R
-import com.andresen.libraryRepositories.theme.OverwatchTheme
+import com.andresen.libraryStyle.R
+import com.andresen.libraryStyle.theme.OverwatchTheme
 
 
 @Composable
