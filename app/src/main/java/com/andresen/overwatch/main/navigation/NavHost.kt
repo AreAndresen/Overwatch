@@ -11,8 +11,8 @@ import com.andresen.featureMap.model.MapUi
 import com.andresen.featureMap.model.MarkerUi
 import com.andresen.featureMap.view.MapScreen
 import com.andresen.overwatch.feature_chat.view.ChatScreen
-import com.andresen.overwatch.feature_units.model.UnitsUi
-import com.andresen.overwatch.feature_units.view.UnitsScreen
+import com.andresen.featureUnits.model.UnitsUi
+import com.andresen.featureUnits.view.UnitsScreen
 import com.google.android.gms.maps.model.LatLng
 
 @Composable

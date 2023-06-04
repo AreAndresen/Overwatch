@@ -1,6 +1,7 @@
 package com.andresen.overwatch.main.koinmodules.repositorymodule
 
 import android.content.Context
+import com.andresen.libraryRepositories.units.remote.UnitRepository
 import com.andresen.libraryRepositories.helper.OverwatchDispatchers
 import com.andresen.libraryRepositories.helper.OverwatchDispatchersRegular
 import com.andresen.libraryRepositories.helper.network.ApiServiceFactoryImpl
@@ -15,7 +16,6 @@ import com.andresen.libraryRepositories.map.local.db.MarkerDatabase
 import com.andresen.libraryRepositories.map.remote.MapGlobalEvent
 import com.andresen.libraryRepositories.map.remote.MapRepository
 import com.andresen.libraryRepositories.map.remote.MapRepositoryImpl
-import com.andresen.overwatch.feature_units.repository.remote.db.UnitRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.Module
 import org.koin.dsl.module

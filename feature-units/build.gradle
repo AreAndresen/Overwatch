@@ -1,19 +1,17 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlinx-serialization'
     id 'kotlin-kapt'
     id 'kotlin-android'
     id 'kotlin-parcelize'
-
 }
 
 android {
-    namespace 'com.andresen.overwatch'
+    namespace 'com.andresen.featureUnits'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.andresen.overwatch"
         minSdk 21
         targetSdk 33
         versionCode 1
@@ -25,19 +23,10 @@ android {
         }
     }
 
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-        feature {
-            applicationIdSuffix ".feature"
-            versionNameSuffix "-feature-"
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            matchingFallbacks = ['debug', 'release']
-            lintOptions.abortOnError false
         }
     }
     compileOptions {
@@ -48,9 +37,6 @@ android {
         jvmTarget = "11"
     }
 
-    /*java {
-        toolchain.languageVersion.set(JavaLanguageVersion.of(11))
-    } */
 
     buildFeatures {
         compose true
@@ -78,13 +64,10 @@ android {
             ]
         }
     }
-
-    dynamicFeatures = []
 }
 
 dependencies {
-    implementation project(':feature-map')
-    implementation project(':feature-units')
+
     implementation project(':library-repositories')
 
     //implementation project(':feature-overview')
@@ -147,7 +130,7 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
 
     implementation "androidx.room:room-runtime:$room_version"
-   // annotationProcessor "androidx.room:room-compiler:$room_version"
+    // annotationProcessor "androidx.room:room-compiler:$room_version"
 
     //Room
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -197,5 +180,3 @@ dependencies {
     // KTX for the Maps SDK for Android Utility Library
     implementation 'com.google.maps.android:maps-utils-ktx:3.2.1' */
 }
-
-

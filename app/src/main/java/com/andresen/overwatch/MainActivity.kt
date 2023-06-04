@@ -29,7 +29,7 @@ import com.andresen.featureMap.viewmodel.MapViewModel
 import com.andresen.libraryRepositories.components.TopAppBarComposable
 import com.andresen.libraryRepositories.theme.OverwatchComposableTheme
 import com.andresen.libraryRepositories.theme.OverwatchTheme
-import com.andresen.overwatch.feature_units.viewmodel.UnitViewModel
+import com.andresen.featureUnits.viewmodel.UnitViewModel
 import com.andresen.overwatch.main.navigation.OverwatchNavHost
 import com.andresen.overwatch.main.navigation.Screen
 import com.google.android.gms.location.FusedLocationProviderClient

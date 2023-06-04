@@ -16,3 +16,4 @@ rootProject.name = "Overwatch App"
 include ':app'
 include ':feature-map'
 include ':library-repositories'
+include ':feature-units'
