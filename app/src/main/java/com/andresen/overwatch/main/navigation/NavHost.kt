@@ -1,29 +1,35 @@
 package com.andresen.overwatch.main.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.andresen.featureChat.view.ChatScreen
+import com.andresen.featureMap.MapEvent
+import com.andresen.featureMap.mapper.MapMapper
 import com.andresen.featureMap.model.MapUi
 import com.andresen.featureMap.model.MarkerUi
 import com.andresen.featureMap.view.MapScreen
+import com.andresen.featureMap.viewmodel.MapViewModel
 import com.andresen.featureUnits.model.UnitsUi
 import com.andresen.featureUnits.view.UnitsScreen
 import com.google.android.gms.maps.model.LatLng
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @Composable
 fun OverwatchNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     startDestination: String = "map",
-    mapUiState: MapUi,
-    unitsUiState: UnitsUi,
-    onCreateMarkerLongClick: (LatLng) -> Unit = { },
-    onDeleteMarkerOnInfoBoxLongClick: (MarkerUi) -> Unit = { },
+    mapViewModel: MapViewModel = viewModel(),
+    unitsUiState: UnitsUi
 ) {
     NavHost(
         modifier = modifier,
@@ -36,12 +42,14 @@ fun OverwatchNavHost(
         composable("map") {
             MapScreen(
                 modifier = modifier,
-                mapUiState = mapUiState,
+                viewModel = mapViewModel,
                 onCreateMarkerLongClick = {
-                    onCreateMarkerLongClick(it)
+                    mapViewModel.createMarker(it)
                 },
-                onDeleteMarkerOnInfoBoxLongClick = {
-                    onDeleteMarkerOnInfoBoxLongClick(it)
+                onDeleteMarkerOnInfoBoxLongClick = { marker ->
+                    mapViewModel.onEvent(
+                        MapEvent.DeleteMarker(marker)
+                    )
                 },
                 onFriendlyInfoWindowClick = {
                     navController.navigate("units") {

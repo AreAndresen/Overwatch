@@ -34,10 +34,14 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.andresen.libraryStyle.R
+import com.andresen.libraryStyle.components.TopAppBarComposable
+import com.andresen.libraryStyle.theme.OverwatchTheme
 
 
 class MainActivity : ComponentActivity() {
     private val mainViewModel: MainViewModel by viewModel()
+
+    // todo these viewmodels move out of main
     private val mapViewModel: MapViewModel by viewModel()
     private val unitViewModel: UnitViewModel by viewModel()
 
@@ -86,10 +90,10 @@ class MainActivity : ComponentActivity() {
 
                 Scaffold(
                     modifier = Modifier,
-                    backgroundColor = com.andresen.libraryStyle.theme.OverwatchTheme.colors.medium,
-                    contentColor = com.andresen.libraryStyle.theme.OverwatchTheme.colors.contrastLight,
+                    backgroundColor = OverwatchTheme.colors.medium,
+                    contentColor = OverwatchTheme.colors.contrastLight,
                     topBar = {
-                        com.andresen.libraryStyle.components.TopAppBarComposable(
+                        TopAppBarComposable(
                             isNightVision = mapUiState.mapTopAppBar.isNightVision,
                             onToggleNightVision = { mapViewModel.onEvent(MapEvent.ToggleNightVision) },
                         )
@@ -97,8 +101,8 @@ class MainActivity : ComponentActivity() {
                     scaffoldState = scaffoldState,
                     bottomBar = {
                         BottomNavigation(
-                            backgroundColor = com.andresen.libraryStyle.theme.OverwatchTheme.colors.medium,
-                            contentColor = com.andresen.libraryStyle.theme.OverwatchTheme.colors.contrastLight,
+                            backgroundColor = OverwatchTheme.colors.medium,
+                            contentColor = OverwatchTheme.colors.contrastLight,
                         ) {
                             items.forEach { screen ->
                                 BottomNavigationItem(
@@ -135,16 +139,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding),
                         navController = navController,
                         startDestination = "map",
-                        mapUiState = mapUiState,
                         unitsUiState = unitsUiState,
-                        onCreateMarkerLongClick = {
-                            mapViewModel.createMarker(it)
-                        },
-                        onDeleteMarkerOnInfoBoxLongClick = { marker ->
-                            mapViewModel.onEvent(
-                                MapEvent.DeleteMarker(marker)
-                            )
-                        }
                     )
                 }
             }

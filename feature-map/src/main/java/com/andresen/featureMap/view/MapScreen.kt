@@ -13,6 +13,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,10 +27,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.andresen.featureMap.mapper.MapMapper
 import com.andresen.libraryStyle.R
 import com.andresen.featureMap.model.MapContentUi
 import com.andresen.featureMap.model.MapUi
 import com.andresen.featureMap.model.MarkerUi
+import com.andresen.featureMap.viewmodel.MapViewModel
+import com.andresen.libraryStyle.theme.OverwatchTheme
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -47,11 +52,13 @@ import kotlinx.coroutines.launch
 @Composable
 fun MapScreen(
     modifier: Modifier = Modifier,
-    mapUiState: MapUi,
+    viewModel: MapViewModel,
     onDeleteMarkerOnInfoBoxLongClick: (MarkerUi) -> Unit = { },
     onFriendlyInfoWindowClick: (MarkerUi) -> Unit = { },
     onCreateMarkerLongClick: (LatLng) -> Unit = { },
 ) {
+
+    val mapUiState by viewModel.state.collectAsState(MapMapper.loading())
 
     val uiState = when (val contentUi = mapUiState.mapContent) {
         is MapContentUi.MapContent -> contentUi
@@ -81,8 +88,8 @@ fun MapScreen(
 
 
     Scaffold(
-        backgroundColor = com.andresen.libraryStyle.theme.OverwatchTheme.colors.medium,
-        contentColor = com.andresen.libraryStyle.theme.OverwatchTheme.colors.contrastLight,
+        backgroundColor = OverwatchTheme.colors.medium,
+        contentColor = OverwatchTheme.colors.contrastLight,
         scaffoldState = scaffoldState,
         floatingActionButton = {
             ExtendedFloatingActionButton(
@@ -114,8 +121,8 @@ fun MapScreen(
                         fontWeight = FontWeight.Bold
                     )
                 },
-                backgroundColor = com.andresen.libraryStyle.theme.OverwatchTheme.colors.mediumLight10,
-                contentColor = com.andresen.libraryStyle.theme.OverwatchTheme.colors.contrastLight,
+                backgroundColor = OverwatchTheme.colors.mediumLight10,
+                contentColor = OverwatchTheme.colors.contrastLight,
             )
         },
         floatingActionButtonPosition = FabPosition.Center

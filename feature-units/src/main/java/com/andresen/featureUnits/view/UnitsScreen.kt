@@ -17,6 +17,8 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -26,11 +28,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.andresen.featureUnits.model.UnitUiModel
 import com.andresen.featureUnits.model.UnitsContentUi
 import com.andresen.featureUnits.model.UnitsUi
+import com.andresen.featureUnits.viewmodel.UnitViewModel
 import com.andresen.libraryStyle.R
 import com.andresen.libraryStyle.theme.OverwatchTheme
 
@@ -40,6 +44,8 @@ fun UnitsScreen(
     modifier: Modifier = Modifier,
     unitsUiState: UnitsUi,
 ) {
+    //val unitsUiState by viewModel.state.collectAsState()
+
     val scaffoldState = rememberScaffoldState()
     val state = unitsUiState.unitsContent
 

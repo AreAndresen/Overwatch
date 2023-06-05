@@ -78,7 +78,7 @@ object MapMapper {
                         isMyLocationEnabled = mapContent.userLocation != null,
                         mapStyleOptions = if (mapTopAppBar.isNightVision) {
                             null
-                        } else MapStyleOptions(com.andresen.libraryStyle.theme.MapStyle.json),
+                        } else MapStyleOptions(MapStyle.json),
                         mapType = if (mapTopAppBar.isNightVision) {
                             MapType.TERRAIN
                         } else MapType.NORMAL

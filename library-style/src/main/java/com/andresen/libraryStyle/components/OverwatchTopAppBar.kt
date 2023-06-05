@@ -6,6 +6,8 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -22,6 +24,10 @@ fun TopAppBarComposable(
     isNightVision: Boolean,
     onToggleNightVision: () -> Unit
 ) {
+    /*val rememberIsNightVision by remember {
+        mutableStateOf(false)
+    }*/
+
     OverwatchTopAppBar(
         title = "",
         navigationIcon = {
