@@ -19,6 +19,9 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -28,12 +31,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.andresen.featureUnits.model.UnitUiModel
 import com.andresen.featureUnits.model.UnitsContentUi
-import com.andresen.featureUnits.model.UnitsUi
+import com.andresen.featureUnits.view.composable.SearchBarCompose
 import com.andresen.featureUnits.viewmodel.UnitViewModel
 import com.andresen.libraryStyle.R
 import com.andresen.libraryStyle.theme.OverwatchTheme
@@ -42,16 +44,30 @@ import com.andresen.libraryStyle.theme.OverwatchTheme
 @Composable
 fun UnitsScreen(
     modifier: Modifier = Modifier,
-    unitsUiState: UnitsUi,
+    viewModel: UnitViewModel// = viewModel(),
 ) {
-    //val unitsUiState by viewModel.state.collectAsState()
-
-    val scaffoldState = rememberScaffoldState()
+    val unitsUiState by viewModel.state.collectAsState()
     val state = unitsUiState.unitsContent
+    val searchText = unitsUiState.unitTopSearchBar.query
+    val scaffoldState = rememberScaffoldState()
 
     Scaffold(
         modifier = Modifier,
         scaffoldState = scaffoldState,
+        topBar = {
+            SearchBarCompose(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+                searchText = searchText,
+                onSearchClick = { search ->
+                    viewModel.onSearchClick(search)
+                },
+                onClearSearch = {
+                    viewModel.onClearSearch()
+                }
+            )
+        },
     ) { padding ->
         Column(
             modifier = Modifier
@@ -96,11 +112,11 @@ fun UnitsGridScreen(
                     )
                 }
                 Text(
-                    text = stringResource(id = R.string.unit_id, index.toString()),
+                    text = stringResource(id = R.string.unit_id, units[index].id),
                     textAlign = TextAlign.Center,
                     color = OverwatchTheme.colors.mediumLight10,
                     style = OverwatchTheme.typography.title2,
-                    maxLines = 2,
+                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
             }

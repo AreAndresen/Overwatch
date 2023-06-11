@@ -75,7 +75,7 @@ class MainActivity : ComponentActivity() {
         askPermissions()
         setContent {
             val mapUiState by mapViewModel.state.collectAsState(MapMapper.loading())
-            val unitsUiState by unitViewModel.state.collectAsState()
+            //val unitsUiState by unitViewModel.state.collectAsState()
 
             OverwatchComposableTheme {
                 val navController = rememberNavController()
@@ -92,12 +92,6 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier,
                     backgroundColor = OverwatchTheme.colors.medium,
                     contentColor = OverwatchTheme.colors.contrastLight,
-                    topBar = {
-                        TopAppBarComposable(
-                            isNightVision = mapUiState.mapTopAppBar.isNightVision,
-                            onToggleNightVision = { mapViewModel.onEvent(MapEvent.ToggleNightVision) },
-                        )
-                    },
                     scaffoldState = scaffoldState,
                     bottomBar = {
                         BottomNavigation(
@@ -139,7 +133,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding),
                         navController = navController,
                         startDestination = "map",
-                        unitsUiState = unitsUiState,
+                        unitViewModel = unitViewModel,
                     )
                 }
             }

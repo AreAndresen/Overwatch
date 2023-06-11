@@ -20,6 +20,7 @@ import com.andresen.featureMap.view.MapScreen
 import com.andresen.featureMap.viewmodel.MapViewModel
 import com.andresen.featureUnits.model.UnitsUi
 import com.andresen.featureUnits.view.UnitsScreen
+import com.andresen.featureUnits.viewmodel.UnitViewModel
 import com.google.android.gms.maps.model.LatLng
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -29,7 +30,7 @@ fun OverwatchNavHost(
     navController: NavHostController = rememberNavController(),
     startDestination: String = "map",
     mapViewModel: MapViewModel = viewModel(),
-    unitsUiState: UnitsUi
+    unitViewModel: UnitViewModel = viewModel()
 ) {
     NavHost(
         modifier = modifier,
@@ -65,7 +66,7 @@ fun OverwatchNavHost(
         composable("units") {
             UnitsScreen(
                 modifier = modifier,
-                unitsUiState = unitsUiState
+                viewModel = unitViewModel
             )
         }
     }

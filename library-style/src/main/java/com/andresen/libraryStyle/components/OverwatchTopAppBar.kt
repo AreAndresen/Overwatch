@@ -24,10 +24,6 @@ fun TopAppBarComposable(
     isNightVision: Boolean,
     onToggleNightVision: () -> Unit
 ) {
-    /*val rememberIsNightVision by remember {
-        mutableStateOf(false)
-    }*/
-
     OverwatchTopAppBar(
         title = "",
         navigationIcon = {

@@ -28,12 +28,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.andresen.featureMap.MapEvent
 import com.andresen.featureMap.mapper.MapMapper
 import com.andresen.libraryStyle.R
 import com.andresen.featureMap.model.MapContentUi
 import com.andresen.featureMap.model.MapUi
 import com.andresen.featureMap.model.MarkerUi
 import com.andresen.featureMap.viewmodel.MapViewModel
+import com.andresen.libraryStyle.components.TopAppBarComposable
 import com.andresen.libraryStyle.theme.OverwatchTheme
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.BitmapDescriptor
@@ -91,6 +93,12 @@ fun MapScreen(
         backgroundColor = OverwatchTheme.colors.medium,
         contentColor = OverwatchTheme.colors.contrastLight,
         scaffoldState = scaffoldState,
+        topBar = {
+            TopAppBarComposable(
+                isNightVision = mapUiState.mapTopAppBar.isNightVision,
+                onToggleNightVision = { viewModel.onEvent(MapEvent.ToggleNightVision) },
+            )
+        },
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 modifier = Modifier
