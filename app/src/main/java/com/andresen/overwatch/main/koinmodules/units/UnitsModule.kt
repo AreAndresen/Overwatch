@@ -12,7 +12,7 @@ object UnitsModule {
         return listOf(
             module {
                 viewModel {
-                    UnitViewModel(get())
+                    UnitViewModel(get(), get())
                 }
             }
         )

@@ -8,5 +8,5 @@ import kotlinx.serialization.Serializable
 data class UnitDto(
     val id: String,
     @SerialName(value = "img_src")
-    val imgSrc: String
+    val imgSrc: String?
 )

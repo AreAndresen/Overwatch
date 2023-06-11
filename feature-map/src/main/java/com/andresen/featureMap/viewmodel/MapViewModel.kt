@@ -80,7 +80,6 @@ class MapViewModel(
             createMapContent()
         }.launchIn(viewModelScope)
 
-        //createMapContent()
     }
 
     fun onEvent(event: MapEvent) {

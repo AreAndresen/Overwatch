@@ -18,6 +18,6 @@ sealed interface UnitsContentUi {
 @Serializable
 data class UnitUiModel(
     val id: String,
-    val imgSrc: String
+    val imgSrc: String?
 )
 

@@ -1,5 +1,6 @@
 package com.andresen.featureUnits.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.andresen.libraryRepositories.units.remote.UnitRepository
@@ -11,7 +12,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class UnitViewModel( // todo rename units
-    private val unitRepository: UnitRepository
+    private val unitRepository: UnitRepository,
+    private val context: Context,
 ) : ViewModel() {
 
     private val mutableUnitsState = MutableStateFlow(UnitsMapper.loading())
@@ -23,7 +25,7 @@ class UnitViewModel( // todo rename units
 
     private fun createUnits() {
         viewModelScope.launch {
-            when (val unitsResult = unitRepository.getUnits()) {
+            when (val unitsResult = unitRepository.getMockUnits(context)) { // unitRepository.getUnits()
                 is DataResult.Success -> {
                     val unitsDto = unitsResult.data
 
